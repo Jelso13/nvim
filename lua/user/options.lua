@@ -50,7 +50,7 @@ vim.opt.mouse = "a"                 -- enable mouse for scrolling and resizing
 
 
 -- CODE FOLDING OPTIONS
-vim.opt.foldmethod="indent"         -- fold based on indentation levels
+-- vim.opt.foldmethod="indent"         -- fold based on indentation levels
 
 -- CLIPBOARD OPTIONS
 vim.opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard
