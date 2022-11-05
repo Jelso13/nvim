@@ -15,6 +15,11 @@ local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
 
 
+-- TODO
+--      make this more organised 
+--      make undo behave as expected - substitution then undo should return to the place that undo was called
+
+
 
 
 -- remap space as leader
@@ -54,6 +59,9 @@ nnoremap("<C-u>", "<C-u>zz")
 -- delete to 'black hole register' or _ and paste within selection - replace word with copied text
 xnoremap("<leader>p", "\"_dP")
 
+-- prevent paste over visual select from picking up item beneath
+vnoremap("p", '"_dP')
+
 -- yanks to global register 
 nnoremap("<leader>y", "\"+y")
 vnoremap("<leader>y", "\"+y")
@@ -66,10 +74,6 @@ vnoremap("<leader>d", "\"_d")
 -- move lines and blocks of lines
 vnoremap("J", ":m '>+1<CR>gv=gv")
 vnoremap("K", ":m '<-2<CR>gv=gv")
-
-
-
-
 
 -- remap Q to repeat last macro
 nnoremap("Q", "@@")
@@ -91,9 +95,32 @@ nnoremap("<leader>k", "<cmd>lnext<CR>zz")
 nnoremap("<leader>j", "<cmd>lprev<CR>zz")
 
 
--- same with this
+-- fast substitution of elements
 nnoremap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
-nnoremap("<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- make the current file executable
+nnoremap("<exit>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- does not exit selection when indenting block (maybe redo this one)
+vnoremap("<", "<gv")
+vnoremap(">", ">gv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
