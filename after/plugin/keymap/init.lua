@@ -12,6 +12,7 @@ local nnoremap = Remap.nnoremap
 local vnoremap = Remap.vnoremap
 local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
+local tnoremap = Remap.tnoremap
 local nmap = Remap.nmap
 
 
@@ -27,6 +28,13 @@ nnoremap("<C-h>", "<C-w>h")
 nnoremap("<C-j>", "<C-w>j")
 nnoremap("<C-k>", "<C-w>k")
 nnoremap("<C-l>", "<C-w>l")
+
+-- TERM MODE NAV
+tnoremap("<C-h>", "<C-w>h")
+tnoremap("<C-j>", "<C-w>j")
+tnoremap("<C-k>", "<C-w>k")
+tnoremap("<C-l>", "<C-w>l")
+
 
 -- open netrw
 nnoremap("<leader>pv", "<cmd>Ex<CR>")
@@ -83,8 +91,8 @@ nnoremap("<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- quickfix commands...
 -- go between errors (need lsp)
-nnoremap("<C-k>", "<cmd>cnext<CR>zz")
-nnoremap("<C-j>", "<cmd>cprev<CR>zz")
+-- nnoremap("<C-k>", "<cmd>cnext<CR>zz")
+-- nnoremap("<C-j>", "<cmd>cprev<CR>zz")
 
 -- not sure what this stuff does
 nnoremap("<leader>k", "<cmd>lnext<CR>zz")
