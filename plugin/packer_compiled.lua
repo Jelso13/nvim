@@ -79,15 +79,15 @@ _G.packer_plugins = {
     path = "/home/defalt/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
-  ["plenary.nvim"] = {
+  ["tokyonight.nvim"] = {
     loaded = true,
-    path = "/home/defalt/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-    url = "https://github.com/nvim-lua/plenary.nvim"
+    path = "/home/defalt/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    url = "https://github.com/folke/tokyonight.nvim"
   },
-  ["popup.nvim"] = {
+  ["vim-be-good"] = {
     loaded = true,
-    path = "/home/defalt/.local/share/nvim/site/pack/packer/start/popup.nvim",
-    url = "https://github.com/nvim-lua/popup.nvim"
+    path = "/home/defalt/.local/share/nvim/site/pack/packer/start/vim-be-good",
+    url = "https://github.com/ThePrimeagen/vim-be-good"
   }
 }
 

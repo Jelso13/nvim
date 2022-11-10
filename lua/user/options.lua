@@ -25,7 +25,7 @@ vim.opt.incsearch = true            -- searches for each character added
 -- TEXT RENDERING OPTIONS
 vim.opt.encoding = "utf-8"          -- use an encoding that supports unicode
 vim.opt.scrolloff = 5 				-- keep 5 lines when scrolling
-vim.opt.sidescrolloff = 10          -- keep 5 columns when side scrolling
+-- vim.opt.sidescrolloff = 10          -- keep 5 columns when side scrolling
 vim.opt.linebreak = true            -- avoid wrapping a line in the middle of a word
 vim.opt.wrap = false 				-- prevents wrapping of long lines
 vim.opt.conceallevel = 0            -- makes `` visible in markdown files
@@ -69,7 +69,7 @@ vim.opt.history = 1000              -- increase the undo limit
 vim.opt.nrformats = "bin,hex"       -- sets the formats that can be used by Ctrl-A and Ctrl-X
 vim.opt.hidden = true               -- can have hidden buffers without saving
 vim.opt.showcmd = true				-- display partial commands
-vim.opt.termguicolors = true        -- 
+vim.opt.termguicolors = true        -- allow wider terminal colors
 vim.opt.updatetime = 50             -- updatetime {default 4000ms} noticable delays and sucks
 
 
