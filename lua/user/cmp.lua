@@ -100,8 +100,6 @@ cmp.setup {
         --          if there is a jump list then use tab
         --      have Ctrl-Space auto-complete and C-j and C-k move up and down in the list
         --
-
-
     },
 
     -- formatting the completion menu
@@ -114,6 +112,8 @@ cmp.setup {
             vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
             -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             vim_item.menu = ({
+                nvim_lsp = "[LSP]",
+                nvim_lua = "[NVIM_LUA]",
                 luasnip = "[Snippet]", -- from luasnip
                 buffer = "[Buffer]", -- from current file
                 path = "[Path]", -- from buffer
@@ -121,8 +121,11 @@ cmp.setup {
             return vim_item
         end,
     },
+
     -- where snippets come from: THE ORDER DETERMINES PREFERENCE
     sources = {
+        { name = "nvim_lsp" },
+        { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "buffer" },
         { name = "path" },

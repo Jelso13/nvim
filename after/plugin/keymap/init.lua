@@ -114,7 +114,8 @@ vnoremap("<", "<gv")
 vnoremap(">", ">gv")
 
 
-
+-- test for ctrl backspace workign in insert mode
+inoremap("<C-h>", "<C-w>")
 
 
 

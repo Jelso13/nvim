@@ -5,3 +5,31 @@ manually define snippets for different languages and add as needed so there is n
 
 fix the autocomplete thing so that it only appears when I explicitly ask for it
     - otherwise it is a massive pain in the ass
+
+comment in lps/handlers.lua different sections cos no idea what any of it does
+
+
+make it so that visual line selection also applies commenting and such across lines - not sure why that isnt a thing to start with
+
+also fix the auto indenting for braces - enter after open brace should close the brace and put cursor on new indented line
+
+
+look at adding a debug adapter protocol (DAP) or whatever its called
+
+
+Also handle specific note files so that they have highlighting and can nicely format notes
+
+
+
+**** REMOVE SNIPPETS AND AUTOCOMPLETE THAT ARE USELESS AND INSTEAD MANUALLY DEFINE THEM FOR SPECIFIC LANGUAGES
+
+
+Add specific configuration for my languages:
+    - python
+    - reactjs
+    - flutter/dart
+    - bash
+    - rust
+    - C
+    - C++
+    - Latex
