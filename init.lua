@@ -10,4 +10,6 @@ require("user/colorscheme")
 
 require("user/cmp") -- completion
 
+require("user/lsp")
+
 -- kbtype = "workman"

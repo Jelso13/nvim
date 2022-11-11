@@ -67,23 +67,18 @@ cmp.setup {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
         ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
         -- <C-Space> brings up the menu rather than from typing
-        ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+        ["<C-Space>"] = cmp.mapping.confirm { select = true },
         ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        -- close the menu using Ctrl-e
         ["<C-e>"] = cmp.mapping {
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         },
+
         -- Accept currently selected item. If none selected, `select` first item.
         -- Set `select` to `false` to only confirm explicitly selected items.
-        ["<CR>"] = cmp.mapping.confirm { select = true },
-        -- super tab 
         ["<Tab>"] = cmp.mapping(function(fallback)
-            -- if menu open then select next item in menu
-            if cmp.visible() then
-                cmp.select_next_item()
             -- if can expand lua snippet then expand
-            elseif luasnip.expandable() then
+            if luasnip.expandable() then
                 luasnip.expand()
             -- if has jumps then jump to the next part of snippet
             elseif luasnip.expand_or_jumpable() then
@@ -98,19 +93,15 @@ cmp.setup {
             "i",
             "s",
         }),
-        -- same for super tab but inverse
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, {
-            "i",
-            "s",
-        }),
+        ["<CR>"] = cmp.mapping.disable,
+
+        -- IDEA - (Non-impeding auto-complete)
+        --      have tab and CRL work as normal 
+        --          if there is a jump list then use tab
+        --      have Ctrl-Space auto-complete and C-j and C-k move up and down in the list
+        --
+
+
     },
 
     -- formatting the completion menu

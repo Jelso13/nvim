@@ -2,3 +2,6 @@ change mappings for cmp.lua
 add comments in cmp.lua
 manually define snippets for different languages and add as needed so there is no overhead
     potentially in its own repository
+
+fix the autocomplete thing so that it only appears when I explicitly ask for it
+    - otherwise it is a massive pain in the ass
