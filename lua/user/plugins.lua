@@ -32,15 +32,6 @@ if not status_ok then
 	return
 end
 
--- Have packer use a popup window and have rounded borders
--- packer.init({
--- 	display = {
--- 		open_fn = function()
--- 			return require("packer.util").float({ border = "rounded" })
--- 		end,
--- 	},
--- })
-
 -- Install your plugins here
 return packer.startup(function(use)
     -- Plugins
@@ -48,9 +39,20 @@ return packer.startup(function(use)
 
 
     use 'ThePrimeagen/vim-be-good' -- neovim game for learning vim movements
-    
+
     -- COLORSCHEME
     use 'folke/tokyonight.nvim'
+
+    -- COMPLETION PLUGINS
+    use "hrsh7th/nvim-cmp"              -- The completion plugin
+    use "hrsh7th/cmp-buffer"            -- buffer comletions
+    use "hrsh7th/cmp-path"              -- path completions
+    use "hrsh7th/cmp-cmdline"           -- cmdline completions
+    use "saadparwaiz1/cmp_luasnip"      -- snippet completions
+
+    -- SNIPPETS
+    use "L3MON4D3/LuaSnip"              -- the snippet engine
+    use "rafamadriz/friendly-snippets"  -- collection of snippets to use
 
 
     -- Automatically set up your configuration after cloning packer.nvim
@@ -59,5 +61,3 @@ return packer.startup(function(use)
         require('packer').sync()
     end
 end)
-
-
