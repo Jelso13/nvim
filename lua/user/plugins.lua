@@ -62,12 +62,18 @@ return packer.startup(function(use)
     -- LSP
     use "neovim/nvim-lspconfig"         -- enable LSP
     use "williamboman/mason.nvim" -- simple to use language server installer
-    use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
+    use "williamboman/mason-lspconfig" -- simple to use language server installer
 
     -- TELESCOPE
     use "nvim-telescope/telescope.nvim" -- Very extensible fuzzy finder
     -- use "nvim-telescope/telescope-media-files.nvim" -- loads missing entities for telescope
     -- use "seebye/ueberzug" -- for image support
+    
+    -- TREESITTER
+    use {"nvim-treesitter/nvim-treesitter", run=":TSUpdate",}
+
+    -- HARPOON
+    use "ThePrimeagen/harpoon" -- marking and navigating between files intelligently
     
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

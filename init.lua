@@ -12,3 +12,5 @@ require("user/cmp") -- completion
 require("user/lsp")
 
 require("user/telescope")
+
+require("user/treesitter")
