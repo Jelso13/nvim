@@ -37,6 +37,9 @@ return packer.startup(function(use)
     -- Plugins
     use 'wbthomason/packer.nvim' -- Have packer manage itself
 
+    -- Misc **Need to label
+    use "nvim-lua/plenary.nvim"
+    use "nvim-lua/popup.nvim"
 
     use 'ThePrimeagen/vim-be-good' -- neovim game for learning vim movements
 
@@ -61,6 +64,11 @@ return packer.startup(function(use)
     use "williamboman/mason.nvim" -- simple to use language server installer
     use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
 
+    -- TELESCOPE
+    use "nvim-telescope/telescope.nvim" -- Very extensible fuzzy finder
+    -- use "nvim-telescope/telescope-media-files.nvim" -- loads missing entities for telescope
+    -- use "seebye/ueberzug" -- for image support
+    
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then

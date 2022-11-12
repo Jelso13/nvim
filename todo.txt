@@ -33,3 +33,5 @@ Add specific configuration for my languages:
     - C
     - C++
     - Latex
+
+Add completion menu for nerdfont icons and latex and maths symbols

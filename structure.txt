@@ -1,0 +1,13 @@
+# https://learnvimscriptthehardway.stevelosh.com/chapters/42.html
+
+Structure
+    
+    * nvim/snips        : collections of snippets for different languages
+    * nvim/autoload     : delays loading plugin code until its actually needed
+    * nvim/after        : loads on every vim start but after files in nvim/plugin
+    * nvim/ftdetect     : runs all files at startup, detects the filetype of a particular buffer
+    * nvim/plugin       : files are run once, every time vim starts
+    * nvim/ftplugin     : runs all files when filetype matches ftplugin entry *** MUST MAKE BUFFER-SPECIFIC CHANGES ONLY ***
+    * nvim/colors       : files are treated as colorschemes
+    * nvim/compiler     : sets options for use with a specific compiler (:compiler) *** NOT SURE?
+    
