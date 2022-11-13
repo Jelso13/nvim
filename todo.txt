@@ -4,7 +4,7 @@ GENERAL PLAN:
     MAKE IT A 'STABLE' BRANCH BY FIXING THE PLUGIN COMMITS AND A FEW OTHER THINGS
     GRADUALLY REDUCE THE NUMBER OF PLUGINS AND TRY TO GET THE SAME FUNCTIONALITY FROM PURE LUA CONFIG WITHOUT PLUGINS
 
-
+**** LOOK AT ALTERNATE-FILE
 
 
 change mappings for cmp.lua
@@ -55,3 +55,9 @@ sort out lualine
 
 Possible plugins to add
     * Codi              ~ interactive scratchpad useful for testing algorithms
+    * impatient         ~ something to do with speeding up neovim start
+    * indent-blankline  ~ adds a line to indicate indentation
+    * alpha-nvim        ~ simple greeter
+
+
+* look at autocommands

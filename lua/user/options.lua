@@ -59,6 +59,7 @@ vim.opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipbo
 vim.opt.swapfile = false            -- creates a swap file (unsure why I need)
 vim.opt.backup = false              -- creates a backup file (also unsure why I need)
 -- vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.timeoutlen = 100            -- time to wait for a mapped sequence to complete (in milliseconds)
 -- vim.opt.undofile = true
 
 

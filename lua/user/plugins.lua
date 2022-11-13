@@ -90,6 +90,9 @@ return packer.startup(function(use)
     use "nvim-lualine/lualine.nvim" -- change the status line
     use "kyazdani42/nvim-web-devicons" -- for icons in lualine
 
+    -- WHICH-KEY
+    use "folke/which-key.nvim"
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then

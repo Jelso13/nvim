@@ -18,3 +18,5 @@ require("user/autopairs")
 require("user/comment")
 require("user/gitsigns")
 require("user/lualine")
+
+require("user/whichkey")
