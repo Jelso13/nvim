@@ -68,6 +68,9 @@ return packer.startup(function(use)
     use "williamboman/mason.nvim" -- simple to use language server installer
     use "williamboman/mason-lspconfig" -- simple to use language server installer
 
+    -- NULL-LS
+    use "jose-elias-alvarez/null-ls.nvim" -- null-ls
+
     -- TELESCOPE
     use "nvim-telescope/telescope.nvim" -- Very extensible fuzzy finder
     -- use "nvim-telescope/telescope-media-files.nvim" -- loads missing entities for telescope
