@@ -75,6 +75,10 @@ return packer.startup(function(use)
     -- TREESITTER
     use {"nvim-treesitter/nvim-treesitter", run=":TSUpdate",}
 
+    -- COMMENT
+    use "numToStr/Comment.nvim" -- can maybe remove this
+    use "JoosepAlviste/nvim-ts-context-commentstring" -- can also maybe remove this (see how useful it is for react stuff otherwise bin)
+
     -- HARPOON
     use "ThePrimeagen/harpoon" -- marking and navigating between files intelligently
     

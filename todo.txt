@@ -1,3 +1,12 @@
+GENERAL PLAN:
+
+    BLOAT OUT THE CONFIG
+    MAKE IT A 'STABLE' BRANCH BY FIXING THE PLUGIN COMMITS AND A FEW OTHER THINGS
+    GRADUALLY REDUCE THE NUMBER OF PLUGINS AND TRY TO GET THE SAME FUNCTIONALITY FROM PURE LUA CONFIG WITHOUT PLUGINS
+
+
+
+
 change mappings for cmp.lua
 add comments in cmp.lua
 manually define snippets for different languages and add as needed so there is no overhead
@@ -37,3 +46,9 @@ Add specific configuration for my languages:
 Add completion menu for nerdfont icons and latex and maths symbols
 
 Remove the functionality of some plugins that I only really need the core basis of - autopairs for example (I dont need the bindings for wrapping to specific locations for example)
+
+remove the plugin for the snippets and handle it all locally with pre-defined snippets as I need them.
+make the custom snippets work with the autocomplete menu and be filetype specific -> tex snippets in .tex files and never recommended outside of them
+
+
+
