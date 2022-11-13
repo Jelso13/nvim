@@ -2,6 +2,7 @@
 local fn = vim.fn
 
 -- Automatically install packer
+--
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
 	PACKER_BOOTSTRAP = fn.system({
@@ -78,6 +79,9 @@ return packer.startup(function(use)
     -- COMMENT
     use "numToStr/Comment.nvim" -- can maybe remove this
     use "JoosepAlviste/nvim-ts-context-commentstring" -- can also maybe remove this (see how useful it is for react stuff otherwise bin)
+
+    -- GITSIGNS
+    use "lewis6991/gitsigns.nvim"
 
     -- HARPOON
     use "ThePrimeagen/harpoon" -- marking and navigating between files intelligently
