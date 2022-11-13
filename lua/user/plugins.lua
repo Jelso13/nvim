@@ -55,6 +55,9 @@ return packer.startup(function(use)
     use "hrsh7th/cmp-nvim-lsp"
     use "hrsh7th/cmp-nvim-lua"
 
+    -- AUTOPAIRS
+    use "windwp/nvim-autopairs" -- autopairs, integrates with both cmp and treesitter
+
     -- SNIPPETS
     use "L3MON4D3/LuaSnip"              -- the snippet engine
     use "rafamadriz/friendly-snippets"  -- collection of snippets to use

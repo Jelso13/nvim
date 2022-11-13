@@ -35,3 +35,5 @@ Add specific configuration for my languages:
     - Latex
 
 Add completion menu for nerdfont icons and latex and maths symbols
+
+Remove the functionality of some plugins that I only really need the core basis of - autopairs for example (I dont need the bindings for wrapping to specific locations for example)
