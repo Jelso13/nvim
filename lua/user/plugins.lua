@@ -68,14 +68,11 @@ return packer.startup(function(use)
     use "williamboman/mason.nvim" -- simple to use language server installer
     use "williamboman/mason-lspconfig" -- simple to use language server installer
 
-    -- NULL-LS
-    use "jose-elias-alvarez/null-ls.nvim" -- null-ls
-
     -- TELESCOPE
     use "nvim-telescope/telescope.nvim" -- Very extensible fuzzy finder
     -- use "nvim-telescope/telescope-media-files.nvim" -- loads missing entities for telescope
     -- use "seebye/ueberzug" -- for image support
-    
+
     -- TREESITTER
     use {"nvim-treesitter/nvim-treesitter", run=":TSUpdate",}
 
@@ -88,7 +85,11 @@ return packer.startup(function(use)
 
     -- HARPOON
     use "ThePrimeagen/harpoon" -- marking and navigating between files intelligently
-    
+
+    -- LUALINE
+    use "nvim-lualine/lualine.nvim" -- change the status line
+    use "kyazdani42/nvim-web-devicons" -- for icons in lualine
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then

@@ -1,7 +1,7 @@
 -- re-organise the directory structure (see :h runtimepath for where certain things should go)
 
 require("user/options")
-require("user/keymaps")
+require("user.keymaps")
 
 require("user/plugins")
 
@@ -17,3 +17,4 @@ require("user/treesitter")
 require("user/autopairs")
 require("user/comment")
 require("user/gitsigns")
+require("user/lualine")

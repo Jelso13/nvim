@@ -51,4 +51,7 @@ remove the plugin for the snippets and handle it all locally with pre-defined sn
 make the custom snippets work with the autocomplete menu and be filetype specific -> tex snippets in .tex files and never recommended outside of them
 
 
+sort out lualine
 
+Possible plugins to add
+    * Codi              ~ interactive scratchpad useful for testing algorithms
