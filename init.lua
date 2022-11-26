@@ -20,3 +20,5 @@ require("user/gitsigns")
 require("user/lualine")
 
 require("user/whichkey")
+
+require("user/obsidian")
