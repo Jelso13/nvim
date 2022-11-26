@@ -1,3 +1,9 @@
+Sort out this file to have literally any structure at all
+
+* commenting is wrong - enter at the end of comment line should not have a comment
+
+* treat macro execution as a single action - so that it works with . to repeat
+
 GENERAL PLAN:
 
     BLOAT OUT THE CONFIG
@@ -6,6 +12,7 @@ GENERAL PLAN:
 
 **** LOOK AT ALTERNATE-FILE
 
+add a way to search for nerdfont icons (maybe with lsp)
 
 change mappings for cmp.lua
 add comments in cmp.lua
@@ -61,3 +68,5 @@ Possible plugins to add
 
 
 * look at autocommands
+
+
