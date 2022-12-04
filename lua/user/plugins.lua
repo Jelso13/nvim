@@ -70,6 +70,10 @@ return packer.startup(function(use)
 
     -- TELESCOPE
     use "nvim-telescope/telescope.nvim" -- Very extensible fuzzy finder
+    use({
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make"
+    })
     -- use "nvim-telescope/telescope-media-files.nvim" -- loads missing entities for telescope
     -- use "seebye/ueberzug" -- for image support
 

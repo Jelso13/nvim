@@ -4,9 +4,12 @@
 
 local nnoremap = require("user.keymaps").nnoremap
 
+local _, harpoon_ui = pcall(require, "harpoon.ui");
+local ok, harpoon_mark = pcall(require, "harpoon.mark");
 
-local harpoon_ui = require("harpoon.ui");
-local harpoon_mark = require("harpoon.mark");
+if not ok then
+    return
+end
 
 -- tags a file for use in harpoon 
 nnoremap("<leader>a", function ()

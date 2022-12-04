@@ -1,22 +1,37 @@
-local Remap = require("user.keymaps")
-local nnoremap = Remap.nnoremap
+local ok, telescope = pcall(require, "telescope.nvim")
+if not ok then
+    return
+end
+
+local nnoremap = require("user.keymaps").nnoremap
+
+telescope.setup()
+require("telescope").load_extension('fzf')
+
+-- not working 
+nnoremap("<C-p>", function()
+    require("telescope.builtin").git_files()
+end)
+
+-- local Remap = require("user.keymaps")
+-- local nnoremap = Remap.nnoremap
 
 -- simplest version of telescope bindings
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 
 -- find files without having a file previewer window that shows the content of that file
 nnoremap("<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>")
-
--- grep through text
-nnoremap("<c-t>", "<cmd>Telescope live_grep<cr>")
-
--- search through buffers
+-- 
+-- -- grep through text
+-- nnoremap("<c-t>", "<cmd>Telescope live_grep<cr>")
+-- 
+-- -- search through buffers
 nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>")
-
--- Note entirely sure what this does
-nnoremap("<leader>ps", function()
-    require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})
-end)
+-- 
+-- -- Note entirely sure what this does
+-- nnoremap("<leader>ps", function()
+--     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})
+-- end)
 
 
 
