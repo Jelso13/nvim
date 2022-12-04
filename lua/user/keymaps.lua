@@ -19,5 +19,12 @@ M.xnoremap = bind("x")
 M.inoremap = bind("i")
 M.tnoremap = bind("t")
 
+-- only applies to current buffer
+M.local_nnoremap = bind("n", {buffer = 0})
+M.local_vnoremap = bind("v", {buffer = 0})
+M.local_xnoremap = bind("x", {buffer = 0})
+M.local_inoremap = bind("i", {buffer = 0})
+M.local_tnoremap = bind("t", {buffer = 0})
+
 return M
 

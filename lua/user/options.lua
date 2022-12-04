@@ -76,7 +76,7 @@ vim.opt.updatetime = 50             -- updatetime {default 4000ms} noticable del
 
 -- POSSIBLY MOVE THIS
 vim.g.mapleader = " "
-vim.g.maplocalleader = " " 
+vim.g.maplocalleader = " "
 
 
 -- vim.opt.shortmess:append "c"     -- shortmess related to messages for refresh
