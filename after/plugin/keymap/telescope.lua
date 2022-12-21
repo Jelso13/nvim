@@ -13,6 +13,9 @@ nnoremap("<C-p>", function()
     require("telescope.builtin").git_files()
 end)
 
+-- 'project find' command finds files
+nnoremap("<leader>pf", telescope.find_files, {})
+
 -- local Remap = require("user.keymaps")
 -- local nnoremap = Remap.nnoremap
 
@@ -20,7 +23,7 @@ end)
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 
 -- find files without having a file previewer window that shows the content of that file
-nnoremap("<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>")
+-- nnoremap("<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>")
 -- 
 -- -- grep through text
 -- nnoremap("<c-t>", "<cmd>Telescope live_grep<cr>")
