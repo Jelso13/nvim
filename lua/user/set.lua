@@ -62,7 +62,7 @@ vim.opt.backup = false              -- creates a backup file (also unsure why I 
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 
 -- for some reason been having issues with this breaking leader
--- vim.opt.timeoutlen = 100            -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 100            -- time to wait for a mapped sequence to complete (in milliseconds)
 -- vim.opt.undofile = true
 
 

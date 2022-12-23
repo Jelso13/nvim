@@ -55,4 +55,23 @@ return require('packer').startup(function(use)
         }
     }
 
+    -- vim-be-good game for getting better at vim navigation
+    use('ThePrimeagen/vim-be-good')
+
+    -- autopairs
+    use('windwp/nvim-autopairs')
+
+    -- gitsigns
+    -- use('lewis6991/gitsigns.nvim')
+    
+    -- lualine
+    use('nvim-lualine/lualine.nvim') -- change the status line
+    use('kyazdani42/nvim-web-devicons') -- icons for lualine
+
+    -- which-key
+    use('folke/which-key.nvim')
+
+    -- Obsidian
+    use('epwalsh/obsidian.nvim')
+
 end)
