@@ -73,9 +73,9 @@ lsp.on_attach(function(client, bufnr)
     -- only use these remaps for the current lsp specific buffer
     --
     -- go to definition
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts, {desc="go definition"})
     -- get a definition on hover
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts, {desc="Get info"})
     vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
     vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
     vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)

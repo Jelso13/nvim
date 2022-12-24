@@ -132,6 +132,22 @@ local opts = {
 
 -- need to include ctrl and bindings for diffirente modes
 
+
+-- #######################################################
+-- need to organise this better
+--      <leader>g should be git
+--      g should be navigation 'go'
+--      p should be project related
+--      u undo tree
+--      k for knowledge - info about vars and defs etc
+--
+--
+--      maybe:
+--          f should be find
+--          s should be substitute (in file, current word, across files)
+--
+-- #######################################################
+
 local mappings = {
     -- ["<leader>a"] = { "Add Harpoon File" },
     -- ["<leader>d"] = { "Delete to Abyss" },

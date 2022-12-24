@@ -19,23 +19,38 @@ local setup = {
         end
         return out
     end,
-    note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        local suffix = ""
-        if title ~= nil then
-            -- If title is given, transform it into valid file name.
-            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-        else
-            -- If title is nil, just add 4 random uppercase letters to the suffix.
-            for _ = 1, 4 do
-                suffix = suffix .. string.char(math.random(65, 90))
-            end
-        end
-        return tostring(os.time()) .. "-" .. suffix
+    -- function thot determines how new notes are named
+    note_id_func = function()
+        return vim.fn.input("File Name: ")
     end,
+--     note_id_func = function(title)
+--         -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+--         local suffix = ""
+--         if title ~= nil then
+--             -- If title is given, transform it into valid file name.
+--             suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+--         else
+--             -- If title is nil, just add 4 random uppercase letters to the suffix.
+--             for _ = 1, 4 do
+--                 suffix = suffix .. string.char(math.random(65, 90))
+--             end
+--         end
+--         return tostring(os.time()) .. "-" .. suffix
+--     end,
     notes_subdir = ".",
 
 }
+
+-- render?
+vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<cr>")
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>")
+vim.keymap.set("v", "<leader>ol", "<cmd>ObsidianLink<cr>")
+
+-- vim.keymap.set('n', '<leader>ps', function()
+--     builtin.grep_string({ search = vim.fn.input("Grep > ") })
+-- end,
+--     { desc = "project search" }
+-- )
 
 
 obsidian.setup(setup)
