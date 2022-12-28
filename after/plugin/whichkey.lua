@@ -3,6 +3,9 @@
 -- function for handling bindings
 
 
+-- Add the description for the starting of a sequence like <leader>f to be 'find'
+
+
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
     return
@@ -169,10 +172,11 @@ local mappings = {
     -- ["<leader>u"] = { "Undo tree" },
     -- ["<leader>y"] = { "yank global" },
     -- ["<leader>x"] = { "set executable" },
-    -- ["<leader>g"] = {
-    --     name = "git",
-    --     s = { "git status" },
-    -- },
+    ["<leader>g"] = { name = "git" },
+    ["<leader>l"] = { name = "lsp" },
+    ["<leader>o"] = { name = "obsidian" },
+    ["<leader>p"] = { name = "project" },
+    ["<leader>f"] = { name = "find" },
     -- g = {
     --     f = { "Go to File" },
     -- },
@@ -182,27 +186,27 @@ local mappings = {
 }
 
 which_key.setup(setup)
--- which_key.register(mappings, opts)
+which_key.register(mappings, opts)
 
 
 -- adding stuff for different modes
 
-local xopts = {
-    mode = "x", -- block select mode
-    -- prefix = "<leader>",
-    prefix = "",
-    -- Global mappings. Specify a buffer number for buffer local mappings
-    buffer = nil,
-    -- use `silent` when creating keymaps
-    silent = true,
-    -- use `noremap` when creating keymaps
-    noremap = true,
-    -- use `nowait` when creating keymaps
-    nowait = true,
-}
-
-local xmappings = {
-    -- ["<leader>y"] = { "Yank to global register" }
-}
+-- local xopts = {
+--     mode = "x", -- block select mode
+--     -- prefix = "<leader>",
+--     prefix = "",
+--     -- Global mappings. Specify a buffer number for buffer local mappings
+--     buffer = nil,
+--     -- use `silent` when creating keymaps
+--     silent = true,
+--     -- use `noremap` when creating keymaps
+--     noremap = true,
+--     -- use `nowait` when creating keymaps
+--     nowait = true,
+-- }
+-- 
+-- local xmappings = {
+--     -- ["<leader>y"] = { "Yank to global register" }
+-- }
 
 -- which_key.register(xmappings, xopts)

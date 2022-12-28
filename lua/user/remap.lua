@@ -50,12 +50,7 @@ vim.keymap.set("n", "Q", "@@", { desc = "repeat last macro" })
 
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>",
     { desc = "open file in new tmux session" })
--- format from language server protocol
-vim.keymap.set("n", "<leader>f", function()
-    vim.lsp.buf.format()
-end,
-    { desc = "format file" }
-)
+
 
 
 -- quickfix commands...

@@ -73,9 +73,9 @@ lsp.on_attach(function(client, bufnr)
     -- only use these remaps for the current lsp specific buffer
     --
     -- go to definition
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts, {desc="go definition"})
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts, { desc = "go definition" })
     -- get a definition on hover
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts, {desc="Get info"})
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts, { desc = "Get info" })
     vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
     vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
     vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
@@ -85,6 +85,15 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
     -- conflict with ctrl-backspace
     -- vim.keymap.set("n", "<leader>vwh", vim.lsp.buf.signature_help, opts)
+
+    -- format from language server protocol
+    vim.keymap.set("n", "<leader>lf", function()
+        vim.lsp.buf.format()
+    end,
+        { desc = "format file" }
+    )
+    vim.keymap.set("v", "<leader>lf", vim.lsp.buf.format, { desc = "format" })
+
 end)
 
 lsp.setup()

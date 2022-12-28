@@ -19,7 +19,7 @@ local setup = {
         end
         return out
     end,
-    -- function thot determines how new notes are named
+    -- function that determines how new notes are named
     note_id_func = function()
         -- determine if there is a '/' in the file name for if the file
         -- should be in a subdirectory
@@ -45,9 +45,9 @@ local setup = {
 }
 
 -- render?
-vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<cr>")
-vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>")
-vim.keymap.set("v", "<leader>ol", "<cmd>ObsidianLink<cr>")
+vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<cr>", {desc="Open note"})
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>", {desc="Create new note"})
+vim.keymap.set("v", "<leader>ol", "<cmd>ObsidianLink<cr>", {desc="link note"})
 vim.keymap.set( "n", "gf", function()
     if require('obsidian').util.cursor_on_markdown_link() then
       return "<cmd>ObsidianFollowLink<CR>"
@@ -57,13 +57,6 @@ vim.keymap.set( "n", "gf", function()
   end,
   { noremap = false, expr = true}
 )
-vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>")
-
--- vim.keymap.set('n', '<leader>ps', function()
---     builtin.grep_string({ search = vim.fn.input("Grep > ") })
--- end,
---     { desc = "project search" }
--- )
-
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", {desc="get backlinks"})
 
 obsidian.setup(setup)
