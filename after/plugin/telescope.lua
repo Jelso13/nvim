@@ -4,7 +4,8 @@ local previewers = require("telescope.previewers")
 
 local telescope = require("telescope")
 
-telescope.setup{
+-- telescope.setup{
+local setup = {
     defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
@@ -37,6 +38,8 @@ telescope.setup{
     -- please take a look at the readme of the extension you want to configure
   }
 }
+
+telescope.setup(setup)
 
 -- 'project-files' - find project files
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "find files" })
