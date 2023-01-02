@@ -38,9 +38,9 @@ M.ObsidianOpen = function()
         command = "xdg-open", -- should be open in non linux
         args = { url },
         on_exit = vim.schedule_wrap(function(_, return_code)
-            -- if return_code > 0 then
-            --   echo.err "failed opening Obsidian app to note"
-            -- end
+            if return_code > 0 then
+                vim.api.echo.err "failed opening Obsidian app to note"
+            end
         end),
     }):start()
 end
@@ -50,35 +50,76 @@ vim.keymap.set("n", "<leader>oo", "<cmd>lua M.ObsidianOpen()<cr>",
     { desc = "obsidian open", silent = true, noremap = true }
 )
 
+function M.get_relative_path(cwd, target)
+    local cwd_parts = {}
+    local target_parts = {}
+
+    for p in cwd:gmatch('[^/]+') do
+        cwd_parts[#cwd_parts + 1] = p
+    end
+
+    for p in target:gmatch('[^/]+') do
+        if p == cwd_parts[#target_parts + 1] then
+            table.remove(cwd_parts, #target_parts + 1)
+        else
+            target_parts[#target_parts + 1] = p
+        end
+    end
+    
+    local dots = {}
+    for i, elem in ipairs(cwd_parts) do
+        dots[#dots+1] = "../"
+    end
+    -- return table.concat(target_parts, " ")
+    return table.concat(dots, "")..table.concat(target_parts, "/")
+
+    -- local x = ": "
+    -- for i, elem in ipairs(cwd_parts) do
+    --     x = x..elem
+    -- end
+    -- return x
+
+end
+
 function M.test_grep_filename()
     local opts = {
         prompt_title = "testing",
         follow = false,
         path_display = {},
-        attach_mappings = function (_, map)
-            map("i", "<cr>", function (prompt_bufnr)
+        attach_mappings = function(_, map)
+            map("i", "<cr>", function(prompt_bufnr)
                 -- local entry = require("telescope.actions").close(prompt_bufnr)
                 local entry = require("telescope.actions.state").get_selected_entry().value
                 -- entry = require("plenary.path").make_relative(entry)
                 -- entry = vim.fn.fnamemodify(vim.fn.expand(entry), ':.')
                 -- entry = vim.fn.fnamemodify(entry, ':.')
-                
+
 
                 require("telescope.actions").close(prompt_bufnr)
 
                 -- entry = vim.fn.fnamemodify(vim.fn.expand(entry), ':p')
                 -- entry = require("plenary.path"):new(entry):make_relative(vim.fn.expand("%:p"))
-                
+
 
                 local target_path = vim.fn.fnamemodify(vim.fn.expand(entry), ':p')
                 local cwd = vim.fn.expand("%:p:h:~:.") .. "/"
-                entry = require("plenary.path"):new(target_path):make_relative(cwd)
-
+                -- entry = require("plenary.path"):new(target_path):make_relative(cwd)
+                entry = M.get_relative_path(cwd, target_path)
                 -- cwd = /home/defalt/.config/nvim/after/ftplugin/
                 -- target_path = /home/defalt/.config/nvim/lua/user/remap.lua
                 -- entry = /home/defalt/.config/nvim/lua/user/remap.lua
-                
-                entry = require("plenary.path"):new("/a/b/c"):make_relative("./a/")
+
+                -- entry = require("plenary.path"):new("/a/b/c"):make_relative("/a/")
+                -- entry = require("plenary.path"):new("/a/b/c"):make_relative("/a/b/d/f/") -- should be ../../c
+
+                -- should be ../../lua/user/packer.lua
+                -- entry = M.get_relative_path("/home/defalt/.config/nvim/after/ftplugin/",
+                    -- "/home/defalt/.config/nvim/lua/user/packer.lua")
+
+                -- entry = M.get_relative_path("/a/b/c/", "/a/b/d/f.md") -- should be ../d/f.md
+                -- entry = M.get_relative_path("/a/b/c/", "/a/b/c/f.md") -- should be ./f.md
+                -- entry = M.get_relative_path("/a/b/c/e/", "/a/b/c/f.md") -- should be ../f.md
+                -- entry = M.get_relative_path("/a/b/", "/a/b/c/f.md") -- should be ./c/f.md
                 -- should be ../c/
 
                 -- entry = vim.fn.expand("%:p")
