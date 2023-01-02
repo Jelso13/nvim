@@ -49,6 +49,7 @@ Add specific configuration for my languages:
     - C
     - C++
     - Latex
+    - markdown (obsidian)
 
 Add completion menu for nerdfont icons and latex and maths symbols
 
@@ -64,7 +65,8 @@ Possible plugins to add
     * Codi              ~ interactive scratchpad useful for testing algorithms
     * impatient         ~ something to do with speeding up neovim start
     * indent-blankline  ~ adds a line to indicate indentation
-    * alpha-nvim        ~ simple greeter
+    * competitist       ~ ui for testing in competitive programming 
+    * cphelper          ~ used with browser addon that makes solving problems faster
 
 
 * look at autocommands
