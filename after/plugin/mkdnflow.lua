@@ -36,12 +36,12 @@ local setup = {
         fallback = 'first',
         -- file name that can identify root directory
         root_tell = false,
-        nvim_wd_heel = true
+        nvim_wd_heel = false
     },
     -- which filetypes can be controlled by mkdnflow
     filetypes = { md = true, rmd = true, markdown = true },
     -- whether to continue searching for md links at beginning of file
-    wrap = false,
+    wrap = true,
     bib = {
         -- path to look for citation keys
         default_path = nil,
