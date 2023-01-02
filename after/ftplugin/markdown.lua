@@ -63,7 +63,7 @@ function M.get_relative_path(cwd, target)
         end
     end
     local dots = {}
-    for _ = 1, #cwd_parts+1 do
+    for _ = 1, #cwd_parts do
         dots[#dots+1] = "../"
     end
     return table.concat(dots, "")..table.concat(target_parts, "/")

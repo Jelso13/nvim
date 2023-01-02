@@ -73,7 +73,7 @@ return require('packer').startup(function(use)
     use('folke/which-key.nvim')
 
     -- Obsidian
-    -- use('epwalsh/obsidian.nvim')
+    use('epwalsh/obsidian.nvim')
     
     -- Markdown plugin (alt to obsidian)
     use('jakewvincent/mkdnflow.nvim')

@@ -4,6 +4,10 @@ local previewers = require("telescope.previewers")
 
 local telescope = require("telescope")
 
+-- cwd should be determined by the root of the git repo
+-- if git repo doesnt exist then where neovim is called
+-- alternatively, have it so that the cwd can be moved on the fly
+
 -- telescope.setup{
 local setup = {
     defaults = {

@@ -1,0 +1,9 @@
+
+
+current things that need changing:
+
+    - make sure that anki works correctly in obsidian
+    - snippets
+    - finish sorting which_key
+    - make sure that obsidian links update when changed
+    - obsidian daily note and todo stuff (templating, keybindings etc)
