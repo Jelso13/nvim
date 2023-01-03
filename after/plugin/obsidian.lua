@@ -25,14 +25,7 @@ local setup = {
         return out
     end,
     -- function that determines how new notes are named
-    -- note_id_func = function(title)
-    --     -- determine if there is a '/' in the file name for if the file
-    --     -- should be in a subdirectory
-    --     -- name = vim.fn.input("File Name: ")
-    --     return vim.fn.input("File Name: ")
-    -- end,
     note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
         local suffix = ""
         if title ~= nil then
             -- If title is given, transform it into valid file name.
@@ -44,7 +37,6 @@ local setup = {
         return suffix
     end,
     notes_subdir = ".",
-
 }
 
 -- render?

@@ -2,6 +2,7 @@
 
 current things that need changing:
 
+    - obsidian: work out how to handle notes that do not yet exist
     - make sure that anki works correctly in obsidian
     - snippets
     - finish sorting which_key

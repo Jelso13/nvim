@@ -12,6 +12,7 @@ local Job = require("plenary.job")
 -- ###########################################################################
 
 vim.opt.wrap = true -- wrap of long lines
+vim.opt.textwidth = 80 -- set the text width to be 80 characters
 
 
 -- follows a link, creates link from word or visual selection * potentially useless

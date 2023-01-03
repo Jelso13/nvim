@@ -56,6 +56,8 @@ local setup = {
         name_is_source = false,
         -- dont hide sources
         conceal = false,
+        -- how many lines a link can be across (n before and n after current)
+        context = 1,
         -- deals with extensions of links
         implicit_extension = nil,
         transform_implicit = false,
