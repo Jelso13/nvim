@@ -43,11 +43,11 @@ return require('packer').startup(function(use)
             { 'williamboman/mason-lspconfig.nvim' },
 
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-path' },
-            { 'saadparwaiz1/cmp_luasnip' },
-            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/nvim-cmp' }, -- completion engine
+            { 'hrsh7th/cmp-buffer' }, -- suggestions based on current file
+            { 'hrsh7th/cmp-path' }, -- filesystem completions
+            { 'saadparwaiz1/cmp_luasnip' }, -- shows snippets in suggestions
+            { 'hrsh7th/cmp-nvim-lsp' }, -- show data sent by ls
             { 'hrsh7th/cmp-nvim-lua' },
 
             -- Snippets
@@ -55,6 +55,7 @@ return require('packer').startup(function(use)
             { 'rafamadriz/friendly-snippets' },
         }
     }
+
 
     -- vim-be-good game for getting better at vim navigation
     use('ThePrimeagen/vim-be-good')
@@ -77,5 +78,11 @@ return require('packer').startup(function(use)
     
     -- Markdown plugin (alt to obsidian)
     use('jakewvincent/mkdnflow.nvim')
+
+    -- latex
+    use('lervag/vimtex')
+
+    -- zen mode (mainly for centering on a wide screen)
+    -- use('folke/zen-mode.nvim')
 
 end)

@@ -51,7 +51,8 @@ lsp.setup_nvim_cmp({
 
 -- no idea what this does
 lsp.set_preferences({
-    suggest_lsp_servers = false,
+    -- suggest language servers when entering a filetype
+    suggest_lsp_servers = true,
     sign_icons = {}
     -- sign_icons = {
     --     error = 'E',
@@ -95,6 +96,8 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("v", "<leader>lf", vim.lsp.buf.format, { desc = "format" })
 
 end)
+
+lsp.nvim_workspace()
 
 lsp.setup()
 
