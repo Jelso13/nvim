@@ -48,11 +48,11 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-path' }, -- filesystem completions
             { 'saadparwaiz1/cmp_luasnip' }, -- shows snippets in suggestions
             { 'hrsh7th/cmp-nvim-lsp' }, -- show data sent by ls
-            { 'hrsh7th/cmp-nvim-lua' },
+            { 'hrsh7th/cmp-nvim-lua' }, -- completion for nvim api
 
             -- Snippets
-            { 'L3MON4D3/LuaSnip' },
-            { 'rafamadriz/friendly-snippets' },
+            { 'L3MON4D3/LuaSnip', tag="v<CurrentMajor>.*" }, -- correct v
+            -- { 'rafamadriz/friendly-snippets' }, -- snippet database
         }
     }
 

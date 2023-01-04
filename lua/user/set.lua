@@ -86,7 +86,7 @@ vim.g.maplocalleader = " "
 vim.g.netrw_browse_split = 0        -- in the default popup window rather than split or something
 vim.g.netrw_banner = 0              -- remove the banner fofalser netrw
 -- set netrw to show the line numbers, remove color column
-vim.g.netrw_bufsettings = 'nu rnu colorcolumn=""'
+vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- default values of noma nomod nu nowrap ro nobl
 
 
 
