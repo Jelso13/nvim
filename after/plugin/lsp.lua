@@ -27,8 +27,23 @@ lsp.configure('sumneko_lua', {
     }
 })
 
+
+-- ############################ CMP section ###################################
+
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+-- stuff from nerd fonts
+--   פּ ﯟ   some other good icons
+local kind_icons = {
+  Text = "", Method = "m", Function = "", Constructor = "", Field = "",
+  Variable = "", Class = "", Interface = "", Module = "", Property = "",
+  Unit = "", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "",
+  File = "", Reference = "", Folder = "", EnumMember = "", Constant = "",
+  Struct = "", Event = "", Operator = "", TypeParameter = "",
+}
+
+-- sets the bindings for completion
 local cmp_mappings = lsp.defaults.cmp_mappings({
     -- select the previous item in the list
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -39,6 +54,32 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
     ["<C-Space>"] = cmp.mapping.complete(),
 })
 
+local cmp_sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+})
+
+local cmp_formatting = {
+    -- gives the format of each field - the kind or symbol, abbreviation and source location
+    fields = {
+        "kind",
+        "abbr",
+        "menu"
+    },
+    format = function(entry, vim_item)
+        -- Kind icons format
+        -- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+        vim_item.menu = ({
+            nvim_lsp = "[LSP]",
+            nvim_lua = "[NVIM_LUA]",
+            luasnip = "[Snippet]", -- from luasnip
+            buffer = "[Buffer]", -- from current file
+            path = "[Path]", -- from buffer
+        })[entry.source.name]
+        return vim_item
+    end,
+}
 
 -- disable completion with tab
 -- this helps with copilot setup
@@ -46,8 +87,12 @@ cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 lsp.setup_nvim_cmp({
-    mapping = cmp_mappings
+    mapping = cmp_mappings,
+    sources = cmp_sources,
+    formatting = cmp_formatting,
 })
+
+-- ########################## lsp config section ##############################
 
 -- no idea what this does
 lsp.set_preferences({
@@ -88,11 +133,7 @@ lsp.on_attach(function(client, bufnr)
     -- vim.keymap.set("n", "<leader>vwh", vim.lsp.buf.signature_help, opts)
 
     -- format from language server protocol
-    vim.keymap.set("n", "<leader>lf", function()
-        vim.lsp.buf.format()
-    end,
-        { desc = "format file" }
-    )
+    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "format file" })
     vim.keymap.set("v", "<leader>lf", vim.lsp.buf.format, { desc = "format" })
 
 end)

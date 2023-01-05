@@ -60,11 +60,11 @@ return require('packer').startup(function(use)
     -- vim-be-good game for getting better at vim navigation
     use('ThePrimeagen/vim-be-good')
 
-    -- autopairs
-    use('windwp/nvim-autopairs')
-
     -- gitsigns
     -- use('lewis6991/gitsigns.nvim')
+    
+    -- autopairs
+    use('windwp/nvim-autopairs')
     
     -- lualine
     use('nvim-lualine/lualine.nvim') -- change the status line

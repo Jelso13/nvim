@@ -14,53 +14,37 @@ local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 
--- This is the `get_visual` function I've been talking about.
--- ----------------------------------------------------------------------------
--- Summary: If `SELECT_RAW` is populated with a visual selection, the function
--- returns an insert node whose initial text is set to the visual selection.
--- If `SELECT_RAW` is empty, the function simply returns an empty insert node.
 local get_visual = function(args, parent)
   if (#parent.snippet.env.SELECT_RAW > 0) then
     return sn(nil, i(1, parent.snippet.env.SELECT_RAW))
-  else  -- If SELECT_RAW is empty, return a blank insert node
-    return sn(nil, i(1))
+  else
+    return sn(nil, i(1, ''))
   end
 end
--- ----------------------------------------------------------------------------
 
-return {
-    -- Code for environment snippet in the above GIF
-    s({ trig = "env", snippetType = "autosnippet" },
-        fmta(
-            [[
-      \begin{<>}
-          <>
-      \end{<>}
-    ]],
-            {
-                i(1),
-                i(2),
-                rep(1), -- this node repeats insert node i(1)
-            }
-        )
-    ),
-    -- Using a zero-index insert node to exit snippet in equation body
-    s({ trig = "eq", dscr = "" },
-        fmta(
-            [[
-      \begin{equation}
-          <>
-      \end{equation}
-    ]],
-            { i(0) }
-        )
-    ),
-    -- Example: italic font implementing visual selection
-    s({ trig = "tii", dscr = "Expands 'tii' into LaTeX's textit{} command." },
-        fmta("\\textit{<>}",
-            {
-                d(1, get_visual),
-            }
-        )
-    ),
+local wrap_pair = function (ch1, ch2)
+  -- return s({trig=ch1, wordTrig = false, snippetType="autosnippet"},
+    -- { t(ch1), d(1, get_visual), t(ch2), })
+    return s({ trig = "sd", snippetType = "autosnippet" },
+        { f(function(_, snip) return snip.captures[1] end), t(ch1), d(1, get_visual), t(ch2), })
+end
+
+-- this is useful for using latex snippets in markdown
+-- local x = require("snips/test")
+
+return
+{
+    -- Paired back ticks
+    -- s({trig="([^`])sd", snippetType="autosnippet", regTrig=true, wordTrig=false},
+    -- s({ trig = "sd", snippetType = "autosnippet" },
+    --     { f(function(_, snip) return snip.captures[1] end), t("`"), d(1, get_visual), t("`"), }),
+
+    -- Paired double quotes
+    -- s({ trig = '([ `=%{%(%[])"', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+    --     { f(function(_, snip) return snip.captures[1] end), t('"'), d(1, get_visual), t('"'), }),
+
+    -- -- Paired single quotes
+    -- s({ trig = "([ =%{%(%[])'", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+    --     { f(function(_, snip) return snip.captures[1] end), t("'"), d(1, get_visual), t("'"), }),
 }
+

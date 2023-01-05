@@ -15,7 +15,15 @@ luasnip.config.set_config({
 
     -- Use Tab to trigger visual selection
     store_selection_keys = "<Tab>",
+
+    -- events that trigger update of active nodes dependents
     update_events = 'TextChanged,TextChangedI', -- live update for things like repeats
+    -- history allows exited snippets to be jumped back into
+    history = false, -- false is faster
+
+    -- Event on which to check for exiting a snippet's region
+    region_check_events = 'InsertEnter',
+    delete_check_events = 'InsertLeave',
 })
 
 
@@ -23,11 +31,11 @@ luasnip.config.set_config({
 -- bindings done for both insert mode (i) and select mode (s)
 
 -- Expand snippets in insert mode with Tab
-vim.cmd[[imap <silent><expr> <Tab> luasnip#expandable() ? '<Plug>luasnip-expand-snippet' : '<Tab>']]
+vim.cmd[[imap <silent><expr> <jk> luasnip#expandable() ? '<Plug>luasnip-expand-snippet' : '<Tab>']]
 
 -- Jump forward in through tabstops in insert and visual mode with Control-f
-vim.cmd[[imap <silent><expr> <C-f> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<C-f>']]
-vim.cmd[[smap <silent><expr> <C-f> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<C-f>']]
+vim.cmd[[imap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>']]
+vim.cmd[[smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>']]
 
 -- Jump backward through snippet tabstops with Shift-Tab (for example)
 vim.cmd[[imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>']]
@@ -37,6 +45,8 @@ vim.cmd[[smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-
 vim.cmd[[imap <silent><expr> <C-f> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-f>']]
 vim.cmd[[smap <silent><expr> <C-f> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-f>']]
 -- choice nodes allow selection of a particular node to jump to
+
+vim.keymap.set('n', '<Leader>L', '<Cmd>lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snips/"})<CR>')
 
 -- load snippets from given dir only when in the required filetype
 -- loaders.lazy_load({paths = "~/.config/nvim/snips/"})

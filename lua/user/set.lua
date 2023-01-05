@@ -34,7 +34,7 @@ vim.opt.conceallevel = 0            -- makes `` visible in markdown files
 -- USER INTERFACE OPTIONS
 -- vim.opt.laststatus = 2              -- always display the status bar
 vim.opt.colorcolumn = "80"          -- color line at given column
-vim.opt.signcolumn = "auto"         -- shows sign column on left side if anything to show
+vim.opt.signcolumn = "no"          -- shows sign column on left side if anything to show "auto"
 vim.opt.ruler = false               -- set the ruler
 vim.opt.tabpagemax = 50             -- max number of tab pages can be opened from term
 vim.opt.number = true               -- set numbered lines
