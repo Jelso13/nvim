@@ -2,9 +2,11 @@
 
 -- set the leader key
 vim.g.mapleader = " "
+vim.g.maplocalleader = "-"
 
 -- open netrw with leader pv
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Project View" })
+vim.keymap.set("n", "<localleader>pv", vim.cmd.Ex, { desc = "Project View" })
 
 -- Resize with arrows
 vim.keymap.set("n", "<C-Up>", ":resize -2<CR>")

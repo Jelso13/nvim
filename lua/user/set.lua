@@ -68,7 +68,6 @@ vim.opt.timeoutlen = 500            -- time to wait for a mapped sequence to com
 
 
 
-
 -- MISC OPTIONS
 vim.opt.history = 1000              -- increase the undo limit
 vim.opt.nrformats = "bin,hex"       -- sets the formats that can be used by Ctrl-A and Ctrl-X
@@ -80,15 +79,13 @@ vim.opt.updatetime = 50             -- updatetime {default 4000ms} noticable del
 
 -- POSSIBLY MOVE THIS
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "-"
 
 -- NETRW
 vim.g.netrw_browse_split = 0        -- in the default popup window rather than split or something
 vim.g.netrw_banner = 0              -- remove the banner fofalser netrw
 -- set netrw to show the line numbers, remove color column
 vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- default values of noma nomod nu nowrap ro nobl
-
-
 
 -- vim.opt.shortmess:append "c"     -- shortmess related to messages for refresh
 

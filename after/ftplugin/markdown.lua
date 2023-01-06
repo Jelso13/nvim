@@ -27,6 +27,10 @@ vim.keymap.set("v", "<leader>mt", "<cmd>MkdnTagSpan<cr>", { desc = "make tag" })
 vim.keymap.set("v", "<leader>md", "<cmd>MkdnDestroyLink<cr>", { desc = "destroy link" })
 vim.keymap.set("n", "<cr>", "<cmd>MkdnToggleToDo<cr>", { desc = "toggle todo" })
 
+-- Table stuff
+vim.keymap.set("i", "<Tab>", "<cmd>MkdnTableNextCell<cr>", { desc = "go to next cell" })
+vim.keymap.set("i", "<S-Tab>", "<cmd>MkdnTablePrevCell<cr>", { desc = "go to prev cell" })
+
 -- opens obsidian
 M = {}
 M.ObsidianOpen = function()
