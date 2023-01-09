@@ -3,6 +3,7 @@ if not status_ok then
     return
 end
 
+local luasnip = require("luasnip")
 local Job = require("plenary.job")
 
 -- ###########################################################################
@@ -27,8 +28,37 @@ vim.keymap.set("v", "<leader>mt", "<cmd>MkdnTagSpan<cr>", { desc = "make tag" })
 vim.keymap.set("v", "<leader>md", "<cmd>MkdnDestroyLink<cr>", { desc = "destroy link" })
 vim.keymap.set("n", "<cr>", "<cmd>MkdnToggleToDo<cr>", { desc = "toggle todo" })
 
+
+-- vim.keymap.set( "n", "gf", function()
+--     if obsidian.util.cursor_on_markdown_link() then
+--       return "<cmd>ObsidianFollowLink<CR>"
+--     else
+--       return "gf"
+--     end
+--   end,
+--   { noremap = false, expr = true}
+-- )
+
 -- Table stuff
-vim.keymap.set("i", "<Tab>", "<cmd>MkdnTableNextCell<cr>", { desc = "go to next cell" })
+vim.keymap.set("i", "<Tab>",function ()
+    local line = vim.api.nvim_get_current_line()
+    -- if there are jumpable luasnip locations then go there
+    if luasnip.jumpable(1) then
+        return "<Plug>luasnip-jump-next"
+    -- if the current line is in a table then go to next cell
+    elseif mkdnflow.tables.isPartOfTable(line) then
+        return "<cmd>MkdnTableNextCell<cr>"
+    -- otherwise <tab>
+    else
+        return "<Tab>"
+    end
+end, { desc = "go to next cell if part of table", expr = true })
+
+-- -- Jump forward in through tabstops in insert and visual mode with Control-f
+-- vim.cmd[[imap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>']]
+-- vim.cmd[[smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>']]
+
+-- vim.keymap.set("i", "<Tab>", "<cmd>MkdnTableNextCell<cr>", { desc = "go to next cell" })
 vim.keymap.set("i", "<S-Tab>", "<cmd>MkdnTablePrevCell<cr>", { desc = "go to prev cell" })
 
 -- opens obsidian

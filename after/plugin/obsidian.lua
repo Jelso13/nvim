@@ -44,8 +44,9 @@ vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<cr>", {desc="Open note"})
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>", {desc="Create new note"})
 vim.keymap.set("v", "<leader>ol", "<cmd>ObsidianLinkNew<cr>", {desc="link new note"})
 vim.keymap.set("v", "<leader>oc", "<cmd>ObsidianCheck<cr>", {desc="link note"})
+-- vim.keymap.set("n", "gf", "<cmd>ObsidianFollowLink<cr>", {desc="follow note"})
 -- vim.keymap.set( "n", "gf", function()
---     if require('obsidian').util.cursor_on_markdown_link() then
+--     if obsidian.util.cursor_on_markdown_link() then
 --       return "<cmd>ObsidianFollowLink<CR>"
 --     else
 --       return "gf"

@@ -83,7 +83,7 @@ local setup = {
         -- format when the cursor moves with next/prev cell
         format_on_move = true,
         -- whether to add a row when navigating past last row
-        auto_extend_rows = false,
+        auto_extend_rows = true,
         -- whether to add a row when navigating past last col
         auto_extend_cols = false
     },
