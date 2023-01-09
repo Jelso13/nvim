@@ -17,5 +17,6 @@ require 'nvim-treesitter.configs'.setup {
         -- regex highlighting
         -- Potentially want this for obsidian
         additional_vim_regex_highlighting = { "markdown" },
+        disable = { "latex" }
     },
 }

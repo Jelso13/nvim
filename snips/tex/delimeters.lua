@@ -28,6 +28,10 @@ return {
     s({ trig = "([^%a])l%{", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
         fmta( "<>\\left\\{<>\\right\\", { f(function(_, snip) return snip.captures[1] end), d(1, get_visual), })
     ),
+    -- LEFT/RIGHT BAR
+    s({ trig = "([^%a])l%|", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+        fmta( "<>\\left|<>\\right|", { f(function(_, snip) return snip.captures[1] end), d(1, get_visual), })
+    ),
     -- BIG PARENTHESES
     s({ trig = "([^%a])b%(", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
         fmta( "<>\\big(<>\\big", { f(function(_, snip) return snip.captures[1] end), d(1, get_visual), })
