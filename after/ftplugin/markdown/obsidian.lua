@@ -10,6 +10,7 @@ end
 
 local setup = {
     dir = "~/Vault/",
+    daily_notes = { folder = "Misc/daily_notes"},
     completion = {
         nvim_cmp = true,
     },

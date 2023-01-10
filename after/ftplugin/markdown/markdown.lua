@@ -1,3 +1,9 @@
+
+
+-- ###########################################################################
+-- Have context when in a notebook/obsidian/vault and when in a standard readme file so that not everything overlaps
+-- ###########################################################################
+
 local status_ok, mkdnflow = pcall(require, "mkdnflow")
 if not status_ok then
     return
