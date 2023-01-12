@@ -84,6 +84,6 @@ return require('packer').startup(function(use)
     use('lervag/vimtex')
 
     -- zen mode (mainly for centering on a wide screen)
-    -- use('folke/zen-mode.nvim')
+    use('folke/zen-mode.nvim')
 
 end)

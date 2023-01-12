@@ -1,3 +1,10 @@
+require("tokyonight").setup({
+    transparent = true,
+    styles = {
+        comments = { italic = true },
+    },
+})
+
 -- sets the colorscheme and makes the background transparent
 
 function ColorMyPencils(color)

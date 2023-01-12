@@ -8,6 +8,33 @@ if not status_ok then
     return
 end
 
+-- This is the code for adding the yaml frontmatter in an autocommand
+--
+-- local group = vim.api.nvim_create_augroup("obsidian_setup", { clear = true })
+-- 
+-- -- Add missing frontmatter on BufWritePre
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+--   group = group,
+--   pattern = tostring(self.dir / "**.md"),
+--   callback = function()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     local note = obsidian.note.from_buffer(bufnr, self.dir)
+--     if note:should_save_frontmatter() and self.opts.disable_frontmatter ~= true then
+--       local frontmatter = nil
+--       if self.opts.note_frontmatter_func ~= nil then
+--         frontmatter = self.opts.note_frontmatter_func(note)
+--       end
+--       local lines = note:frontmatter_lines(nil, frontmatter)
+--       vim.api.nvim_buf_set_lines(bufnr, 0, note.frontmatter_end_line and note.frontmatter_end_line or 0, false, lines)
+--       echo.info "Updated frontmatter"
+--     elseif self.opts.disable_frontmatter then
+--       echo.info "Frontmatter skipped"
+--     end
+--   end,
+-- })
+
+
+
 local setup = {
     dir = "~/Vault/",
     daily_notes = { folder = "Misc/daily_notes"},

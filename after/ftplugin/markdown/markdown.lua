@@ -25,6 +25,7 @@ vim.opt.textwidth = 80 -- set the text width to be 80 characters
 -- follows a link, creates link from word or visual selection * potentially useless
 --  in insert mode can interface with table
 vim.keymap.set({ "n", "v" }, "<leader>ml", "<cmd>MkdnEnter<cr>", { desc = "make link" })
+vim.keymap.set({ "n", "v" }, "<leader>mm", "<cmd>MkdnMoveSource<cr>", { desc = "make link" })
 
 -- think this one breaks harpoon and the link generation
 vim.keymap.set("n", "gf", "<cmd>MkdnFollowLink<cr>", { desc = "follow link" })
