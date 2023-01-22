@@ -52,7 +52,8 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lua' }, -- completion for nvim api
 
             -- Snippets
-            { 'L3MON4D3/LuaSnip', tag="v<CurrentMajor>.*" }, -- correct v
+            -- { 'L3MON4D3/LuaSnip', tag = "v<CurrentMajor>.*" }, -- correct v
+            { 'L3MON4D3/LuaSnip'}, -- correct v
             -- { 'rafamadriz/friendly-snippets' }, -- snippet database
         }
     }
@@ -63,10 +64,10 @@ return require('packer').startup(function(use)
 
     -- gitsigns
     -- use('lewis6991/gitsigns.nvim')
-    
+
     -- autopairs
     use('windwp/nvim-autopairs')
-    
+
     -- lualine
     use('nvim-lualine/lualine.nvim') -- change the status line
     use('kyazdani42/nvim-web-devicons') -- icons for lualine
@@ -76,7 +77,7 @@ return require('packer').startup(function(use)
 
     -- Obsidian
     use('epwalsh/obsidian.nvim')
-    
+
     -- Markdown plugin (alt to obsidian)
     use('jakewvincent/mkdnflow.nvim')
 
@@ -85,5 +86,13 @@ return require('packer').startup(function(use)
 
     -- zen mode (mainly for centering on a wide screen)
     use('folke/zen-mode.nvim')
+
+    -- firenvim
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end,
+        -- opt = true,
+        -- setup = [[vim.cmd('packadd firenvim')]],
+    }
 
 end)

@@ -87,6 +87,10 @@ vim.g.netrw_banner = 0              -- remove the banner fofalser netrw
 -- set netrw to show the line numbers, remove color column
 vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- default values of noma nomod nu nowrap ro nobl
 
+
+-- SPELLING
+vim.opt.spelllang="en_gb"
+
 -- vim.opt.shortmess:append "c"     -- shortmess related to messages for refresh
 
 

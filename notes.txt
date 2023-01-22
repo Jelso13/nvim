@@ -1,5 +1,4 @@
 
-
 current things that need changing:
 
     - obsidian: work out how to handle notes that do not yet exist
