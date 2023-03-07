@@ -18,6 +18,7 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- ** TODO change this so that can be prepended by a number - "6J" should move the selected line down by 6
 -- move lines that are visually selected
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move visually selected line down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move visually selected line up" })

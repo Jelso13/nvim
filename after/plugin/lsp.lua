@@ -6,7 +6,7 @@ lsp.preset('recommended')
 
 -- the language servers I want installed
 lsp.ensure_installed({
-    'sumneko_lua', -- lua
+    'lua_ls', -- lua
     'rust_analyzer', -- rust
     'pyright', -- python
     'eslint', -- javascript

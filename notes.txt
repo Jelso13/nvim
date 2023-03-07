@@ -14,12 +14,10 @@ current things that need changing:
 
     - add auto imports for languages (especially latex packages)
 
-    -- -- -- -- -- -- -- 
         mkdnflow
             
             <cr> for tick list not working
 
-    -- -- -- -- -- -- -- 
         vimtex
 
             citation completion not working
@@ -27,3 +25,5 @@ current things that need changing:
             open pdf at position
 
     
+Some interesting stuff here
+https://medium.com/linux-with-michael/must-have-neovim-keymaps-51c283394070

@@ -45,7 +45,7 @@ local setup = {
         local out = { id = note.id, aliases = note.aliases, tags = note.tags }
         -- `note.metadata` contains any manually added fields in the frontmatter.
         -- So here we just make sure those fields are kept in the frontmatter.
-        if note.metadata ~= nil and util.table_length(note.metadata) > 0 then
+        if note.metadata ~= nil and obsidian.util.table_length(note.metadata) > 0 then
             for k, v in pairs(note.metadata) do
                 out[k] = v
             end
@@ -82,6 +82,8 @@ vim.keymap.set("v", "<leader>oc", "<cmd>ObsidianCheck<cr>", {desc="link note"})
 --   end,
 --   { noremap = false, expr = true}
 -- )
+
+
 vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", {desc="get backlinks"})
 
 obsidian.setup(setup)
