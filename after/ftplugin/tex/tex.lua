@@ -16,6 +16,8 @@
 -- ]]               |<plug>(vimtex-delim-close)|                    `i`
 -- <F8>             |<plug>(vimtex-delim-add-modifiers)|            `n`
 --
+vim.opt.wrap = true -- wrap of long lines
+vim.opt.textwidth = 80 -- set the text width to be 80 characters
 
 -- text objects
 vim.keymap.set({"x","o"}, "ac", "<plug>(vimtex-ac)", { desc = "around commands" })

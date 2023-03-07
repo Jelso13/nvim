@@ -12,6 +12,8 @@ current things that need changing:
 
     - allow telescope grep search to add all items to quickfix list
 
+    - add auto imports for languages (especially latex packages)
+
     -- -- -- -- -- -- -- 
         mkdnflow
             
@@ -24,4 +26,4 @@ current things that need changing:
             realtime compilation*
             open pdf at position
 
-
+    

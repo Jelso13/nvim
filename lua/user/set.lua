@@ -91,6 +91,11 @@ vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- default values o
 -- SPELLING
 vim.opt.spelllang="en_gb"
 
+-- Font
+-- set font to meslo nerd font size 11 (for firenvim)
+vim.opt.guifont="MesloLGS NF:11"
+
+
 -- vim.opt.shortmess:append "c"     -- shortmess related to messages for refresh
 
 
