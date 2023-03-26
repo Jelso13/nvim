@@ -95,4 +95,10 @@ return require('packer').startup(function(use)
         -- setup = [[vim.cmd('packadd firenvim')]],
     }
 
+    -- rust tools so that lsp works with standalone rust files (firenvim)
+    use('simrat39/rust-tools.nvim')
+
+    -- github copilot
+    use('github/copilot.vim')
+
 end)
