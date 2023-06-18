@@ -22,6 +22,9 @@ return require('packer').startup(function(use)
         end
     })
 
+    -- colors in terminal
+    use('norcalli/nvim-colorizer.lua')
+
     -- treesitter
     use({ 'nvim-treesitter/nvim-treesitter', run = 'TSUpdate' })
     use('nvim-treesitter/playground')
