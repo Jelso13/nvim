@@ -15,9 +15,13 @@
 -- <F7>             |<plug>(vimtex-cmd-create)|                     `nxi
 -- ]]               |<plug>(vimtex-delim-close)|                    `i`
 -- <F8>             |<plug>(vimtex-delim-add-modifiers)|            `n`
---
+
+-- options for soft-wrap at 80 columns
 vim.opt.wrap = true -- wrap of long lines
-vim.opt.textwidth = 80 -- set the text width to be 80 characters
+vim.opt.textwidth = 0 -- set the text width to be 80 characters
+vim.opt.wrapmargin = 0 -- set the text width to be 80 characters
+vim.opt.linebreak = true -- wrap at word boundaries
+vim.opt.columns = 80 -- set the number of columns to be 80
 
 -- text objects
 vim.keymap.set({"x","o"}, "ac", "<plug>(vimtex-ac)", { desc = "around commands" })
