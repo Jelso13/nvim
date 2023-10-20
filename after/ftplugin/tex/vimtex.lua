@@ -8,7 +8,24 @@ vim.cmd([[
         \ ['\left', '\right'],
         \ ['\big', '\big'],
         \]
+    let g:vimtex_compiler_latexmk = {
+        \ 'options' : [
+        \   '-pdf',
+        \   '-shell-escape',
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+        \}
 ]])
+
+vim.g.vimtex_compiler_latexmk = {
+    options = {
+        '-pdf',
+        '-shell-escape',
+    },
+}
 
 -- g:vimtex_quickfix_open_on_warning = 0 only opens quickfix menu on errors
 --

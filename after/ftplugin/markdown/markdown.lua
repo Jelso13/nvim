@@ -53,7 +53,7 @@ vim.keymap.set("i", "<Tab>",function ()
     if luasnip.jumpable(1) then
         return "<Plug>luasnip-jump-next"
     -- if the current line is in a table then go to next cell
-    elseif mkdnflow.tables.isPartOfTable(line) then
+    elseif mkdnflow and mkdnflow.tables and mkdnflow.tables.isPartOfTable(line) then
         return "<cmd>MkdnTableNextCell<cr>"
     -- otherwise <tab>
     else

@@ -156,7 +156,6 @@ vim.diagnostic.config({
 -- 	end
 -- end
 
-
 local rt = require("rust-tools")
 
 rt.setup({
