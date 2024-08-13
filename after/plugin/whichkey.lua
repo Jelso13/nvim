@@ -30,11 +30,11 @@ local setup = {
         presets = {
             -- adds help for operators like d, y, ... and registers them for
             -- motion / text object completion
-            operators = false,
+            operators = true,
             -- adds help for motions
-            motions = false,
+            motions = true,
             -- help for text objects triggered after entering an operator
-            text_objects = false,
+            text_objects = true,
             -- default bindings on <c-w>
             windows = false,
             -- misc bindings to work with windows
@@ -181,8 +181,6 @@ local mappings = {
     --     f = { "Go to File" },
     -- },
     -- K = { "get info (change this one)" },
-
-
 }
 
 which_key.setup(setup)

@@ -29,7 +29,7 @@ vim.keymap.set({ "n", "v" }, "<leader>mm", "<cmd>MkdnMoveSource<cr>", { desc = "
 
 -- think this one breaks harpoon and the link generation
 vim.keymap.set("n", "gf", "<cmd>MkdnFollowLink<cr>", { desc = "follow link" })
-vim.keymap.set("n", "<Tab>", "<cmd>MkdnNextLink<cr>", { desc = "next link" })
+-- vim.keymap.set("n", "<Tab>", "<cmd>MkdnNextLink<cr>", { desc = "next link" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>MkdnPrevLink<cr>", { desc = "prev link" })
 vim.keymap.set("v", "<leader>mt", "<cmd>MkdnTagSpan<cr>", { desc = "make tag" })
 vim.keymap.set("v", "<leader>md", "<cmd>MkdnDestroyLink<cr>", { desc = "destroy link" })

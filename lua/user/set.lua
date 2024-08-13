@@ -28,7 +28,7 @@ vim.opt.scrolloff = 5 				-- keep 5 lines when scrolling
 -- vim.opt.sidescrolloff = 10          -- keep 5 columns when side scrolling
 vim.opt.linebreak = true            -- avoid wrapping a line in the middle of a word
 vim.opt.wrap = false 				-- prevents wrapping of long lines
-vim.opt.conceallevel = 0            -- makes `` visible in markdown files
+vim.opt.conceallevel = 1            -- makes `` visible in markdown files
 
 
 -- USER INTERFACE OPTIONS
@@ -51,6 +51,20 @@ vim.opt.mouse = "a"                 -- enable mouse for scrolling and resizing
 
 -- CODE FOLDING OPTIONS
 -- vim.opt.foldmethod="indent"         -- fold based on indentation levels
+-- The below line creates a group of autocommands that will save and load the view of the file, clear the group before creating it
+vim.api.nvim_create_augroup('remember_folds', { clear = true })
+-- The below line creates an autocommand that will save the view of the file when the window is closed
+vim.api.nvim_create_autocmd('BufWinLeave', {
+  group = 'remember_folds',
+  pattern = '*',
+  command = 'mkview'
+})
+-- The below line creates an autocommand that will load the view of the file when the window is entered
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = 'remember_folds',
+  pattern = '*',
+  command = 'silent! loadview'
+})
 
 -- CLIPBOARD OPTIONS
 vim.opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard
