@@ -81,3 +81,6 @@ vim.keymap.set("v", ">", ">gv")
 -- test for ctrl backspace workign in insert mode
 vim.keymap.set("i", "<C-h>", "<C-w>")
 -- vim.keymap.set("i", "<C-?>", "<C-w>")
+
+-- fold bindings for moving over folds
+-- vim.keymap.set("n", "[z", )
