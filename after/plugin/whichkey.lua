@@ -1,210 +1,196 @@
--- ########################
--- eventually change so that this is optionally integrated with a
--- function for handling bindings
-
-
--- Add the description for the starting of a sequence like <leader>f to be 'find'
-
+-- -- #######################################################
+-- -- need to organise this better
+-- --      <leader>g should be git
+-- --      g should be navigation 'go'
+-- --      p should be project related
+-- --      u undo tree
+-- --      k for knowledge - info about vars and defs etc
+-- --
+-- --
+-- --      maybe:
+-- --          f should be find
+-- --          s should be substitute (in file, current word, across files)
+-- --
+-- -- #######################################################
 
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
     return
 end
 
-local setup = {
-    plugins = {
-        -- shows a list of your marks on ' and `
-        marks = true,
-        -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-        registers = true,
-        spelling = {
-            -- enabling this will show WhichKey when pressing z= to select
-            -- spelling suggestions
-            enabled = true,
-            -- how many suggestions should be shown in the list?
-            suggestions = 20,
-        },
-        -- the presets plugin, adds help for a bunch of default keybindings
-        -- in Neovim
-        -- No actual key bindings are created
-        presets = {
-            -- adds help for operators like d, y, ... and registers them for
-            -- motion / text object completion
-            operators = true,
-            -- adds help for motions
-            motions = true,
-            -- help for text objects triggered after entering an operator
-            text_objects = true,
-            -- default bindings on <c-w>
-            windows = false,
-            -- misc bindings to work with windows
-            nav = false,
-            -- bindings for folds, spelling and others prefixed with z
-            z = true,
-            -- bindings for prefixed with g
-            g = true,
-        },
+which_key.setup({
+  preset = "classic",
+  -- Delay before showing the popup. Can be a number or a function that returns a number.
+  delay = function(ctx)
+    return ctx.plugin and 0 or 200
+  end,
+  filter = function(mapping)
+    -- example to exclude mappings without a description
+    -- return mapping.desc and mapping.desc ~= ""
+    return true
+  end,
+  --- You can add any mappings here, or use `require('which-key').add()` later
+  spec = {},
+  -- show a warning when issues were detected with your mappings
+  notify = true,
+  -- Which-key automatically sets up triggers for your mappings.
+  -- But you can disable this and setup the triggers manually.
+  -- Check the docs for more info.
+  triggers = {
+    { "<auto>", mode = "nxsot" },
+  },
+  -- Start hidden and wait for a key to be pressed before showing the popup
+  -- Only used by enabled xo mapping modes.
+  defer = function(ctx)
+    return ctx.mode == "V" or ctx.mode == "<C-V>"
+  end,
+  plugins = {
+    marks = true, -- shows a list of your marks on ' and `
+    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+    -- No actual key bindings are created
+    spelling = {
+      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      suggestions = 20, -- how many suggestions should be shown in the list?
     },
-    -- add operators that will trigger motion and text object completion
-    -- to enable all native operators, set the preset / operators plugin above
-    -- operators = { gc = "Comments" },
-    key_labels = {
-        -- override the label used to display some keys.
-        -- It doesn't effect WK in any other way.
-        -- For example:
-        -- ["<space>"] = "SPC",
-        -- ["<cr>"] = "RET",
-        -- ["<tab>"] = "TAB",
+    presets = {
+      operators = true, -- adds help for operators like d, y, ...
+      motions = true, -- adds help for motions
+      text_objects = true, -- help for text objects triggered after entering an operator
+      windows = true, -- default bindings on <c-w>
+      nav = true, -- misc bindings to work with windows
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
     },
-    icons = {
-        -- symbol used in the command line area that shows your active key combo
-        breadcrumb = "»",
-        -- symbol used between a key and it's label
-        separator = "➜",
-        -- symbol prepended to a group
-        group = "+",
+  },
+  win = {
+    -- don't allow the popup to overlap with the cursor
+    no_overlap = false,
+    -- width = 1,
+    -- height = { min = 4, max = 25 },
+    -- col = 0,
+    -- row = math.huge,
+    -- -- none, single, double, shadow
+    border = "rounded",
+    padding = { 2, 2, 2, 2 },
+    -- margin = {}
+    title = true,
+    title_pos = "center",
+    zindex = 1000,
+    -- Additional vim.wo and vim.bo options
+    bo = {},
+    wo = {
+      winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
     },
-    popup_mappings = {
-        -- binding to scroll down inside the popup
-        scroll_down = "<c-d>",
-        -- binding to scroll up inside the popup
-        scroll_up = "<c-u>",
+  },
+  layout = {
+    -- width = { min = 20 }, -- min and max width of the columns
+    width = {min=20, max=50},
+    height = {min=4, max=25},
+    -- align = "left",
+    spacing = 3, -- spacing between columns
+  },
+  keys = {
+    scroll_down = "<c-d>", -- binding to scroll down inside the popup
+    scroll_up = "<c-u>", -- binding to scroll up inside the popup
+  },
+  --- Mappings are sorted using configured sorters and natural sort of the keys
+  --- Available sorters:
+  --- * local: buffer-local mappings first
+  --- * order: order of the items (Used by plugins like marks / registers)
+  --- * group: groups last
+  --- * alphanum: alpha-numerical first
+  --- * mod: special modifier keys last
+  --- * manual: the order the mappings were added
+  --- * case: lower-case first
+  sort = { "local", "order", "group", "alphanum", "mod" },
+  expand = 0, -- expand groups when <= n mappings
+  -- expand = function(node)
+  --   return not node.desc -- expand all nodes without a description
+  -- end,
+  -- Functions/Lua Patterns for formatting the labels
+  replace = {
+    key = {
+      function(key)
+        return require("which-key.view").format(key)
+      end,
+      -- { "<Space>", "SPC" },
+      -- { "<leader>", "LEADER"},
     },
-    -- settings for how the window looks on popup
-    window = {
-        -- none, single, double, shadow
-        border = "rounded",
-        -- bottom, top
-        position = "bottom",
-        -- extra window margin [top, right, bottom, left]
-        margin = { 1, 0, 1, 0 },
-        -- extra window padding [top, right, bottom, left]
-        padding = { 2, 2, 2, 2 },
-        winblend = 0,
+    desc = {
+      { "<Plug>%(?(.*)%)?", "%1" },
+      { "^%+", "" },
+      { "<[cC]md>", "" },
+      { "<[cC][rR]>", "" },
+      { "<[sS]ilent>", "" },
+      { "^lua%s+", "" },
+      { "^call%s+", "" },
+      { "^:%s*", "" },
     },
-    layout = {
-        -- min and max height of the columns
-        height = { min = 4, max = 25 },
-        -- min and max width of the columns
-        width = { min = 20, max = 50 },
-        -- spacing between columns
-        spacing = 3,
-        -- align columns left, center or right
-        align = "left",
+  },
+  icons = {
+    breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+    separator = "➜", -- symbol used between a key and it's label
+    group = "+", -- symbol prepended to a group
+    ellipsis = "…",
+    -- set to false to disable all mapping icons,
+    -- both those explicitely added in a mapping
+    -- and those from rules
+    mappings = true,
+    --- See `lua/which-key/icons.lua` for more details
+    --- Set to `false` to disable keymap icons from rules
+    rules = {},
+    -- use the highlights from mini.icons
+    -- When `false`, it will use `WhichKeyIcon` instead
+    colors = true,
+    -- used by key format
+    keys = {
+      Up = " ",
+      Down = " ",
+      Left = " ",
+      Right = " ",
+      C = "󰘴 ",
+      M = "󰘵 ",
+      D = "󰘳 ",
+      S = "󰘶 ",
+      CR = "󰌑 ",
+      Esc = "󱊷 ",
+      ScrollWheelDown = "󱕐 ",
+      ScrollWheelUp = "󱕑 ",
+      NL = "󰌑 ",
+      BS = "󰁮",
+      Space = "󱁐 ",
+      Tab = "󰌒 ",
+      F1 = "󱊫",
+      F2 = "󱊬",
+      F3 = "󱊭",
+      F4 = "󱊮",
+      F5 = "󱊯",
+      F6 = "󱊰",
+      F7 = "󱊱",
+      F8 = "󱊲",
+      F9 = "󱊳",
+      F10 = "󱊴",
+      F11 = "󱊵",
+      F12 = "󱊶",
     },
-    -- enable this to hide mappings for which you didn't specify a label
-    ignore_missing = false,
-    -- hide mapping boilerplate
-    hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
-    -- show help message on the command line when the popup is visible
-    show_help = true,
-    -- automatically setup triggers
-    triggers = "auto",
-    -- triggers = {"<leader>"} -- or specify a list manually
-    triggers_blacklist = {
-        -- list of mode / prefixes that should never be hooked by WhichKey
-        -- this is mostly relevant for key maps that start with a native binding
-        -- most people should not need to change this
-        i = { "j", "k" },
-        v = { "j", "k" },
-    },
-}
-
-local opts = {
-    mode = "n", -- NORMAL mode
-    -- prefix = "<leader>",
-    prefix = "",
-    -- Global mappings. Specify a buffer number for buffer local mappings
-    buffer = nil,
-    -- use `silent` when creating keymaps
-    silent = true,
-    -- use `noremap` when creating keymaps
-    noremap = true,
-    -- use `nowait` when creating keymaps
-    nowait = true,
-}
-
-
--- vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
---
--- -- navigation in harpoon
--- vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
--- vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
--- vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
--- vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
-
--- need to include ctrl and bindings for diffirente modes
-
-
--- #######################################################
--- need to organise this better
---      <leader>g should be git
---      g should be navigation 'go'
---      p should be project related
---      u undo tree
---      k for knowledge - info about vars and defs etc
---
---
---      maybe:
---          f should be find
---          s should be substitute (in file, current word, across files)
---
--- #######################################################
+  },
+  show_help = true, -- show a help message in the command line for using WhichKey
+  show_keys = true, -- show the currently pressed key and its label as a message in the command line
+  -- disable WhichKey for certain buf types and file types.
+  disable = {
+    ft = {},
+    bt = {},
+  },
+  debug = false, -- enable wk.log in the current directory
+})
 
 local mappings = {
-    -- ["<leader>a"] = { "Add Harpoon File" },
-    -- ["<leader>d"] = { "Delete to Abyss" },
-    -- ["<C-e>"] = { "Harpoon Menu" },
-    -- ["<C-h>"] = { "Harpoon File 1" },
-    -- ["<C-t>"] = { "Harpoon File 2" },
-    -- ["<C-n>"] = { "Harpoon File 3" },
-    -- ["<C-s>"] = { "Harpoon File 4" },
-    -- ["<C-f>"] = { "Open file in new tmux session" },
-    -- ["<C-p>"] = { "Search in git repo" },
-    -- ["<leader>p"] = {
-    --     name = "project",
-    --     f = { "project file search" },
-    --     s = { "project search" },
-    --     v = { "project view" },
-    -- },
-    -- ["<leader>f"] = { "Format the current file" },
-    -- ["<leader>s"] = { "Sub word" },
-    -- ["<leader>u"] = { "Undo tree" },
-    -- ["<leader>y"] = { "yank global" },
-    -- ["<leader>x"] = { "set executable" },
-    ["<leader>g"] = { name = "git" },
-    ["<leader>l"] = { name = "lsp" },
-    ["<leader>o"] = { name = "obsidian" },
-    ["<leader>p"] = { name = "project" },
-    ["<leader>f"] = { name = "find" },
-    -- g = {
-    --     f = { "Go to File" },
-    -- },
-    -- K = { "get info (change this one)" },
-}
+    { "<leader>f", group = "find", nowait = true, remap = false },
+    { "<leader>g", group = "git", nowait = true, remap = false },
+    { "<leader>l", group = "lsp", nowait = true, remap = false },
+    { "<leader>o", group = "obsidian", nowait = true, remap = false },
+    { "<leader>p", group = "project", nowait = true, remap = false },
+  }
+which_key.add(mappings)
 
-which_key.setup(setup)
-which_key.register(mappings, opts)
-
-
--- adding stuff for different modes
-
--- local xopts = {
---     mode = "x", -- block select mode
---     -- prefix = "<leader>",
---     prefix = "",
---     -- Global mappings. Specify a buffer number for buffer local mappings
---     buffer = nil,
---     -- use `silent` when creating keymaps
---     silent = true,
---     -- use `noremap` when creating keymaps
---     noremap = true,
---     -- use `nowait` when creating keymaps
---     nowait = true,
--- }
--- 
--- local xmappings = {
---     -- ["<leader>y"] = { "Yank to global register" }
--- }
-
--- which_key.register(xmappings, xopts)

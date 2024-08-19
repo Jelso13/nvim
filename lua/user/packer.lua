@@ -83,10 +83,11 @@ return require('packer').startup(function(use)
     use('kyazdani42/nvim-web-devicons') -- icons for lualine
 
     -- which-key
-    use('folke/which-key.nvim')
+    use{'folke/which-key.nvim'}
+    use { 'echasnovski/mini.icons', version = false }
 
-    -- Obsidian
-    use('epwalsh/obsidian.nvim')
+    -- -- Obsidian
+    -- use('epwalsh/obsidian.nvim')
 
     -- Markdown plugin (alt to obsidian)
     use('jakewvincent/mkdnflow.nvim')
