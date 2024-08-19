@@ -54,6 +54,27 @@ vim.opt.mouse = "a"                 -- enable mouse for scrolling and resizing
 vim.opt.foldcolumn="1"
 -- vim.opt.foldmethod="indent"         -- fold based on indentation levels
 -- The below line creates a group of autocommands that will save and load the view of the file, clear the group before creating it
+-- Save view when leaving a buffer
+local foldable_types = { "*.py", "*.js", "*.rs", "*.tex", "*.md", "*.c", "*.cpp", 
+    "*.h", "*.sh", "*.vim", "*.lua", "*.yaml", "*.yml", "*.json", "*.toml", 
+    "*.html", "*.css"
+}
+-- Define an augroup to group the autocommands
+local group = vim.api.nvim_create_augroup("SaveLoadView", { clear = true })
+
+-- Save view when leaving a buffer
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  group = group,
+  pattern = foldable_types,
+  command = "mkview"
+})
+
+-- Load view when entering a buffer
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = group,
+  pattern = foldable_types,
+  command = "silent! loadview"
+})
 -- vim.api.nvim_create_augroup('remember_folds', { clear = true })
 -- -- the below line creates an autocommand that will save the view of the file when the window is closed
 -- vim.api.nvim_create_autocmd('bufwinleave', {
