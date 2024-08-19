@@ -1,19 +1,33 @@
-local mark = require("harpoon.mark")
-local ui = require("harpoon.ui")
+local harpoon = require("harpoon")
 
--- 'leader-a' to add file to harpoon
-vim.keymap.set("n", "<leader>a", mark.add_file, {desc="add file to harpoon"})
+-- REQUIRED
+harpoon:setup()
+-- REQUIRED
 
--- toggles the menu that shows harpoon buffers
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
--- vim.keymap.set("n","<leader>tc", function() require("harpoon.cmd-ui").toggle_quick_menu() end)
+vim.keymap.set(
+    "n", "<leader>a", function() harpoon:list():add() end, { desc = "Add a file to harpoon" }
+    )
+vim.keymap.set(
+    "n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+    { desc = "Toggle the UI for Harpoon" }
+    )
 
--- navigation in harpoon
-vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
-vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
-vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
-vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
-
+vim.keymap.set(
+    "n", "<C-h>", function() harpoon:list():select(1) end,
+    { desc = "Go to the first harpoon entry" }
+)
+vim.keymap.set(
+    "n", "<C-t>", function() harpoon:list():select(2) end,
+    { desc = "Go to the second harpoon entry" }
+)
+vim.keymap.set(
+    "n", "<C-n>", function() harpoon:list():select(3) end,
+    { desc = "Go to the third harpoon entry" }
+)
+vim.keymap.set(
+    "n", "<C-s>", function() harpoon:list():select(4) end,
+    { desc = "Go to the fourth harpoon entry" }
+)
 
 -- for handling code testing
 -- lua require("harpoon.tmux").gotoTerminal(1)             -- goes to the first tmux window

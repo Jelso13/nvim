@@ -54,29 +54,29 @@ vim.opt.mouse = "a"                 -- enable mouse for scrolling and resizing
 vim.opt.foldcolumn="1"
 -- vim.opt.foldmethod="indent"         -- fold based on indentation levels
 -- The below line creates a group of autocommands that will save and load the view of the file, clear the group before creating it
-vim.api.nvim_create_augroup('remember_folds', { clear = true })
--- the below line creates an autocommand that will save the view of the file when the window is closed
-vim.api.nvim_create_autocmd('bufwinleave', {
-  group = 'remember_folds',
-  pattern = '*',
-  desc = "save view of file when window is closed",
-  callback = function()
-      if vim.bo.buftype == '' then
-          vim.cmd(' mkview')
-      end
-  end
-})
--- the below line creates an autocommand that will load the view of the file when the window is entered
-vim.api.nvim_create_autocmd('bufwinenter', {
-  group = 'remember_folds',
-  pattern = '*',
-  callback = function()
-      if vim.bo.buftype == '' then
-          vim.cmd('silent loadview')
-      end
-  end,
-  desc = "load view of file when window is entered"
-})
+-- vim.api.nvim_create_augroup('remember_folds', { clear = true })
+-- -- the below line creates an autocommand that will save the view of the file when the window is closed
+-- vim.api.nvim_create_autocmd('bufwinleave', {
+--   group = 'remember_folds',
+--   pattern = '*',
+--   desc = "save view of file when window is closed",
+--   callback = function()
+--       if vim.bo.buftype == '' then
+--           vim.cmd('mkview')
+--       end
+--   end
+-- })
+-- -- the below line creates an autocommand that will load the view of the file when the window is entered
+-- vim.api.nvim_create_autocmd('bufwinenter', {
+--   group = 'remember_folds',
+--   pattern = '*',
+--   callback = function()
+--       if vim.bo.buftype == '' then
+--           vim.cmd('silent loadview')
+--       end
+--   end,
+--   desc = "load view of file when window is entered"
+-- })
 
 -- CLIPBOARD OPTIONS
 vim.opt.clipboard = "unnamedplus"   -- allows neovim to access the system clipboard

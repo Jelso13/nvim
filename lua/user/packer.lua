@@ -30,7 +30,14 @@ return require('packer').startup(function(use)
     use('nvim-treesitter/playground')
 
     -- harpoon
-    use('theprimeagen/harpoon')
+    -- use('theprimeagen/harpoon') -- deprecated
+    use {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        requires = {
+            {"nvim-lua/plenary.nvim"}
+        }
+    }
 
     -- undotree
     use('mbbill/undotree')
