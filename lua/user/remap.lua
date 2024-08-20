@@ -85,5 +85,5 @@ vim.keymap.set("i", "<C-h>", "<C-w>")
 -- fold bindings for moving over folds
 -- vim.keymap.set("n", "[z", )
 
-vim.keymap.set("n", "gc", "<cmd>CommentToggle<CR>", { desc = "toggle comment",
-    silent = true})
+-- vim.keymap.set("n", "gc", "<cmd>CommentToggle<CR>", { desc = "toggle comment",
+--     silent = true})

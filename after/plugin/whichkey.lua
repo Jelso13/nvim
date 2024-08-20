@@ -85,7 +85,7 @@ which_key.setup({
   },
   layout = {
     -- width = { min = 20 }, -- min and max width of the columns
-    width = {min=20, max=50},
+    width = {min=20},
     height = {min=4, max=25},
     -- align = "left",
     spacing = 3, -- spacing between columns
