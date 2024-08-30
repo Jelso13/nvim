@@ -107,7 +107,12 @@ return require('packer').startup(function(use)
     }
 
     -- rust tools so that lsp works with standalone rust files (firenvim)
-    use('simrat39/rust-tools.nvim')
+    -- use('simrat39/rust-tools.nvim')
+
+    -- use('mrcjkb/rustaceanvim', {
+    --     version = '^5',
+    --     lazy = false,
+    -- })
 
     -- github copilot
     use('github/copilot.vim')

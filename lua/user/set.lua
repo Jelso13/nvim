@@ -53,26 +53,36 @@ vim.opt.mouse = "a"                 -- enable mouse for scrolling and resizing
 -- Display the fold indicator on the left side
 vim.opt.foldcolumn="1"
 vim.opt.foldmethod="manual"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod="syntax"
+-- vim.opt.foldlevelstart = 0
+
 
 
 vim.opt.foldtext = "v:lua.MyFoldText()"
 function MyFoldText()
     -- gets the first line of the fold
-    local line = vim.fn.getline(vim.v.foldstart) 
+    local line = vim.fn.getline(vim.v.foldstart)
     local sub = line:gsub("/%*%*?%*?%d?=", ""):gsub("%*/", ""):gsub("{{{%d?=", "")
-    return vim.v.folddashes .. sub
+    -- calculate the number of lines in the fold
+    local fold_size = vim.v.foldend - vim.v.foldstart + 1
+    -- format the fold text with the number of lines on the right
+    return vim.v.folddashes .. sub .. " (" .. fold_size .. " lines)"
 end
--- The below line creates a group of autocommands that will save and load the view of the file, clear the group before creating it
--- Save view when leaving a buffer
-local foldable_types = { "*.py", "*.js", "*.rs", "*.tex", "*.md", "*.c", "*.cpp", 
-    "*.h", "*.sh", "*.vim", "*.lua", "*.yaml", "*.yml", "*.json", "*.toml", 
-    "*.html", "*.css"
-}
 
 -- Prevent folds from opening during navigation
 -- vim.opt.foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo"
 vim.opt.foldopen = "hor,insert,jump,mark,percent,quickfix,tag,undo"
 -- vim.opt.foldopen = ""
+--
+--- The below line creates a group of autocommands that will save and load the view of the file, clear the group before creating it
+--- Save view when leaving a buffer
+local foldable_types = { "*.py", "*.js", "*.rs", "*.tex", "*.md", "*.c", "*.cpp",
+    "*.h", "*.sh", "*.vim", "*.lua", "*.yaml", "*.yml", "*.json", "*.toml",
+    "*.html", "*.css"
+}
+--
 -- Define an augroup to group the autocommands
 local group = vim.api.nvim_create_augroup("SaveLoadView", { clear = true })
 
