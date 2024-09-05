@@ -31,9 +31,6 @@ require("lazy").setup({
 	-- telescope plugin: fuzzy finder
 	require("kickstart/plugins/telescope"),
 
-    -- -- AFTER TELESCOPE-git worktree: functionality for easily switching between worktrees
-    require("kickstart/plugins/git-worktree"),
-
 	-- lspconfig plugin: configure language servers
 	require("kickstart/plugins/lspconfig"),
 
