@@ -544,6 +544,7 @@ M.setup = function(config)
         -- should this default to true or false?
         autopush = false,
     }, config)
+
 end
 
 M.set_status = function(msg)

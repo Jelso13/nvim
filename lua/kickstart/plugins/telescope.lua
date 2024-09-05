@@ -108,6 +108,13 @@ return {
             vim.keymap.set("n", "<leader>sn", function()
                 builtin.find_files({ cwd = vim.fn.stdpath("config") })
             end, { desc = "[S]earch [N]eovim files" })
+
+
+            -- Global keybinding for running your custom Telescope picker
+            -- pcall(require("telescope").load_extension, "git_worktree")
+            local worktrees = require("telescope").load_extension("git_worktrees")
+            vim.keymap.set("n", "<leader>gw", worktrees.git_worktree, {desc="[G]it [W]orktree change"})
+
         end,
     },
 }
