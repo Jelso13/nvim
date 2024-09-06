@@ -23,9 +23,11 @@ return {
         opts = {
             notify_on_error = true,
             formatters_by_ft = {
-                lua = { "stylua" },
+                -- lua = { 
+                --     "stylua",
+                --     extra_args = { "--indent-type", "Spaces", "--indent-width", "4" }, -- Change to spaces
+                -- },
                 python = { "black" },
-                --
                 -- You can use 'stop_after_first' to run the first available formatter from the list
                 -- javascript = { "prettierd", "prettier", stop_after_first = true },
             },

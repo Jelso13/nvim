@@ -33,6 +33,8 @@ require("lazy").setup({
 
 	-- lspconfig plugin: configure language servers
 	require("kickstart/plugins/lspconfig"),
+    -- integration of lsp with external tools (mypy etc)
+    require("kickstart/plugins/none-ls"),
 
 	-- conform plugin: formatter plugin (preserves folds, fixes issues with lsp formatting)
 	require("kickstart/plugins/conform"),
@@ -49,14 +51,13 @@ require("lazy").setup({
 
 	require("kickstart/plugins/harpoon"),
 
-
 	-- Markdown plugin (alt to obsidian)
 	-- use("jakewvincent/mkdnflow.nvim")
-  -- require("kickstart/plugins/mkdnflow.nvim"),
+	-- require("kickstart/plugins/mkdnflow.nvim"),
 
 	-- latex
 	-- use("lervag/vimtex")
-    require("kickstart/plugins/vimtex"),
+	require("kickstart/plugins/vimtex"),
 
 	-- -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -80,7 +81,8 @@ require("lazy").setup({
 	--
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
 	--    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-    { import = 'custom.plugins' },
+	{ import = "custom.plugins" },
+	{ import = "custom.languages" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
