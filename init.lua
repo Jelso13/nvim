@@ -8,13 +8,13 @@ vim.g.maplocalleader = "-"
 vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
-require("options")
+require("core.options")
 
 -- [[ Basic Keymaps ]]
-require("keymaps")
+require("core.keymaps")
 
 -- [[ Install `lazy.nvim` plugin manager ]]
-require("lazy-bootstrap")
+require("core.lazy-bootstrap")
 
 -- [[ Configure and install plugins ]]
-require("lazy-plugins")
+require("core.lazy-plugins")
