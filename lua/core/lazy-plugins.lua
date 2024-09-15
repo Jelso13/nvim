@@ -20,10 +20,13 @@ require("lazy").setup({
     
     -- all lsp plugins with configuration
     require("lsp"),
+
+    -- formatting
     require("formatter"),
 
 	-- -- cmp plugin: completion plugin
-    require("plugins/cmp"),
+    -- require("plugins/cmp"),
+    require("completion"),
 
     require("snippets"),
     
@@ -39,6 +42,9 @@ require("lazy").setup({
 	-- -- telescope plugin: fuzzy finder
 	require("plugins/telescope"),
 
+    -- oil.nvim: allows intuitive directory and file editing using text manipulation
+    require("plugins/oil"),
+
 	-- -- tokyonight plugin: color scheme
 	-- require("plugins/tokyonight"),
 
@@ -52,6 +58,11 @@ require("lazy").setup({
 	-- -- -- Markdown plugin (alt to obsidian)
 	-- -- -- use("jakewvincent/mkdnflow.nvim")
 	-- -- -- require("plugins/mkdnflow.nvim"),
+    
+
+    -- debugging TODO: CURRENTLY NOT WORKING
+    -- require("dap"),
+
 
 	-- -- -- latex
 	-- -- -- use("lervag/vimtex")
