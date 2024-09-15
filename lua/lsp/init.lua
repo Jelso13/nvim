@@ -156,18 +156,18 @@ return {
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
                 -- 'lua_ls', -- lua
-                'rust_analyzer', -- rust
+                -- 'rust_analyzer', -- rust
                 -- 'pyright', -- python
-                'eslint', -- javascript
-                'clangd', -- c++
-                'bashls', -- bash
+                -- 'eslint', -- javascript
+                -- 'clangd', -- c++
+                -- 'bashls', -- bash
                 -- 'dartls',		-- dart
-                'texlab', -- latex
+                -- 'texlab', -- latex
 				-- clangd = {},
 				-- gopls = {},
                 pyright = require("lsp.servers.python"),
                 lua_ls = require("lsp.servers.lua"),
-				-- rust_analyzer = {},
+				rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:

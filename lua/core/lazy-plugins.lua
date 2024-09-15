@@ -39,7 +39,7 @@ require("lazy").setup({
 	-- -- telescope plugin: fuzzy finder
 	require("plugins/telescope"),
 
-	-- -- -- tokyonight plugin: color scheme
+	-- -- tokyonight plugin: color scheme
 	-- require("plugins/tokyonight"),
 
 	require("plugins/todo-comments"),
@@ -48,6 +48,7 @@ require("lazy").setup({
 
 	require("plugins/harpoon"),
 
+	require("plugins/treesitter"),
 	-- -- -- Markdown plugin (alt to obsidian)
 	-- -- -- use("jakewvincent/mkdnflow.nvim")
 	-- -- -- require("plugins/mkdnflow.nvim"),
