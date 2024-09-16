@@ -46,7 +46,7 @@ require("lazy").setup({
     require("plugins/oil"),
 
 	-- -- tokyonight plugin: color scheme
-	-- require("plugins/tokyonight"),
+	require("plugins/tokyonight"),
 
 	require("plugins/todo-comments"),
 

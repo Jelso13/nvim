@@ -6,43 +6,43 @@ A formatter plugin.
 --]]
 
 return {
-	{ -- Autoformat
-		"stevearc/conform.nvim",
-		-- event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
-		keys = {
-			{
-				"<leader>fb",
-				function()
-					require("conform").format({ async = true, lsp_format = "fallback" })
-
-				end,
-				mode = "",
-				desc = "[F]ormat [B]uffer",
-			},
-		},
-		opts = {
+    { -- Autoformat
+        "stevearc/conform.nvim",
+        -- event = { "BufWritePre" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                "<leader>fb",
+                function()
+                    require("conform").format({ async = true, lsp_format = "fallback" })
+                end,
+                mode = "",
+                desc = "[F]ormat [B]uffer",
+            },
+        },
+        opts = {
             default_format_opts = {
                 timeout_ms = 3000,
-                async = false, -- not recommended to change
-                quiet = false, -- not recommended to change
+                async = false,           -- not recommended to change
+                quiet = false,           -- not recommended to change
                 lsp_format = "fallback", -- not recommended to change
             },
-			notify_on_error = true,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				python = { "black" },
-				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
-			},
-			formatters = {
-				stylua = require("formatter.formatters.lua"),
-				black = require("formatter.formatters.python"),
-			},
-			-- Set default options
-			default_format_opts = {
-				lsp_format = "fallback",
-			},
-		},
-	},
+            notify_on_error = true,
+            formatters_by_ft = {
+            --     lua = require("formatter.formatters.lua"),
+            --     python = require("formatter.formatters.python"),
+            lua = { "stylua" },
+            python = { "black" },
+            --     -- You can use 'stop_after_first' to run the first available formatter from the list
+            --     -- javascript = { "prettierd", "prettier", stop_after_first = true },
+            },
+            -- formatters = {
+            --     stylua = require("formatter.formatters.lua"),
+            --     black = require("formatter.formatters.python"),
+            -- },
+        },
+        init = function()
+            require("formatter.config")
+        end,
+    },
 }

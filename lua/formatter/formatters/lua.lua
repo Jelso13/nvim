@@ -1,16 +1,11 @@
 return {
-    "stylua",
-    inherit = false,
-    extra_args = { 
-        "--indent-type", 
-        "Spaces", 
-        "--indent-width", 
-        "4" 
-    }, -- Change to spaces
-    -- prepend_args = {
-    --     "--indent-type",
-    --     "Spaces",
-    --     "--column-width",
-    --     "80"
-    -- }
+    command = "stylua",
+    -- inherit = false,
+    prepend_args = {
+        "--indent-type", "Spaces", -- Change to spaces
+        "--indent-width", "4",
+        "--column-width", "80",
+        "--quote-style", "ForceDouble",
+    },
 }
+

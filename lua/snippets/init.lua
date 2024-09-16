@@ -41,7 +41,8 @@ return {
         region_check_events = 'InsertEnter',
         -- delete_check_events = 'InsertLeave',
     },
-    config = function()
+    -- init not config so that it doesnt override opts
+    init = function()
         require("snippets.config")
     end,
 }

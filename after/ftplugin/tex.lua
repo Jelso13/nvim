@@ -42,6 +42,9 @@ vim.opt.wrapmargin = 0
 vim.opt.formatoptions:append({ 't' })
 vim.opt.linebreak = true
 
+-- Set the conceal level to 1, which hides some characters in LaTeX
+-- vim.opt.conceallevel=1
+
 
 -- text objects
 vim.keymap.set({"x","o"}, "ac", "<plug>(vimtex-ac)", { desc = "around commands" })

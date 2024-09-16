@@ -153,6 +153,7 @@ local servers = {
     pyright = require("lsp.servers.python"),
     lua_ls = require("lsp.servers.lua"),
     rust_analyzer = {},
+    clangd = {},
     -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -180,6 +181,7 @@ vim.list_extend(ensure_installed, {
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 require("mason-lspconfig").setup({
+    automatic_installation = true,
     handlers = {
         function(server_name)
             local server = servers[server_name] or {}

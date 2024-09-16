@@ -12,7 +12,6 @@ return {
 			-- Adds other completion capabilities.
 			--  nvim-cmp does not ship with all sources by default. They are split
 			--  into multiple repos for maintenance purposes.
-			"hrsh7th/cmp-nvim-lsp", -- 
 			"hrsh7th/cmp-path", -- source for completing files
             "hrsh7th/cmp-nvim-lua", -- source for neovim development
             "hrsh7th/cmp-nvim-lsp", -- source for auto import and lsp-snippet functions
