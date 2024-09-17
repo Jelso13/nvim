@@ -15,7 +15,7 @@ local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
-local ls = require("luasnip")
+local isn = ls.indent_snippet_node
 
 -- expand conditions
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
@@ -67,7 +67,7 @@ ls.add_snippets("tex", {
     }, {condition = tex_utils.in_mathzone}),
 
     s(
-        { trig = "eq", dscr = "A LaTeX equation environment" },
+{ trig = "eq", dscr = "A LaTeX equation environment" },
         fmt( -- The snippet code actually looks like the equation environment it produces.
             [[
           \begin{equation}
@@ -82,17 +82,6 @@ ls.add_snippets("tex", {
         {condition = tex_utils.in_text}
     ),
 
-    -- Example: italic font implementing visual selection
-    s(
-        {
-            trig = "ti",
-            dscr = "Expands 'ti' into LaTeX's textit{} command. [T]ext [I]alics",
-        },
-        fmta("\\textit{<>}", {
-            d(1, helpers.get_visual),
-        }),
-        {condition = tex_utils.in_text}
-    ),
 
     -- Prevents expansion if 'foo' is typed after letters
     s({trig = "([^%a])mm", wordTrig = false, regTrig = true,snippetType="autosnippet"},
@@ -142,3 +131,43 @@ ls.add_snippets("tex", {
       { condition = tex_utils.in_tikz }
     ),
 })
+
+
+-- Group snippets into specific categories for readability
+local latex_text = {
+    s({ trig = "ti", dscr = "[T]ext [I]talics block" },
+        fmta("\\textit{<>}", {
+            d(1, helpers.get_visual),
+        }),
+        {condition = tex_utils.in_text}
+    ),
+    s({ trig = "tu", dscr = "[T]ext [U]nderline" },
+        fmta("\\underline{<>}", {
+            d(1, helpers.get_visual),
+        }),
+        {condition = tex_utils.in_text}
+    ),
+    s({ trig = "tb", dscr = "[T]ext [B]old font" },
+        fmta("\\textbf{<>}", {
+            d(1, helpers.get_visual),
+        }),
+        {condition = tex_utils.in_text}
+    ),
+    s({ trig = "ttw", dscr = "[T]ext [T]ype[W]riter block" },
+        fmta("\\texttt{<>}", {
+            d(1, helpers.get_visual),
+        }),
+        {condition = tex_utils.in_text}
+    ),
+}
+
+local latex_sections = {
+    -- Snippet for section
+    s({ trig = "sec", descr = "LaTeX section" }, {
+        t("\\section{"), i(1), t("}"),
+    }),
+}
+
+-- Add all snippet groups under 'tex' filetype
+ls.add_snippets("tex", latex_text)
+ls.add_snippets("tex", latex_sections)

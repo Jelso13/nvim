@@ -15,40 +15,31 @@ local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
-local ls = require("luasnip")
+
+local helpers = require("snippets.helper_functions")
+
+local fun_snips = {
+
+s({trig = "box", dscr = "Create a box (can also visually wrap)"},
+    fmta(
+      [[
+      ┌<a>┐
+      │ <> │
+      └<a>┘
+      ]],
+      {
+        -- can set repeats by assigning name
+        a = f(function(args)
+          local width = #args[1][1] -- Get the length of the content
+          return string.rep("─", width + 2) -- Generate a line of dashes with padding
+        end, {1}), -- Top border
+        d(1, helpers.get_visual) -- Dynamic content or visual selection
+      }
+    )
+  ),
+}
 
 
-local get_visual = function(args, parent)
-  if (#parent.snippet.env.SELECT_RAW > 0) then
-    return sn(nil, i(1, parent.snippet.env.SELECT_RAW))
-  else
-    return sn(nil, i(1, ''))
-  end
-end
 
-local wrap_pair = function (ch1, ch2)
-  -- return s({trig=ch1, wordTrig = false, snippetType="autosnippet"},
-    -- { t(ch1), d(1, get_visual), t(ch2), })
-    return s({ trig = "sd", snippetType = "autosnippet" },
-        { f(function(_, snip) return snip.captures[1] end), t(ch1), d(1, get_visual), t(ch2), })
-end
 
-ls.add_snippets("all", {
-    -- s({trig="trig_all", snippetType="autosnippet"}, t("loaded from any file!!")),
-    s({trig="trig_all", dscr="this is a description"}, t("loaded from any file!!")),
-
-    -- Paired back ticks
-    -- s({trig="([^`])sd", snippetType="autosnippet", regTrig=true, wordTrig=false}),
-    -- s({ trig = "sd", snippetType = "autosnippet" },
-    --     { f(function(_, snip) return snip.captures[1] end), t("`"), d(1, get_visual), t("`"), }),
-
-    -- -- Paired double quotes
-    -- s({ trig = '([ `=%{%(%[])"', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
-    --     { f(function(_, snip) return snip.captures[1] end), t('"'), d(1, get_visual), t('"'), }),
-
-    -- -- -- Paired single quotes
-    -- s({ trig = "([ =%{%(%[])'", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
-    --     { f(function(_, snip) return snip.captures[1] end), t("'"), d(1, get_visual), t("'"), }),
-
-})
-
+ls.add_snippets("all", fun_snips)

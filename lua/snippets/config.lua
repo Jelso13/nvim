@@ -31,6 +31,13 @@ vim.keymap.set({ "i", "s" }, "<c-k>", function()
         ls.expand_or_jump()
     end
 end, { silent = true })
+-- vim.keymap.set({ "i", "s" }, "<Tab>", function()
+--     if ls.expand_or_jumpable() then
+--         ls.expand_or_jump()
+--     else
+--         return '<Tab>'
+--     end
+-- end, { silent = true })
 
 -- ctrl-j jumps to previous item within snippet
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
@@ -38,6 +45,12 @@ vim.keymap.set({ "i", "s" }, "<c-j>", function()
         ls.jump(-1)
     end
 end, { silent = true })
+
+-- vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+--     if ls.jumpable(-1) then
+--         ls.jump(-1)
+--     end
+-- end, { silent = true })
 
 -- ctrl-l selects from a 'list' of options in choice nodes
 vim.keymap.set({ "i" }, "<c-l>", function()
