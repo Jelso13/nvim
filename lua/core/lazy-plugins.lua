@@ -52,6 +52,9 @@ require("lazy").setup({
 
 	require("plugins/mini"),
 
+    -- actually quite useful as makes navigation easier especially
+    require("plugins/autopairs"),
+
 	require("plugins/harpoon"),
 
 	require("plugins/treesitter"),
