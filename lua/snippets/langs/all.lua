@@ -21,7 +21,18 @@ local helpers = require("snippets.helper_functions")
 
 
 local section_heading = {
-    s({trig = "^(.*)hashbox", wordTrig = false, regTrig = true},
+    s({trig="testing", snippetType="autosnippet"},
+        t({"yeet"})
+    ),
+
+    s({trig = "^(.*)hashbox", 
+    dscr = "Hash box that accounts for comments",
+    docstring = [[
+          ######
+          # <> #
+          ######
+          ]],
+    wordTrig = false, regTrig = true},
       fmta([[
          <c>#<a>#
          <c># <> #
@@ -40,7 +51,13 @@ local section_heading = {
 }
 
 local fun_snips = {
-    s({trig = "box", dscr = "Create a box (can also visually wrap)"},
+    s({trig = "box", dscr = "Create a box (can also visually wrap)",
+        docstring = [[
+          ┌────┐
+          │ <> │
+          └────┘
+          ]]
+    },
         fmta(
           [[
           ┌<a>┐

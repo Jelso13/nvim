@@ -59,6 +59,16 @@ vim.keymap.set({ "i" }, "<c-l>", function()
     end
 end)
 
+
+local d = require("snippets.snippet_whichkey")
+
+-- new user command that displays all snippets
+vim.api.nvim_create_user_command("LuaSnipListAll", d.display_snippets, { force = true })
+
+-- create a keybinding to <leader>hs that calls the user command
+vim.keymap.set("n", "<leader>hs", ":LuaSnipListAll<CR>", { silent = true })
+
+
 -- Expand snippets in insert mode with Tab
 -- vim.keymap.set('i', '<Tab>', function()
 --   return require('luasnip').expand_or_jumpable() and '<Plug>luasnip-expand-or-jump' or '<Tab>'

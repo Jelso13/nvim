@@ -134,7 +134,7 @@ local latex_envs = {
         fmta([[ 
             \[
                 <>
-            \] 
+            .\] 
         ]],
         {i(0)}
         ),{condition = tex_utils.in_text * line_begin} -- in text and at start of line
@@ -178,6 +178,26 @@ local latex_math = {
         }
       ),
       {condition = tex_utils.in_mathzone}  -- `condition` option passed in the snippet `opts` table 
+    ),
+    s({ trig = '([A-Za-z])(%d)', dscr="subscript single digit",
+              regTrig = true, wordTrig = false, snippetType="autosnippet"},
+        {
+          f(function(_, snip) return snip.captures[1] end),
+          t('_'),
+          f(function(_, snip) return snip.captures[2] end)
+        },
+      {condition = tex_utils.in_mathzone}
+    ),
+    s({ trig = '([A-Za-z])_(%d%d)', dscr="subscript multiple digit",
+              regTrig = true, wordTrig = false, snippetType="autosnippet"},
+        fmta("<>_{<><>}",
+        {
+          f(function(_, snip) return snip.captures[1] end),
+          f(function(_, snip) return snip.captures[2] end),
+          i(0)
+        }
+      ),
+      {condition = tex_utils.in_mathzone}
     ),
 }
 
