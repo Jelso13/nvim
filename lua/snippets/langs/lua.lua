@@ -43,11 +43,20 @@ local ls = require("luasnip")
 --      )
 --    ),
 --
---
---     -- Snippet for section
---     s({ trig = "sec", descr = "LaTeX section" }, {
---         t("\\section{"), i(1), t("}"),
---     }),
+--     exponents = {
+--         -- euler power regex prevents inclusion of ee in words
+--         s({trig = "([^%a])ee", dscr="[EE]xponential", regTrig = true, 
+--             wordTrig = false, snippetType="autosnippet" },
+--           fmta(
+--             "<>e^{<>}",
+--             {
+--               f( function(_, snip) return snip.captures[1] end ),
+--               d(1, helpers.get_visual),
+--             }
+--           ),
+--           {condition = tex_utils.in_mathzone}
+--         ),
+--     },
 
 local meta = {
     s({trig = "snip", dscr = "Create a box (can also visually wrap)",
@@ -57,11 +66,13 @@ local meta = {
     },
         fmta(
           [[
-        s({trig="<>", dscr="<>", 
+        s({trig="<>", dscr="<>",
             docstring=<>,
             wordTrig=<>,
-            regTrig=<>
-            }, <>
+            regTrig=<>,
+            snippetType=<>
+            }, <>,
+            {<>}
         )
           ]],
           {
@@ -74,14 +85,15 @@ local meta = {
             }),
             c(4, {t("false"),t("true")}),
             c(5, {t("false"),t("true")}),
-            c(6, {
+            c(6, {t('"autosnippet"'),t('"snippet"')}),
+            c(7, {
                 fmta('{<>}',i(1)),
                 fmta("fmta([[<>]])",i(1)),
             }),
+            i(8)
           }
         )
       ),
-
 }
 
 ls.add_snippets("lua", meta)

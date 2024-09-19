@@ -27,7 +27,6 @@ local tex_utils = {}
 -- function for determining if in a maths zone
 tex_utils.in_mathzone = function()
   local in_math = vim.fn['vimtex#syntax#in_mathzone']() == 1
-  print("In math zone: ", in_math)
   return in_math
 end
 tex_utils.in_text = function()
@@ -54,25 +53,25 @@ end
 
 -- Group snippets into specific categories for readability
 local latex_text = {
-    s({ trig = "ti", dscr = "[T]ext [I]talics block" },
+    s({ trig = "ti", dscr = "[T]ext [I]talics block", docstring="\\textit{|}" },
         fmta("\\textit{<>}", {
             d(1, helpers.get_visual),
         }),
         {condition = tex_utils.in_text}
     ),
-    s({ trig = "tu", dscr = "[T]ext [U]nderline" },
+    s({ trig = "tu", dscr = "[T]ext [U]nderline", docstring="\\underline{|}" },
         fmta("\\underline{<>}", {
             d(1, helpers.get_visual),
         }),
         {condition = tex_utils.in_text}
     ),
-    s({ trig = "tb", dscr = "[T]ext [B]old font" },
+    s({ trig = "tb", dscr = "[T]ext [B]old font", docstring="\\textbf{<>}"},
         fmta("\\textbf{<>}", {
             d(1, helpers.get_visual),
         }),
         {condition = tex_utils.in_text}
     ),
-    s({ trig = "ttw", dscr = "[T]ext [T]ype[W]riter block" },
+    s({ trig = "ttw", dscr = "[T]ext [T]ype[W]riter block", docstring="\\texttt{<>}"},
         fmta("\\texttt{<>}", {
             d(1, helpers.get_visual),
         }),
@@ -82,8 +81,8 @@ local latex_text = {
 
 local latex_sections = {
     -- Snippet for section
-    s({ trig = "sec", descr = "LaTeX section" }, {
-        t("\\section{"), i(1), t("}"),
+    s({ trig = "sec", descr = "LaTeX section", docstring="\\section{|}"}, {
+        fmta("\\section{<>}",{d(1, helpers.get_visual)})
     }),
 }
 
@@ -154,18 +153,6 @@ local latex_envs = {
 }
 
 local latex_math = {
-    -- euler power regex prevents inclusion of ee in words
-    s({trig = "([^%a])ee", dscr="[EE]xponential", regTrig = true,
-        wordTrig = false, snippetType="autosnippet" },
-      fmta(
-        "<>e^{<>}",
-        {
-          f( function(_, snip) return snip.captures[1] end ),
-          d(1, helpers.get_visual),
-        }
-      ),
-      {condition = tex_utils.in_mathzone}
-    ),
     -- \frac
     s({trig = "([^%a])ff", dscr="[FF]raction", regTrig=true, wordTrig=false,
         snippetType="autosnippet" },
@@ -179,15 +166,15 @@ local latex_math = {
       ),
       {condition = tex_utils.in_mathzone}  -- `condition` option passed in the snippet `opts` table 
     ),
-    s({ trig = '([A-Za-z])(%d)', dscr="subscript single digit",
-              regTrig = true, wordTrig = false, snippetType="autosnippet"},
-        {
-          f(function(_, snip) return snip.captures[1] end),
-          t('_'),
-          f(function(_, snip) return snip.captures[2] end)
-        },
-      {condition = tex_utils.in_mathzone}
-    ),
+    -- s({ trig = '([A-Za-z]){1}(%d)', dscr="subscript single digit",
+    --           regTrig = true, wordTrig = false, snippetType="autosnippet"},
+    --     {
+    --       f(function(_, snip) return snip.captures[1] end),
+    --       t('_'),
+    --       f(function(_, snip) return snip.captures[2] end)
+    --     },
+    --   {condition = tex_utils.in_mathzone}
+    -- ),
     s({ trig = '([A-Za-z])_(%d%d)', dscr="subscript multiple digit",
               regTrig = true, wordTrig = false, snippetType="autosnippet"},
         fmta("<>_{<><>}",
@@ -199,6 +186,87 @@ local latex_math = {
       ),
       {condition = tex_utils.in_mathzone}
     ),
+    exponents = {
+        -- euler power regex prevents inclusion of ee in words
+        s({trig = "([^%a])ee", dscr="[EE]xponential", regTrig = true, 
+            wordTrig = false, snippetType="autosnippet" },
+          fmta(
+            "<>e^{<>}",
+            {
+              f( function(_, snip) return snip.captures[1] end ),
+              d(1, helpers.get_visual),
+            }
+          ),
+          {condition = tex_utils.in_mathzone}
+        ),
+        s({trig="^", dscr="exponent",
+            docstring="^{|}",
+            wordTrig=false,
+            snippetType="autosnippet"
+            },
+            {t("^{"),i(1),t("}")},
+            {condition = tex_utils.in_mathzone}
+        ),
+    },
+    fractions = {
+        s({trig="//", dscr="// inline fraction",
+            docstring="\\frac{}{}",
+            wordTrig=false,
+            regTrig=false,
+            snippetType="autosnippet"
+            }, fmta("\\frac{<>}{<>}",
+            {
+                i(1),
+                i(2),
+            }),
+          {condition = tex_utils.in_mathzone}
+        ),
+
+        s({
+        -- trig = "([%d]+)(\\?[a-z%^]+)/", 
+
+        trig = "(%d+|%d*\\?[A-Za-z]+([_%^]%{%d+%}?)*)/",
+        dscr="compact fraction thing *rename*",
+        regTrig = true,
+            wordTrig = false, snippetType="autosnippet" },
+          fmta(
+            "\\frac{<>}{<>}",
+            {
+              f( function(_, snip) return snip.captures[1]..snip.captures[2] end ),
+              i(1)
+            }
+          ),
+          {condition = tex_utils.in_mathzone}
+        ),
+        -- s({trig = "([%d]+)/", dscr="digit fraction: 3/ becomes \\frac{3}{}", regTrig = true,
+        --     wordTrig = false, snippetType="autosnippet" },
+        --   fmta(
+        --     "\\frac{<>}{<>}",
+        --     {
+        --       f( function(_, snip) return snip.captures[1] end ),
+        --       i(1)
+        --     }
+        --   ),
+        --   {condition = tex_utils.in_mathzone}
+        -- ),
+        -- s({
+        --     trig = "([%d]+)([a-z]+)/",  -- Capture various characters before '/'
+        --     dscr = "Fraction with expression",
+        --     wordTrig = false,
+        --     regTrig = true,
+        --     snippetType = "autosnippet"
+        -- }, {
+        --     fmta("\\frac{<>}{<>}", {
+        --         t("hi"),
+        --         -- f( function(_, snip) return snip.captures[1] end ),
+        --         i(1)
+        --     })  -- Capture the whole expression before '/' and place cursor
+        -- },
+        --   {condition = tex_utils.in_mathzone}
+        -- )
+
+
+    }
 }
 
 local latex_greek_letters = {
@@ -317,6 +385,8 @@ local latex_tikz = {
 -- Add all snippet groups under 'tex' filetype
 ls.add_snippets("tex", latex_text)
 ls.add_snippets("tex", latex_math)
+ls.add_snippets("tex", latex_math.exponents)
+ls.add_snippets("tex", latex_math.fractions)
 ls.add_snippets("tex", latex_sections)
 ls.add_snippets("tex", latex_envs)
 ls.add_snippets("tex", latex_greek_letters)

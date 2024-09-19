@@ -1,5 +1,12 @@
 local M = {}
 
+
+--[[
+        ┌─────────────────────────────────────────────────────────────────┐
+        │ Ultimately, I want to incorporate telescope to preview snippets │
+        └─────────────────────────────────────────────────────────────────┘
+--]]
+
 local format_lines = function(res, buf)
     local lines = {}
     for lang, snip_i in pairs(res) do
@@ -20,13 +27,15 @@ local format_lines = function(res, buf)
                 auto = "auto"
             end
             -- Add the trigger and description in a formatted manner
-            table.insert(lines, string.format("%-4s  %-15s - %s", auto, info.trigger, description))
+            table.insert(lines, string.format("%-4s | %-15s | %s", auto, info.trigger, description))
+            table.insert(lines, "")
             -- add the docstring if it exists , info.docstring is a table so add each line
             if info.docstring then
                 for _, line in ipairs(info.docstring) do
                     table.insert(lines, string.format("    %s", line))
                 end
             end
+            table.insert(lines, "")
 
         end
 
@@ -78,6 +87,11 @@ function M.display_snippets()
     -- Set the buffer lines with the formatted text
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
+    -- Make the buffer read-only
+    vim.api.nvim_set_option_value("modifiable", false, {buf=buf})-- buf, 'modifiable', false)
+    vim.api.nvim_set_option_value("readonly", true, {buf=buf})-- buf, 'modifiable', false)
+    -- vim.api.nvim_set_option_value(-- buf, 'readonly', true)
+
     -- Window options
     local opts = {
       relative = 'editor',
@@ -94,16 +108,24 @@ function M.display_snippets()
     -- Open the popup window
     local win = vim.api.nvim_open_win(buf, true, opts)
 
-    -- Close the buffer when any key is pressed
-    for k = string.byte("\t"), string.byte('z') do
-        vim.api.nvim_buf_set_keymap(buf, 'n', string.char(k), '', {
-            noremap = true,
-            silent = true,
-            callback = function()
-                vim.api.nvim_win_close(win, true)
-            end,
-        })
-    end
+    vim.api.nvim_buf_set_keymap(buf, 'n', "<Esc>", '', {
+        noremap = true,
+        silent = true,
+        callback = function()
+            vim.api.nvim_win_close(win, true)
+        end,
+    })
+
+    -- -- Set an autocommand to close the window when it loses focus
+    -- vim.api.nvim_create_autocmd("WinLeave", {
+    --     callback = function()
+    --         if vim.api.nvim_win_is_valid(win) then
+    --             vim.api.nvim_win_close(win, true) -- Close the window
+    --         end
+    --     end,
+    --     buffer = buf, -- Attach the autocommand to the specific buffer
+    --     once = true,  -- Make sure the autocommand only triggers once
+    -- })
 end
 
 return M
