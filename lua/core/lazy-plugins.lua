@@ -58,6 +58,8 @@ require("lazy").setup({
 	require("plugins/harpoon"),
 
 	require("plugins/treesitter"),
+
+	-- require("plugins/none-ls"),
 	-- -- -- Markdown plugin (alt to obsidian)
 	-- -- -- use("jakewvincent/mkdnflow.nvim")
 	-- -- -- require("plugins/mkdnflow.nvim"),

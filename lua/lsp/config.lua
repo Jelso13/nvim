@@ -150,10 +150,24 @@ local servers = {
     -- 'texlab', -- latex
     -- clangd = {},
     -- gopls = {},
-    pyright = require("lsp.servers.python"),
     lua_ls = require("lsp.servers.lua"),
-    rust_analyzer = {},
+
+    -- cpp
     clangd = {},
+    -- clang_format = {},
+
+    -- javascript
+    -- typescript_language_server = {},
+
+    -- rust
+    rust_analyzer = require("lsp.servers.rust"),
+
+    -- python
+    pyright = require("lsp.servers.python"),
+    mypy = {},
+    ruff = {},
+    black = {},
+    debugpy = {},
     -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -172,6 +186,8 @@ local servers = {
 --  You can press `g?` for help in this menu.
 require("mason").setup()
 
+local lspconfig = require("lspconfig")
+
 -- You can add other tools here that you want Mason to install
 -- for you, so that they are available from within Neovim.
 local ensure_installed = vim.tbl_keys(servers or {})
@@ -189,7 +205,7 @@ require("mason-lspconfig").setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
+            lspconfig[server_name].setup(server)
         end,
     },
 })
@@ -224,3 +240,5 @@ for _, diag in ipairs({ "Error", "Warn", "Info", "Hint" }) do
         numhl = "DiagnosticSign" .. diag,
     })
 end
+
+require("lsp.servers.rust")

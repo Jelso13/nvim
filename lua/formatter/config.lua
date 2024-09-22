@@ -7,5 +7,6 @@ require("conform").setup({
     lua = { "stylua", lsp_format = "fallback" },
     python = { "black", lsp_format = "fallback" },
     rust = { "rustfmt", lsp_format = "fallback" },
+    clang = { "clang-format", lsp_format = "fallback" },
   }
 })

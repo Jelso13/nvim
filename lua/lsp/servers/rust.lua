@@ -1,7 +1,13 @@
-require('lspconfig').rust_analyzer.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
+local util = require("lspconfig/util")
+
+return {
+    filetypes = {"rust"},
+    root_dir = util.root_pattern("Cargo.toml"),
     settings = {
-        ["rust-analyzer"] = {}
+        ["rust-analyzer"] = {
+            cargo = {
+                allFeatures = true, -- helps with autocomplete with crates
+            }
+        }
     }
-})
+}

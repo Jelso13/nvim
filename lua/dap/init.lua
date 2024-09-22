@@ -1,19 +1,26 @@
 return {
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "rcarriga/nvim-dap-ui",
-      "nvim-neotest/nvim-nio",
-      "williamboman/mason.nvim",
-      -- languages
-      "mfussenegger/nvim-dap-python",
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            "rcarriga/nvim-dap-ui",
+            "nvim-neotest/nvim-nio",
+            "williamboman/mason.nvim",
+            -- languages
+            "mfussenegger/nvim-dap-python",
+        },
+        config = function()
+            require("dap.config")
+        end,
     },
-    config = function()
-        require("dap.config")
-    end
-  }
+    {
+        "mfussenegger/nvim-dap-python",
+        ft = "python",
+        dependencies = { "mfussenegger/nvim-dap" },
+        config = function(_, opts)
+            require("dap-python").setup("python")
+        end,
+    },
 }
-
 
 -- -- from lazy-transition branch
 -- return {
@@ -25,11 +32,11 @@ return {
 -- 		dependencies = {
 --             -- luasnips completion
 -- 			"saadparwaiz1/cmp_luasnip",
--- 
+--
 -- 			-- Adds other completion capabilities.
 -- 			--  nvim-cmp does not ship with all sources by default. They are split
 -- 			--  into multiple repos for maintenance purposes.
--- 			"hrsh7th/cmp-nvim-lsp", -- 
+-- 			"hrsh7th/cmp-nvim-lsp", --
 -- 			"hrsh7th/cmp-path", -- source for completing files
 --             "hrsh7th/cmp-nvim-lua", -- source for neovim development
 --             "hrsh7th/cmp-nvim-lsp", -- source for auto import and lsp-snippet functions
@@ -41,4 +48,4 @@ return {
 --         end
 -- 	},
 -- }
--- 
+--

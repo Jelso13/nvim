@@ -21,9 +21,6 @@ local helpers = require("snippets.helper_functions")
 
 
 local section_heading = {
-    s({trig="testing", snippetType="autosnippet"},
-        t({"yeet"})
-    ),
 
     s({trig = "^(.*)hashbox", 
     dscr = "Hash box that accounts for comments",

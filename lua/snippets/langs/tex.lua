@@ -166,6 +166,21 @@ local latex_math = {
       ),
       {condition = tex_utils.in_mathzone}  -- `condition` option passed in the snippet `opts` table 
     ),
+
+    -- sub super scripts
+    s({ trig='(%a)(%d)', snippetType="autosnippet", regTrig=true, name='auto subscript', dscr='hi'},
+        fmt([[<>_<>]],
+        { f(function(_, snip) return snip.captures[1] end),
+        f(function(_, snip) return snip.captures[2] end) },
+        { delimiters='<>' }),
+        { condition=tex_utils.in_mathzone }),
+    s({ trig='(%a)_(%d%d)', regTrig=true, snippetType="autosnippet", name='auto subscript 2', dscr='auto subscript for 2+ digits'},
+        fmt([[<>_{<>}]],
+        { f(function(_, snip) return snip.captures[1] end),
+        f(function(_, snip) return snip.captures[2] end)},
+        { delimiters='<>' }),
+        { condition=tex_utils.in_mathzone }),
+
     -- s({ trig = '([A-Za-z]){1}(%d)', dscr="subscript single digit",
     --           regTrig = true, wordTrig = false, snippetType="autosnippet"},
     --     {
@@ -175,17 +190,17 @@ local latex_math = {
     --     },
     --   {condition = tex_utils.in_mathzone}
     -- ),
-    s({ trig = '([A-Za-z])_(%d%d)', dscr="subscript multiple digit",
-              regTrig = true, wordTrig = false, snippetType="autosnippet"},
-        fmta("<>_{<><>}",
-        {
-          f(function(_, snip) return snip.captures[1] end),
-          f(function(_, snip) return snip.captures[2] end),
-          i(0)
-        }
-      ),
-      {condition = tex_utils.in_mathzone}
-    ),
+    -- s({ trig = '([A-Za-z])_(%d%d)', dscr="subscript multiple digit",
+    --           regTrig = true, wordTrig = false, snippetType="autosnippet"},
+    --     fmta("<>_{<><>}",
+    --     {
+    --       f(function(_, snip) return snip.captures[1] end),
+    --       f(function(_, snip) return snip.captures[2] end),
+    --       i(0)
+    --     }
+    --   ),
+    --   {condition = tex_utils.in_mathzone}
+    -- ),
     exponents = {
         -- euler power regex prevents inclusion of ee in words
         s({trig = "([^%a])ee", dscr="[EE]xponential", regTrig = true, 
