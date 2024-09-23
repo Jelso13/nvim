@@ -1,5 +1,42 @@
 -- [[ Configure and install plugins ]]
 --
+--
+--      Key plugins:
+--      
+--      Add a readme for each directory explaining what the key plugin is.
+--      
+--      # lazy.nvim:
+--          package manager
+--      
+--      # Mason:
+--          external package manager for:
+--              - lsp
+--              - formatters
+--              - linters
+--              - debuggers
+--      
+--      # nvim-cmp:
+--          completion
+--      
+--      # luasnip:
+--          snippets
+--      
+--      # conform.nvim:
+--          formatting
+--      
+--      # treesitter:
+--          fast syntax parsing
+--      
+--      # none-ls:
+--          linting
+--      
+--      # debugging:
+--          nvim dap
+--      
+--      
+--      
+--      then general plugins in a plugin folder
+--
 --  To check the current status of your plugins, run
 --    :Lazy
 --
@@ -10,6 +47,10 @@
 --
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
+    -- Include Mason for bringing in external sources
+    require("core/mason"),
+
+
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 
 	-- NOTE: Plugins can also be added by using a table,
@@ -20,6 +61,9 @@ require("lazy").setup({
     
     -- all lsp plugins with configuration
     require("lsp"),
+
+    -- linter
+    require("linter"),
 
     -- formatting
     require("formatter"),
