@@ -23,14 +23,12 @@ return {
 			local statusline = require("mini.statusline")
 			-- set use_icons to true if you have a Nerd Font
 			statusline.setup({ use_icons = vim.g.have_nerd_font })
-
       --[[
        :   git
        :   diagnostics
       󰰎 :   lsp attached
        :   git diff
       --]]
-
 			-- You can configure sections in the statusline by overriding their
 			-- default behavior. For example, here we set the section for
 			-- cursor location to LINE:COLUMN

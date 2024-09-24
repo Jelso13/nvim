@@ -141,6 +141,12 @@ require("lazy").setup({
 	-- --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
 	-- { import = "custom.plugins" },
 	-- { import = "custom.languages" },
+    
+    -- Custom plugins
+    require("custom.my_plugins.inkscape_latex_figures"),
+
+    -- language specific plugins
+    require("plugins.language_specific_plugins"),
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the

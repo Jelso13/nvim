@@ -183,11 +183,11 @@ return {
     vim.keymap.set({"n","x"}, "tsd", "<plug>(vimtex-delim-toggle-modifier)", { desc = "toggle delimeter"})
     vim.keymap.set("n", "ts$", "<plug>(vimtex-env-toggle-math)", { desc = "toggle env math"})
     vim.keymap.set("i", ']]', '<Plug>(vimtex-delim-close)', { desc = "close delimeter"})
-    
-    
+
+
     -- ################### CUSTOM COMMANDS #####################################
-    
-    
+
+
     vim.keymap.set('n', '<localleader>c', '<Plug>(vimtex-compile)', { desc = "latex compile", noremap = false })
     vim.keymap.set("n", "<localleader>v", "<plug>(vimtex-view)", { desc = "view document" })
 

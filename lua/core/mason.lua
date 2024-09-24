@@ -22,7 +22,7 @@ return {
                 -- LSP servers to be installed for various languages
                 "pyright",                      -- Python Language Server
                 "lua_ls",                       -- Lua Language Server
-                "rust_analyzer",                -- Rust Language Server
+                "rust_analyzer",                -- Rust Language Server -- install manually works better with cargo tools and rustaceanvim
                 "bashls",                       -- Bash Language Server
                 -- "dcm",                       -- Dart Language Server
                 "texlab",                       -- LaTeX Language Server
