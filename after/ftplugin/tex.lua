@@ -36,10 +36,28 @@
 --     },
 -- }
 
--- hard wrap with new lines
-vim.opt.textwidth = 80
-vim.opt.wrapmargin = 0
-vim.opt.formatoptions:append({ 't' })
+
+vim.opt.wrap = true
+
+-- Set the maximum width of text for automatic line wrapping.
+-- When you type beyond this width (80 characters), Neovim will automatically wrap the text to the next line.
+-- vim.opt.textwidth = 80
+
+-- This means that when text wraps, it will do so at the 'textwidth' limit 
+-- without any additional margin. If wrapmargin was set to a positive value, 
+-- it would cause wrapping to occur before reaching the textwidth.
+-- vim.opt.wrapmargin = 0
+
+-- Append 't' to the format options.
+-- This enables automatic line wrapping when formatting text.
+-- The 't' option allows the text to be automatically wrapped 
+-- at the 'textwidth' setting when typing or reformatting.
+-- vim.opt.formatoptions:append({ 't' })
+
+-- Enable line breaking.
+-- This allows Neovim to break lines at spaces or special characters 
+-- rather than cutting off words in the middle. It helps maintain readability 
+-- when lines are wrapped, especially for longer sentences or paragraphs.
 vim.opt.linebreak = true
 
 -- Set the conceal level to 1, which hides some characters in LaTeX
@@ -121,4 +139,7 @@ vim.keymap.set("i", ']]', '<Plug>(vimtex-delim-close)', { desc = "close delimete
 vim.keymap.set('n', '<localleader>c', '<Plug>(vimtex-compile)', { desc = "latex compile", noremap = false })
 vim.keymap.set("n", "<localleader>v", "<plug>(vimtex-view)", { desc = "view document" })
 
+-- change j and k to act like gj and gk which respect soft-wrapped lines
+vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true })
 
