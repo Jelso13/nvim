@@ -1,3 +1,5 @@
+
+
 -- Lua
 return {
   "folke/zen-mode.nvim",
@@ -9,14 +11,14 @@ return {
           -- * a percentage of the width / height of the editor when <= 1
           -- * a function that returns the width or the height
           width = 85, -- width of the Zen window
-          height = 1, -- height of the Zen window
+          height = 1.0, -- height of the Zen window
           -- by default, no options are changed for the Zen window
           -- uncomment any of the options below, or add other vim.wo options you want to apply
           options = {
             signcolumn = "no", -- disable signcolumn
             -- number = false, -- disable number column
             -- relativenumber = false, -- disable relative numbers
-            -- cursorline = false, -- disable cursorline
+            cursorline = false, -- disable cursorline
             -- cursorcolumn = false, -- disable cursor column
             -- foldcolumn = "0", -- disable fold column
             -- list = false, -- disable whitespace characters
@@ -31,7 +33,7 @@ return {
             showcmd = false, -- disables the command in the last line of the screen
             -- you may turn on/off statusline in zen mode by setting 'laststatus' 
             -- statusline will be shown only if 'laststatus' == 3
-            laststatus = 0, -- turn off the statusline in zen mode
+            laststatus = 3, -- turn off the statusline in zen mode
           },
           twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
           gitsigns = { enabled = false }, -- disables git signs
@@ -51,5 +53,15 @@ return {
         -- callback where you can add custom code when the Zen window closes
         on_close = function()
         end,
-    }
+    },
+    keys = {
+      -- Keybinding to toggle Zen mode
+      {
+        "<leader>z", -- Replace with your preferred keybinding
+        function()
+          require("zen-mode").toggle()  -- Calls the toggle function
+        end,
+        desc = "Toggle Zen Mode",
+      },
+    },
 }
