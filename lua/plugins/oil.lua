@@ -187,6 +187,6 @@ return {
     },
     init = function()
         -- local oil = require("oil")
-        vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", {desc = "Open parent directory with oil"})
+        vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", {desc = "[P]roject [V]iew"})
     end,
 }

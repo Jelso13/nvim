@@ -1,6 +1,13 @@
 -- put all the vim options here
 -- Still need to organise
 
+
+-- Disable compatible mode
+vim.opt.compatible = false
+
+-- Enable filetype detection and plugins
+vim.cmd('filetype plugin on')
+
 -- INDENTATION OPTIONS
 vim.opt.autoindent = true -- new lines inherit indentation
 vim.opt.smartindent = true -- makes auto-indent not suck
@@ -163,10 +170,31 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "-"
 
 -- NETRW
+-- Enable Netrw
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- 
+-- -- Optional: Set Netrw to open on the left side
+-- vim.g.netrw_browse_split = 4
+-- vim.g.netrw_winsize = 25
+-- 
+-- -- Optional: Set default view to tree view
+-- vim.g.netrw_liststyle = 3
 vim.g.netrw_browse_split = 0 -- in the default popup window rather than split or something
 vim.g.netrw_banner = 0 -- remove the banner fofalser netrw
 -- set netrw to show the line numbers, remove color column
 vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- default values of noma nomod nu nowrap ro nobl
+
+-- Disable compatible mode
+vim.opt.compatible = false
+
+-- Enable filetype detection and plugins
+vim.cmd('filetype plugin on')
+
+-- Netrw settings
+vim.g.netrw_browse_split = 0       -- Use the default popup window for browsing
+vim.g.netrw_banner = 0              -- Remove the Netrw banner
+vim.g.netrw_bufsettings = 'noma nomod nu rnu colorcolumn=""' -- Line numbers and no color column
 
 -- SPELLING
 vim.opt.spelllang = "en_gb"

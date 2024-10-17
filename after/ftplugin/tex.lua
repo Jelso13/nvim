@@ -105,18 +105,18 @@ vim.keymap.set({"n", "x", "o"}, "[/", "<plug>(vimtex-[/" , { desc = "go to previ
 vim.keymap.set({"n", "x", "o"}, "[*", "<plug>(vimtex-[star", { desc = "go to previous end of a LaTeX comment"})
 
 -- local leader commands
-vim.keymap.set('n', '<localleader>li', '<Plug>(vimtex-info)', { desc = "latex info", noremap = false })
-vim.keymap.set('n', '<localleader>ll', '<Plug>(vimtex-compile)', { desc = "latex compile", noremap = false })
-vim.keymap.set("n", "<localleader>lv", "<plug>(vimtex-view)", { desc = "view document" })
-vim.keymap.set("n", "<localleader>lt", "<plug>(vimtex-toc-open)", { desc = "open table of contents" })
-vim.keymap.set("n", "<localleader>lT", "<plug>(vimtex-toc-toggle)", { desc = "toggle table of contents" })
-vim.keymap.set("n", "<localleader>lq", "<plug>(vimtex-log)", { desc = "open logs" })
-vim.keymap.set("n", "<localleader>lk", "<plug>(vimtex-stop)", { desc = "kill/stop" })
-vim.keymap.set("n", "<localleader>lo", "<plug>(vimtex-compile-output)", { desc = "compile output" })
-vim.keymap.set("n", "<localleader>lg", "<plug>(vimtex-status)", { desc = "status" })
-vim.keymap.set("n", "<localleader>lc", "<plug>(vimtex-clean)", { desc = "clean" })
-vim.keymap.set("n", "<localleader>la", "<plug>(vimtex-context-menu)", { desc = "show context menu" })
-vim.keymap.set("n", "<localleader>lw", "<cmd>VimtexCountWords<cr>", { desc = "Display the word count" })
+-- vim.keymap.set('n', '<localleader>li', '<Plug>(vimtex-info)', { desc = "latex info", noremap = false })
+vim.keymap.set('n', '<localleader>l', '<Plug>(vimtex-compile)', { desc = "latex compile", noremap = false })
+vim.keymap.set("n", "<localleader>v", "<plug>(vimtex-view)", { desc = "view document" })
+vim.keymap.set("n", "<localleader>t", "<plug>(vimtex-toc-open)", { desc = "open table of contents" })
+vim.keymap.set("n", "<localleader>T", "<plug>(vimtex-toc-toggle)", { desc = "toggle table of contents" })
+vim.keymap.set("n", "<localleader>q", "<plug>(vimtex-log)", { desc = "open logs" })
+vim.keymap.set("n", "<localleader>k", "<plug>(vimtex-stop)", { desc = "kill/stop" })
+vim.keymap.set("n", "<localleader>o", "<plug>(vimtex-compile-output)", { desc = "compile output" })
+vim.keymap.set("n", "<localleader>g", "<plug>(vimtex-status)", { desc = "status" })
+vim.keymap.set("n", "<localleader>c", "<plug>(vimtex-clean)", { desc = "clean" })
+-- vim.keymap.set("n", "<localleader>a", "<plug>(vimtex-context-menu)", { desc = "show context menu" })
+vim.keymap.set("n", "<localleader>w", "<cmd>VimtexCountWords<cr>", { desc = "Display the word count" })
 
 -- other mappings
 vim.keymap.set("n", "dse", "<plug>(vimtex-env-delete)", { desc = "delete surrounding environment"})
@@ -136,8 +136,6 @@ vim.keymap.set("i", ']]', '<Plug>(vimtex-delim-close)', { desc = "close delimete
 -- ################### CUSTOM COMMANDS #####################################
 
 
-vim.keymap.set('n', '<localleader>c', '<Plug>(vimtex-compile)', { desc = "latex compile", noremap = false })
-vim.keymap.set("n", "<localleader>v", "<plug>(vimtex-view)", { desc = "view document" })
 
 -- change j and k to act like gj and gk which respect soft-wrapped lines
 vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })

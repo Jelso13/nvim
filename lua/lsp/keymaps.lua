@@ -35,10 +35,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
-        local map = function(keys, func, desc, mode)
-            mode = mode or "n"
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-        end
+        -- local map = function(keys, func, desc, mode)
+        --     mode = mode or "n"
+        --     vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+        -- end
 
         -- Jump to the definition of the word under your cursor.
         --  This is where a variable was first declared, or where a function is defined, etc.
@@ -46,40 +46,38 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n","gd", require("telescope.builtin").lsp_definitions, { buffer = event.buf, desc = "[G]oto [D]efinition"})
 
         -- Find references for the word under your cursor.
-        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { buffer = event.buf, desc = "[G]oto [R]eferences"})
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
-        map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+        vim.keymap.set("n", "gI", require("telescope.builtin").lsp_implementations, { buffer = event.buf, desc = "[G]oto [I]mplementation"})
 
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
         --  the definition of its *type*, not where it was *defined*.
-        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-
-        -- Fuzzy find all the symbols in your current document.
-        --  Symbols are things like variables, functions, types, etc.
-        map("<leader>sc", require("telescope.builtin").lsp_document_symbols, "[S]earch [C]urrent-file")
+        --  Use 'kind' instead of type to avoid conflict with gt for tabs
+        vim.keymap.set("n", "gk", require("telescope.builtin").lsp_type_definitions, { buffer = event.buf, desc = "[G]oto [K]ind"})
 
         -- Fuzzy find all the symbols in your current workspace.
         --  Similar to document symbols, except searches over your entire project.
-        map(
-            "<leader>ws",
-            require("telescope.builtin").lsp_dynamic_workspace_symbols,
-            "[W]orkspace [S]ymbols"
-        )
+        -- vim.keymap.set(
+        --     "n", 
+        --     "<leader>pss",
+        --     require("telescope.builtin").lsp_dynamic_workspace_symbols,
+        --     {buffer = event.buf, desc="[P]roject [S]earch [S]ymbols"}
+        -- )
 
         -- Rename the variable under your cursor.
         --  Most Language Servers support renaming across files, etc.
-        map("<leader>rp", vim.lsp.buf.rename, "[R]ename in [P]roject")
+        vim.keymap.set("n", "<leader>pr", vim.lsp.buf.rename, {buffer=event.buf, desc="[P]roject [R]ename item"})
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
+        vim.keymap.set({ "n","x" }, "<leader>ca", vim.lsp.buf.code_action, {buffer=event.buf, desc="[C]ode [A]ction"})
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
-        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {buffer=event.buf, desc="[G]oto [D]eclaration"})
 
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
@@ -109,16 +107,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
                     vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
                 end,
             })
-        end
-
-        -- The following code creates a keymap to toggle inlay hints in your
-        -- code, if the language server you are using supports them
-        --
-        -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map("<leader>th", function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-            end, "[T]oggle Inlay [H]ints")
         end
     end,
 })

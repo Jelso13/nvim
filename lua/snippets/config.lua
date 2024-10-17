@@ -66,14 +66,14 @@ local d = require("snippets.snippet_whichkey")
 vim.api.nvim_create_user_command("LuaSnipListAll", d.display_snippets, { force = true })
 
 -- create a keybinding to <leader>hs that calls the user command
-vim.keymap.set("n", "<leader>hs", ":LuaSnipListAll<CR>", { silent = true })
+vim.keymap.set("n", "<leader>hs", ":LuaSnipListAll<CR>", { silent = true, desc="[H]elp [S]nippets" })
 
 -- Keybinding to launch the function
 vim.keymap.set(
   'n',                           -- normal mode
-  '<leader>os',                  -- your keybinding (os: open snippets)
+  '<leader>ns',                  -- your keybinding (os: open snippets)
     require("snippets.open_snippets").open_snippet_files,
-  { noremap = true, silent = true, desc="[O]pen [S]nippets" }  -- options: don't allow remapping and silent execution
+  { noremap = true, silent = true, desc="[N]eovim open [S]nippets" }  -- options: don't allow remapping and silent execution
 )
 
 -- Expand snippets in insert mode with Tab

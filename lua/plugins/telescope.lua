@@ -79,45 +79,39 @@ return {
 
             -- See `:help telescope.builtin`
             local builtin = require("telescope.builtin")
-            vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-            vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-            vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+            vim.keymap.set("n", "<leader>hn", builtin.help_tags, { desc = "[H]elp search [N]eovim tags" })
+            vim.keymap.set("n", "<leader>hk", builtin.keymaps, { desc = "[H]elp [K]eymaps" })
+            vim.keymap.set("n", "<leader>sp", builtin.find_files, { desc = "[S]earch [P]roject files" })
             vim.keymap.set("n", "<leader>ss", builtin.symbols, { desc = "[S]earch [S]ymbols" })
-            vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
-            vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-            -- vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-            vim.keymap.set("n", "<leader>sr", builtin.oldfiles, { desc = '[S]earch [R]ecent Files' })
+            -- this is different because it searches for the word under the cursor
+            vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch [W]ord under cursor" })
+            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch [P]roject by grep" })
+            vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "[P]roject search [D]iagnostics" })
+            vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
             vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
 
             -- Slightly advanced example of overriding default behavior and theme
-            vim.keymap.set("n", "<leader>/", function()
+            vim.keymap.set("n", "<leader>sf", function()
                 -- You can pass additional configuration to Telescope to change the theme, layout, etc.
                 builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
                     winblend = 10,
                     previewer = false,
                 }))
-            end, { desc = "[/] Fuzzily search in current buffer" })
-
-            -- It's also possible to pass additional configuration options.
-            --  See `:help telescope.builtin.live_grep()` for information about particular keys
-            vim.keymap.set("n", "<leader>s/", function()
-                builtin.live_grep({
-                    grep_open_files = true,
-                    prompt_title = "Live Grep in Open Files",
-                })
-            end, { desc = "[S]earch [/] in Open Files" })
+            end, { desc = "[S]earch current [File] fuzzy" })
 
             -- Shortcut for searching your Neovim configuration files
-            vim.keymap.set("n", "<leader>sn", function()
+            vim.keymap.set("n", "<leader>nf", function()
                 builtin.find_files({ cwd = vim.fn.stdpath("config") })
-            end, { desc = "[S]earch [N]eovim files" })
+            end, { desc = "[N]eovim [F]iles" })
 
-
+            -- git keybindings
             -- Global keybinding for running your custom Telescope picker
             -- pcall(require("telescope").load_extension, "git_worktree")
             local worktrees = require("telescope").load_extension("git_worktrees")
             vim.keymap.set("n", "<leader>gw", worktrees.git_worktree, {desc="[G]it [W]orktree change"})
+
+            -- help
+            vim.keymap.set("n", "<leader>hm", require("telescope.builtin").man_pages, { desc = "[H]elp [M]anpages"})
 
         end,
     },

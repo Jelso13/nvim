@@ -1,12 +1,19 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+--[[
+NOTE:
+Keybindings should typically be of the form verb-object.
+In cases where a context is required (such as git) the context is prefixed:
+    Context-verb-object
+Examples:
+    <localleader>ef      -> [E]dit [F]igure in latex
+    <leader>grb          -> [G]it [R]eset [B]uffer
+--]]
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
--- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -41,7 +48,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- open netrw with leader pv
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Project View" })
+-- if oil.nvim is not available, use the following keymap
+local success, _ = pcall(require, "oil")
+if not success then
+    -- vim.keymap.set("n", "<leader>pv", ":e .<CR>", { desc = "Project View" })
+    vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "[P]roject [V]iew" })
+end
 
 -- Resize with arrows
 vim.keymap.set("n", "<C-Up>", ":resize -2<CR>")
@@ -71,7 +83,7 @@ vim.keymap.set("x", "<leader>p", '"_dP', { desc = "paste over block without stor
 -- prevent paste over visual select from picking up item beneath
 vim.keymap.set("v", "p", '"_dP', { desc = "paste over visual select without adding to buffer" })
 
--- -- delete without storing in register
+-- -- delete without storing in register - current conflict with debug bindings
 -- vim.keymap.set("n", "<leader>d", '"_d', { desc = "delete without storing in register" })
 -- vim.keymap.set("v", "<leader>d", '"_d', { desc = "delete without storing in register" })
 
@@ -81,10 +93,26 @@ vim.keymap.set("n", "Q", "@@", { desc = "repeat last macro" })
 -- open new tmux session
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "open file in new tmux session" })
 
--- quickfix commands... TODO: remap as currently been replaced by window navigation
--- go between errors (need lsp)
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "next item in quickfix" })
-vim.keymap.set("n", "<q-j>", "<cmd>cprev<CR>zz", { desc = "prev item in quickfix" })
+-- quickfix commands... NOTE: prefer 'q' over 'c' for quickfix as unlikely to need q for quit or something
+-- Diagnostic keymaps
+-- vim.keymap.set("n", "<leader>qd", vim.diagnostic.setloclist, { desc = "Open [Q]uickfix [D]iagnostic list" })
+vim.keymap.set("n", "<leader>qd", vim.diagnostic.setqflist, { desc = "Open [Q]uickfix [D]iagnostic list" })
+vim.keymap.set("n", "<leader>qc", ":cexpr []<CR>", { desc="[Q]uickfix [C]lear" })
+vim.keymap.set("n", "<leader>qh", ":chistory<CR>", { desc="[Q]uickfix [H]istory" })
+-- maybe add this under d for <leader>dq for [D]ebug add to [Q]uickfix
+-- vim.keymap.set("n", "<leader>qb", ":cbuffer<CR>", { desc="Sets the quickfix list from errors in the current buffer."})
+-- same with this one
+-- vim.keymap.set("n", "<leader>qa", ":caddbuffer<CR>", { desc="Adds the errors from the current buffer to the quickfix list."})
+-- vim.keymap.set("n", "<leader>qw", ":cwindow<CR>", { desc="Opens the quickfix list if there are errors, closes it otherwise."})
+vim.keymap.set("n", "<leader>qt", function() 
+    if vim.fn.getqflist({ winid = 0 }).winid == 0 then
+        vim.cmd('copen')
+    else
+        vim.cmd('cclose')
+    end
+end, { desc = "[Q]uickfix [T]oggle" })
+vim.keymap.set("n", "]q", ":cnext<CR>zz", { desc = "jump to next item in quickfix" })
+vim.keymap.set("n", "[q", ":cprev<CR>zz", { desc = "jump to prev item in quickfix" })
 
 -- move to next location in location list
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
@@ -99,3 +127,4 @@ vim.keymap.set("v", ">", ">gv")
 
 -- test for ctrl backspace working in insert mode
 vim.keymap.set("i", "<C-h>", "<C-w>")
+
