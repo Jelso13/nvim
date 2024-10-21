@@ -105,6 +105,8 @@ require("lazy").setup({
 
 	require("plugins/zenmode"),
 
+    require("plugins/obsidian"),
+
 	-- require("plugins/none-ls"),
 	-- -- -- Markdown plugin (alt to obsidian)
 	-- -- -- use("jakewvincent/mkdnflow.nvim")
