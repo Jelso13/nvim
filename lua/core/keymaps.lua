@@ -128,3 +128,67 @@ vim.keymap.set("v", ">", ">gv")
 -- test for ctrl backspace working in insert mode
 vim.keymap.set("i", "<C-h>", "<C-w>")
 
+
+-- Obsidian daily note
+
+-- Map the function to <leader>o
+-- vim.keymap.set('n', '<leader>o', function()
+--     local ok, obsidian = pcall(require, 'obsidian')
+--     if not ok then
+--         print('Obsidian plugin not found')
+--         return
+--     end
+-- 
+--     -- Open the daily note
+--     -- obsidian.open_daily_note()
+--     vim.cmd('ObsidianToday')
+-- 
+-- end, { noremap = true, silent = true })
+-- local function open_floating_vault()
+--     local filepath = '~/Vault/Vault.md' -- File to open
+--     filepath = vim.fn.expand(filepath) -- Expand ~ to home directory
+-- 
+--     -- Find existing buffer by name
+--     local bufnr = vim.fn.bufnr(filepath)
+-- 
+--     -- If the buffer does not exist, create a new one
+--     if bufnr == -1 then
+--         bufnr = vim.api.nvim_create_buf(false, true) -- Create a new unnamed buffer
+--         vim.api.nvim_buf_set_name(bufnr, filepath) -- Set the buffer name to the file path
+--         vim.api.nvim_buf_set_option(bufnr, 'buftype', 'nofile') -- No file type
+--         vim.api.nvim_buf_set_option(bufnr, 'bufhidden', 'wipe') -- Wipe the buffer when hidden
+--         vim.cmd('edit ' .. filepath) -- Load the file into the buffer
+--     else
+--         -- If the buffer exists, switch to it and refresh it
+--         vim.api.nvim_set_current_buf(bufnr) 
+--         vim.cmd('edit ' .. filepath) -- Reload the file content
+--     end
+-- 
+--     -- Define the floating window dimensions
+--     local width = math.floor(vim.o.columns * 0.8) -- Width of the floating window
+--     local height = math.floor(vim.o.lines * 0.8) -- Height of the floating window
+-- 
+--     local opts = {
+--         style = 'minimal',
+--         relative = 'editor',
+--         width = width,
+--         height = height,
+--         row = (vim.o.lines - height) / 2, -- Center vertically
+--         col = (vim.o.columns - width) / 2, -- Center horizontally
+--     }
+-- 
+--     -- Create the floating window
+--     local win_id = vim.api.nvim_open_win(bufnr, true, opts)
+-- 
+--     -- Set up a key mapping to close the window
+--     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', ':q<CR>', { noremap = true, silent = true })
+--     
+--     -- Automatically close the floating window and wipe the buffer when it is deleted
+--     vim.api.nvim_command('autocmd BufDelete <buffer> :bwipeout ' .. bufnr)
+-- end
+-- 
+-- -- Register the user command
+-- vim.api.nvim_create_user_command('OpenVault', open_floating_vault, {})
+-- -- Keymapping
+-- vim.api.nvim_set_keymap('n', '<leader>o', '<cmd>OpenVault<CR>', { noremap = true, silent = true })
+-- 
