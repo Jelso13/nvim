@@ -104,7 +104,7 @@ vim.keymap.set("n", "<leader>qh", ":chistory<CR>", { desc="[Q]uickfix [H]istory"
 -- same with this one
 -- vim.keymap.set("n", "<leader>qa", ":caddbuffer<CR>", { desc="Adds the errors from the current buffer to the quickfix list."})
 -- vim.keymap.set("n", "<leader>qw", ":cwindow<CR>", { desc="Opens the quickfix list if there are errors, closes it otherwise."})
-vim.keymap.set("n", "<leader>qt", function() 
+vim.keymap.set("n", "<leader>qt", function()
     if vim.fn.getqflist({ winid = 0 }).winid == 0 then
         vim.cmd('copen')
     else
