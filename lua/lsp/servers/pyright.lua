@@ -34,7 +34,7 @@ return function(capabilities)
                         reportMissingTypeArgument = "warning",
                         -- reportMissingParameterType = "warning",
                         reportMissingImports = "none",
-                        -- reportUnusedImport = "warning",
+                        reportUnusedImport = "none",
                         reportUnusedVariable = "none",
                     },
                 },

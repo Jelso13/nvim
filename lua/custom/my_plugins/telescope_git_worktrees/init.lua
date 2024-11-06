@@ -535,10 +535,10 @@ end
 M.setup = function(config)
     config = config or {}
     M._config = vim.tbl_deep_extend("force", {
-        change_directory_command = "cd",
+        change_directory_command = "tcd", -- change to tcd if you want to only change the pwd for the current vim tab
         update_on_change = true,
         update_on_change_command = "e .",
-        clearjumps_on_change = true,
+        clearjumps_on_change = false,
         -- default to false to avoid breaking the previous default behavior
         confirm_telescope_deletions = false,
         -- should this default to true or false?

@@ -2,6 +2,19 @@ return {
 	"ThePrimeagen/harpoon",
 	branch = "harpoon2",
 	dependencies = { "nvim-lua/plenary.nvim" },
+    settings = {
+        -- any time the ui menu is closed then we will save the state back to the backing list, not to the fs
+        save_on_toggle = false,              -- Keep this as false if you don't want to save on toggle
+        -- any time the ui menu is closed then the state of the list will be sync'd back to the fs
+        sync_on_ui_close = true,             -- Enable this to sync state back to the filesystem
+        key = function()
+            -- Return the Git worktree directory or a unique identifier for each worktree
+            -- local git_worktree_path = vim.fn.system("git rev-parse --show-toplevel"):gsub("%s+", "")
+            -- return git_worktree_path
+            -- return vim.fn.system("git rev-parse --show-toplevel"):gsub("%s+", "")
+            return vim.loop.cwd()
+        end,
+    },
 	config = function()
 		local harpoon = require("harpoon")
 		harpoon:setup()

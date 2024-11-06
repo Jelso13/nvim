@@ -85,7 +85,7 @@ return {
             vim.keymap.set("n", "<leader>ss", builtin.symbols, { desc = "[S]earch [S]ymbols" })
             -- this is different because it searches for the word under the cursor
             vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch [W]ord under cursor" })
-            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch [P]roject by grep" })
+            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch [G]rep in project" })
             vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "[P]roject search [D]iagnostics" })
             vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
             vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
