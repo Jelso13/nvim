@@ -111,6 +111,7 @@ vim.keymap.set("n", "<localleader>v", "<plug>(vimtex-view)", { desc = "view docu
 vim.keymap.set("n", "<localleader>t", "<plug>(vimtex-toc-open)", { desc = "open table of contents" })
 vim.keymap.set("n", "<localleader>T", "<plug>(vimtex-toc-toggle)", { desc = "toggle table of contents" })
 vim.keymap.set("n", "<localleader>q", "<plug>(vimtex-log)", { desc = "open logs" })
+vim.keymap.set("n", "<localleader>e", "<plug>(vimtex-errors)", { desc = "open compile errors" })
 vim.keymap.set("n", "<localleader>k", "<plug>(vimtex-stop)", { desc = "kill/stop" })
 vim.keymap.set("n", "<localleader>o", "<plug>(vimtex-compile-output)", { desc = "compile output" })
 vim.keymap.set("n", "<localleader>g", "<plug>(vimtex-status)", { desc = "status" })
