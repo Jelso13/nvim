@@ -96,6 +96,8 @@ require("lazy").setup({
 
 	require("plugins/mini"),
 
+    require("plugins/blankline"),
+
     -- actually quite useful as makes navigation easier especially
     require("plugins/autopairs"),
 
