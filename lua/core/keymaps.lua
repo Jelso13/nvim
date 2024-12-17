@@ -96,9 +96,18 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { de
 -- quickfix commands... NOTE: prefer 'q' over 'c' for quickfix as unlikely to need q for quit or something
 -- Diagnostic keymaps
 -- vim.keymap.set("n", "<leader>qd", vim.diagnostic.setloclist, { desc = "Open [Q]uickfix [D]iagnostic list" })
-vim.keymap.set("n", "<leader>qd", vim.diagnostic.setqflist, { desc = "Open [Q]uickfix [D]iagnostic list" })
+vim.keymap.set("n", "<leader>qd", function()
+    local diagnostics = vim.diagnostic.get(0) -- Get diagnostics only for the current buffer
+    vim.fn.setqflist({}, 'r', {
+        title = "Diagnostics (Current Buffer)",
+        items = vim.diagnostic.toqflist(diagnostics),
+    })
+    vim.cmd('copen') -- Open the quickfix list
+end, { desc = "Open [Q]uickfix [D]iagnostic list for current buffer" })
+vim.keymap.set("n", "<leader>qp", vim.diagnostic.setqflist, { desc = "Open [Q]uickfix [P]roject Diagnostic list" })
 vim.keymap.set("n", "<leader>qc", ":cexpr []<CR>", { desc="[Q]uickfix [C]lear" })
 vim.keymap.set("n", "<leader>qh", ":chistory<CR>", { desc="[Q]uickfix [H]istory" })
+vim.keymap.set("n", "<leader>qv", ":copen<CR>", { desc="[Q]uickfix [V]iew" })
 -- maybe add this under d for <leader>dq for [D]ebug add to [Q]uickfix
 -- vim.keymap.set("n", "<leader>qb", ":cbuffer<CR>", { desc="Sets the quickfix list from errors in the current buffer."})
 -- same with this one
