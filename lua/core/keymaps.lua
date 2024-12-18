@@ -138,6 +138,30 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("i", "<C-h>", "<C-w>")
 
 
+-- LSP commands
+vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { desc="[L]sp [R]estart" })
+
+vim.keymap.set("n", "<leader>ls", function()
+    local current_config = vim.diagnostic.config()
+    local new_severity
+
+    -- Check current severity and toggle
+    if current_config.virtual_text and current_config.severity == vim.diagnostic.severity.WARN then
+        new_severity = vim.diagnostic.severity.ERROR
+    else
+        new_severity = vim.diagnostic.severity.WARN
+    end
+
+    -- Update diagnostic configuration
+    vim.diagnostic.config({
+        virtual_text = {
+            severity = new_severity,
+        },
+    })
+
+    print("Virtual text severity set to " .. (new_severity == vim.diagnostic.severity.ERROR and "ERROR" or "WARN"))
+end, { desc = "[L]sp [S]everity" })
+
 -- Obsidian daily note
 
 -- Map the function to <leader>o

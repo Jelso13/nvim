@@ -18,3 +18,7 @@ require("core.lazy-bootstrap")
 
 -- [[ Configure and install plugins ]]
 require("core.lazy-plugins")
+
+
+-- [[ Auto commands ]]
+require("core.autocmds")

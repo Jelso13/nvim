@@ -78,6 +78,7 @@ return {
                 { "<leader>o", group = "[O]bsidian" }, -- keybindings for obsidian
                 { "<leader>n", group = "[N]eovim" },
                 { "<leader>s", group = "[S]earch" },
+                { "<leader>l", group = "[L]sp" },
                 { "<leader>z", group = "[Z]en" },
                 { "[", group = "Navigate Next", mode = { "n", "v" } },
                 { "]", group = "Navigate Previous", mode = { "n", "v" } },
