@@ -7,10 +7,11 @@ return function(capabilities)
         settings = {
             python = {
                 analysis = {
-                    typeCheckingMode = "off", -- Looser checking mode than "strict"
+                    typeCheckingMode = "strict", -- Looser checking mode than "strict"
                     autoSearchPaths = true,
                     useLibraryCodeForTypes = true,
                     diagnosticMode = "workspace", -- Check all files in the workspace
+                    verboseOutput = true,
 
                     -- Report settings to reduce false positives
                     reportMissingTypeStubs = true, -- You may want to keep this to detect missing type stubs
@@ -23,16 +24,16 @@ return function(capabilities)
                     reportUnusedImport = false, -- reports if a function return is ignored
                     reportUnusedVariable = false, -- reports if a function return is ignored
 
-                    -- Override severity to show as warnings
+                    -- Override severity to show as hints
                     diagnosticSeverityOverrides = {
-                        reportUnusedCallResult = "warning",
-                        reportImportCycles = "warning",
-                        reportMissingTypeStubs = "warning",
+                        reportUnusedCallResult = "hint",
+                        reportImportCycles = "hint",
+                        reportMissingTypeStubs = "hint",
                         reportUnknownMemberType = "none", -- Completely silence these
                         reportUnknownArgumentType = "none", -- Completely silence these
                         reportUnknownVariableType = "none", -- Completely silence these
-                        reportMissingTypeArgument = "warning",
-                        -- reportMissingParameterType = "warning",
+                        reportMissingTypeArgument = "hint",
+                        -- reportMissingParameterType = "hint",
                         reportMissingImports = "none",
                         reportUnusedImport = "none",
                         reportUnusedVariable = "none",
@@ -43,36 +44,561 @@ return function(capabilities)
     })
 end
 
-
--- return {
---   settings = {
---     python = {
---       analysis = {
---         typeCheckingMode = "strict",  -- Enables strict type checking
---         autoSearchPaths = true, -- find appropriate python files
---         useLibraryCodeForTypes = true, -- more lenient with external types
---         -- diagnosticMode = "openFilesOnly",  -- Only check open files
---         diagnosticMode = "workspace",  -- all files in workspace (can be slow)
---         -- Additional options to make Pyright behave like MyPy
---         reportMissingTypeStubs = true,
---         reportUnknownMemberType = false,
---         reportUnknownArgumentType = true,
---         reportUnknownVariableType = true,
---         reportMissingTypeArgument = true,
---         -- Override severity to show as warnings
---         diagnosticSeverityOverrides = {
---           reportMissingTypeStubs = "warning",
---           reportUnknownMemberType = "warning",
---           reportUnknownArgumentType = "warning",
---           reportUnknownVariableType = "warning",
---           reportMissingTypeArgument = "warning",
---           reportMissingParameterType = "warning",
---           reportMissingImports = "warning",
---           reportUnusedImport = "warning",
---           reportUnusedVariable = "warning",
---         },
---       },
---     },
---   },
--- }
--- 
+-- The following settings control the environment in which Pyright will check 
+--      for diagnostics. These settings determine how Pyright finds source 
+--      files, imports, and what Python version specific rules are applied.
+--
+--     verboseOutput [boolean]: Specifies whether output logs should be 
+--          verbose. This is useful when diagnosing certain problems like 
+--          import resolution issues.
+--
+-- Type Evaluation Settings
+--
+-- The following settings determine how different types should be evaluated.
+--
+--     strictListInference [boolean]: When inferring the type of a list, use 
+--          strict type assumptions. For example, the expression [1, 'a', 3.4
+--          ] could be inferred to be of type list[Any] or list[int | str | 
+--          float]. If this setting is true, it will use the latter (stricter
+--          ) type. The default value for this setting is false.
+--
+--     strictDictionaryInference [boolean]: When inferring the type of a 
+--          dictionary’s keys and values, use strict type assumptions. For 
+--          example, the expression {'a': 1, 'b': 'a'} could be inferred to 
+--          be of type dict[str, Any] or dict[str, int | str]. If this 
+--          setting is true, it will use the latter (stricter) type. The 
+--          default value for this setting is false.
+--
+--     strictSetInference [boolean]: When inferring the type of a set, use 
+--          strict type assumptions. For example, the expression {1, 'a', 3.4
+--          } could be inferred to be of type set[Any] or set[int | str | 
+--          float]. If this setting is true, it will use the latter (stricter
+--          ) type. The default value for this setting is false.
+--
+--     analyzeUnannotatedFunctions [boolean]: Analyze and report errors for 
+--          functions and methods that have no type annotations for input 
+--          parameters or return types. The default value for this setting is true.
+--
+--     strictParameterNoneValue [boolean]: PEP 484 indicates that when a 
+--          function parameter is assigned a default value of None, its type 
+--          should implicitly be Optional even if the explicit type is not. 
+--          When enabled, this rule requires that parameter type annotations 
+--          use Optional explicitly in this case. The default value for this 
+--          setting is true.
+--
+--     enableTypeIgnoreComments [boolean]: PEP 484 defines support for "# type
+--          : ignore" comments. This switch enables or disables support for 
+--          these comments. The default value for this setting is true. This 
+--          does not affect "# pyright: ignore" comments.
+--
+--     deprecateTypingAliases [boolean]: PEP 585 indicates that aliases to 
+--          types in standard collections that were introduced solely to 
+--          support generics are deprecated as of Python 3.9. This switch 
+--          controls whether these are treated as deprecated. This applies 
+--          only when pythonVersion is 3.9 or newer. The default value for 
+--          this setting is false but may be switched to true in the future.
+--
+--     enableReachabilityAnalysis [boolean]: If enabled, code that is 
+--          determined to be unreachable by type analysis is reported using a 
+--          tagged hint. This setting does not affect code that is determined 
+--          to be unreachable regardless of type analysis; such code is 
+--          always reported as unreachable. This setting also has no effect 
+--          when when using the command-line version of pyright because it 
+--          never emits tagged hints for unreachable code.
+--
+--     enableExperimentalFeatures [boolean]: Enables a set of experimental (
+--          mostly undocumented) features that correspond to proposed or 
+--          exploratory changes to the Python typing standard. These features 
+--          will likely change or be removed, so they should not be used 
+--          except for experimentation purposes. The default value for this 
+--          setting is false.
+--
+--     disableBytesTypePromotions [boolean]: Disables legacy behavior where 
+--          bytearray and memoryview are considered subtypes of bytes. PEP 
+--          688 deprecates this behavior, but this switch is provided to 
+--          restore the older behavior. The default value for this setting is true.
+--
+-- Type Check Diagnostics Settings
+--
+-- The following settings control pyright’s diagnostic output (warnings or errors).
+--
+--     typeCheckingMode ["off", "basic", "standard", "strict"]: Specifies the 
+--          default rule set to use. Some rules can be overridden using 
+--          additional configuration flags documented below. The default 
+--          value for this setting is "standard". If set to "off", all type-
+--          checking rules are disabled, but Python syntax and semantic 
+--          errors are still reported.
+--
+--     ignore [array of paths, optional]: Paths of directories or files whose 
+--          diagnostic output (errors and warnings) should be suppressed even 
+--          if they are an included file or within the transitive closure of 
+--          an included file. Paths may contain wildcard characters ** (a 
+--          directory or multiple levels of directories), * (a sequence of 
+--          zero or more characters), or ? (a single character). This setting 
+--          can be overridden in VS code in your settings.json.
+--
+-- Type Check Rule Overrides
+--
+-- The following settings allow more fine grained control over the 
+-- typeCheckingMode. Unless otherwise specified, each diagnostic setting can 
+-- specify a boolean value (false indicating that no error is generated and 
+-- true indicating that an error is generated). Alternatively, a string value 
+-- of "none", "warning", "information", or "error" can be used to specify the 
+-- diagnostic level.
+--
+--     reportGeneralTypeIssues [boolean or string, optional]: Generate or 
+--          suppress diagnostics for general type inconsistencies, 
+--          unsupported operations, argument/parameter mismatches, etc. This 
+--          covers all of the basic type-checking rules not covered by other 
+--          rules. It does not include syntax errors. The default value for 
+--          this setting is "error".
+--
+--     reportPropertyTypeMismatch [boolean or string, optional]: Generate or 
+--          suppress diagnostics for properties where the type of the value 
+--          passed to the setter is not assignable to the value returned by 
+--          the getter. Such mismatches violate the intended use of properties
+--          , which are meant to act like variables. The default value for 
+--          this setting is "none".
+--
+--     reportFunctionMemberAccess [boolean or string, optional]: Generate or 
+--          suppress diagnostics for non-standard member accesses for 
+--          functions. The default value for this setting is "error".
+--
+--     reportMissingImports [boolean or string, optional]: Generate or 
+--          suppress diagnostics for imports that have no corresponding 
+--          imported python file or type stub file. The default value for this setting is "error".
+--
+--     reportMissingModuleSource [boolean or string, optional]: Generate or 
+--          suppress diagnostics for imports that have no corresponding 
+--          source file. This happens when a type stub is found, but the 
+--          module source file was not found, indicating that the code may 
+--          fail at runtime when using this execution environment. Type 
+--          checking will be done using the type stub. The default value for 
+--          this setting is "warning".
+--
+--     reportInvalidTypeForm [boolean or string, optional]: Generate or 
+--          suppress diagnostics for type annotations that use invalid type 
+--          expression forms or are semantically invalid. The default value 
+--          for this setting is "error".
+--
+--     reportMissingTypeStubs [boolean or string, optional]: Generate or 
+--          suppress diagnostics for imports that have no corresponding type 
+--          stub file (either a typeshed file or a custom type stub). The 
+--          type checker requires type stubs to do its best job at analysis. 
+--          The default value for this setting is "none". Note that there is 
+--          a corresponding quick fix for this diagnostics that let you 
+--          generate custom type stub to improve editing experiences.
+--
+--     reportImportCycles [boolean or string, optional]: Generate or suppress 
+--          diagnostics for cyclical import chains. These are not errors in 
+--          Python, but they do slow down type analysis and often hint at 
+--          architectural layering issues. Generally, they should be avoided. 
+--          The default value for this setting is "none". Note that there are 
+--          import cycles in the typeshed stdlib typestub files that are 
+--          ignored by this setting.
+--
+--     reportUnusedImport [boolean or string, optional]: Generate or suppress 
+--          diagnostics for an imported symbol that is not referenced within 
+--          that file. The default value for this setting is "none".
+--
+--     reportUnusedClass [boolean or string, optional]: Generate or suppress 
+--          diagnostics for a class with a private name (starting with an 
+--          underscore) that is not accessed. The default value for this setting is "none".
+--
+--     reportUnusedFunction [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a function or method with a private name 
+--          (starting with an underscore) that is not accessed. The default 
+--          value for this setting is "none".
+--
+--     reportUnusedVariable [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a variable that is not accessed. The 
+--          default value for this setting is "none". Variables whose names 
+--          begin with an underscore are exempt from this check.
+--
+--     reportDuplicateImport [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an imported symbol or module that is 
+--          imported more than once. The default value for this setting is "none".
+--
+--     reportWildcardImportFromLibrary [boolean or string, optional]: 
+--          Generate or suppress diagnostics for a wildcard import from an 
+--          external library. The use of this language feature is highly 
+--          discouraged and can result in bugs when the library is updated. 
+--          The default value for this setting is "warning".
+--
+--     reportAbstractUsage [boolean or string, optional]: Generate or 
+--          suppress diagnostics for the attempted instantiate an abstract or 
+--          protocol class or use of an abstract method. The default value 
+--          for this setting is "error".
+--
+--     reportArgumentType [boolean or string, optional]: Generate or suppress 
+--          diagnostics for argument type incompatibilities when evaluating a 
+--          call expression. The default value for this setting is "error".
+--
+--     reportAssertTypeFailure [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a type mismatch detected by the typing.
+--          assert_type call. The default value for this setting is "error".
+--
+--     reportAssignmentType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for assignment type incompatibility. The 
+--          default value for this setting is "error".
+--
+--     reportAttributeAccessIssue [boolean or string, optional]: Generate or 
+--          suppress diagnostics related to attribute accesses. The default 
+--          value for this setting is "error".
+--
+--     reportCallIssue [boolean or string, optional]: Generate or suppress 
+--          diagnostics related to call expressions and arguments passed to a 
+--          call target. The default value for this setting is "error".
+--
+--     reportInconsistentOverload [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an overloaded function that has overload 
+--          signatures that are inconsistent with each other or with the 
+--          implementation. The default value for this setting is "error".
+--
+--     reportIndexIssue [boolean or string, optional]: Generate or suppress 
+--          diagnostics related to index operations and expressions. The 
+--          default value for this setting is "error".
+--
+--     reportInvalidTypeArguments [boolean or string, optional]: Generate or 
+--          suppress diagnostics for invalid type argument usage. The default 
+--          value for this setting is "error".
+--
+--     reportNoOverloadImplementation [boolean or string, optional]: Generate 
+--          or suppress diagnostics for an overloaded function or method if 
+--          the implementation is not provided. The default value for this setting is "error".
+--
+--     reportOperatorIssue [boolean or string, optional]: Generate or 
+--          suppress diagnostics related to the use of unary or binary 
+--          operators (like * or not). The default value for this setting is "error".
+--
+--     reportOptionalSubscript [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an attempt to subscript (index) a 
+--          variable with an Optional type. The default value for this setting is "error".
+--
+--     reportOptionalMemberAccess [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an attempt to access a member of a 
+--          variable with an Optional type. The default value for this setting is "error".
+--
+--     reportOptionalCall [boolean or string, optional]: Generate or suppress 
+--          diagnostics for an attempt to call a variable with an Optional 
+--          type. The default value for this setting is "error".
+--
+--     reportOptionalIterable [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an attempt to use an Optional type as an 
+--          iterable value (e.g. within a for statement). The default value 
+--          for this setting is "error".
+--
+--     reportOptionalContextManager [boolean or string, optional]: Generate 
+--          or suppress diagnostics for an attempt to use an Optional type as 
+--          a context manager (as a parameter to a with statement). The 
+--          default value for this setting is "error".
+--
+--     reportOptionalOperand [boolean or string, optional]: Generate or 
+--          suppress diagnostics for an attempt to use an Optional type as an 
+--          operand to a unary operator (like ~ or not) or the left-hand 
+--          operator of a binary operator (like *, ==, or). The default value 
+--          for this setting is "error".
+--
+--     reportRedeclaration [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a symbol that has more than one type 
+--          declaration. The default value for this setting is "error".
+--
+--     reportReturnType [boolean or string, optional]: Generate or suppress 
+--          diagnostics related to function return type compatibility. The 
+--          default value for this setting is "error".
+--
+--     reportTypedDictNotRequiredAccess [boolean or string, optional]: 
+--          Generate or suppress diagnostics for an attempt to access a non-
+--          required field within a TypedDict without first checking whether 
+--          it is present. The default value for this setting is "error".
+--
+--     reportUntypedFunctionDecorator [boolean or string, optional]: Generate 
+--          or suppress diagnostics for function decorators that have no type 
+--          annotations. These obscure the function type, defeating many type 
+--          analysis features. The default value for this setting is "none".
+--
+--     reportUntypedClassDecorator [boolean or string, optional]: Generate or 
+--          suppress diagnostics for class decorators that have no type 
+--          annotations. These obscure the class type, defeating many type 
+--          analysis features. The default value for this setting is "none".
+--
+--     reportUntypedBaseClass [boolean or string, optional]: Generate or 
+--          suppress diagnostics for base classes whose type cannot be 
+--          determined statically. These obscure the class type, defeating 
+--          many type analysis features. The default value for this setting is "none".
+--
+--     reportUntypedNamedTuple [boolean or string, optional]: Generate or 
+--          suppress diagnostics when “namedtuple” is used rather than “
+--          NamedTuple”. The former contains no type information, whereas the 
+--          latter does. The default value for this setting is "none".
+--
+--     reportPrivateUsage [boolean or string, optional]: Generate or suppress 
+--          diagnostics for incorrect usage of private or protected variables 
+--          or functions. Protected class members begin with a single 
+--          underscore (“_”) and can be accessed only by subclasses. Private 
+--          class members begin with a double underscore but do not end in a 
+--          double underscore and can be accessed only within the declaring 
+--          class. Variables and functions declared outside of a class are 
+--          considered private if their names start with either a single or 
+--          double underscore, and they cannot be accessed outside of the 
+--          declaring module. The default value for this setting is "none".
+--
+--     reportTypeCommentUsage [boolean or string, optional]: Prior to Python 3
+--          .5, the grammar did not support type annotations, so types needed 
+--          to be specified using “type comments”. Python 3.5 eliminated the 
+--          need for function type comments, and Python 3.6 eliminated the 
+--          need for variable type comments. Future versions of Python will 
+--          likely deprecate all support for type comments. If enabled, this 
+--          check will flag any type comment usage unless it is required for 
+--          compatibility with the specified language version. The default 
+--          value for this setting is "none".
+--
+--     reportPrivateImportUsage [boolean or string, optional]: Generate or 
+--          suppress diagnostics for use of a symbol from a "py.typed" module 
+--          that is not meant to be exported from that module. The default 
+--          value for this setting is "error".
+--
+--     reportConstantRedefinition [boolean or string, optional]: Generate or 
+--          suppress diagnostics for attempts to redefine variables whose 
+--          names are all-caps with underscores and numerals. The default 
+--          value for this setting is "none".
+--
+--     reportDeprecated [boolean or string, optional]: Generate or suppress 
+--          diagnostics for use of a class or function that has been marked 
+--          as deprecated. The default value for this setting is "none".
+--
+--     reportIncompatibleMethodOverride [boolean or string, optional]: 
+--          Generate or suppress diagnostics for methods that override a 
+--          method of the same name in a base class in an incompatible manner 
+--          (wrong number of parameters, incompatible parameter types, or 
+--          incompatible return type). The default value for this setting is "error".
+--
+--     reportIncompatibleVariableOverride [boolean or string, optional]: 
+--          Generate or suppress diagnostics for class variable declarations 
+--          that override a symbol of the same name in a base class with a 
+--          type that is incompatible with the base class symbol type. The 
+--          default value for this setting is "error".
+--
+--     reportInconsistentConstructor [boolean or string, optional]: Generate 
+--          or suppress diagnostics when an __init__ method signature is 
+--          inconsistent with a __new__ signature. The default value for this 
+--          setting is "none".
+--
+--     reportOverlappingOverload [boolean or string, optional]: Generate or 
+--          suppress diagnostics for function overloads that overlap in 
+--          signature and obscure each other or have incompatible return types
+--          . The default value for this setting is "error".
+--
+--     reportPossiblyUnboundVariable [boolean or string, optional]: Generate 
+--          or suppress diagnostics for variables that are possibly unbound 
+--          on some code paths. The default value for this setting is "error".
+--
+--     reportMissingSuperCall [boolean or string, optional]: Generate or 
+--          suppress diagnostics for __init__, __init_subclass__, __enter__ 
+--          and __exit__ methods in a subclass that fail to call through to 
+--          the same-named method on a base class. The default value for this 
+--          setting is "none".
+--
+--     reportUninitializedInstanceVariable [boolean or string, optional]: 
+--          Generate or suppress diagnostics for instance variables within a 
+--          class that are not initialized or declared within the class body 
+--          or the __init__ method. The default value for this setting is "none".
+--
+--     reportInvalidStringEscapeSequence [boolean or string, optional]: 
+--          Generate or suppress diagnostics for invalid escape sequences 
+--          used within string literals. The Python specification indicates 
+--          that such sequences will generate a syntax error in future 
+--          versions. The default value for this setting is "warning".
+--
+--     reportUnknownParameterType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for input or return parameters for functions 
+--          or methods that have an unknown type. The default value for this 
+--          setting is "none".
+--
+--     reportUnknownArgumentType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for call arguments for functions or methods 
+--          that have an unknown type. The default value for this setting is "none".
+--
+--     reportUnknownLambdaType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for input or return parameters for lambdas 
+--          that have an unknown type. The default value for this setting is "none".
+--
+--     reportUnknownVariableType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for variables that have an unknown type. The 
+--          default value for this setting is "none".
+--
+--     reportUnknownMemberType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for class or instance variables that have an 
+--          unknown type. The default value for this setting is "none".
+--
+--     reportMissingParameterType [boolean or string, optional]: Generate or 
+--          suppress diagnostics for input parameters for functions or 
+--          methods that are missing a type annotation. The self and cls 
+--          parameters used within methods are exempt from this check. The 
+--          default value for this setting is "none".
+--
+--     reportMissingTypeArgument [boolean or string, optional]: Generate or 
+--          suppress diagnostics when a generic class is used without 
+--          providing explicit or implicit type arguments. The default value 
+--          for this setting is "none".
+--
+--     reportInvalidTypeVarUse [boolean or string, optional]: Generate or 
+--          suppress diagnostics when a TypeVar is used inappropriately (e.g. 
+--          if a TypeVar appears only once) within a generic function 
+--          signature. The default value for this setting is "warning".
+--
+--     reportCallInDefaultInitializer [boolean or string, optional]: Generate 
+--          or suppress diagnostics for function calls, list expressions, set 
+--          expressions, or dictionary expressions within a default value 
+--          initialization expression. Such calls can mask expensive 
+--          operations that are performed at module initialization time. The 
+--          default value for this setting is "none".
+--
+--     reportUnnecessaryIsInstance [boolean or string, optional]: Generate or 
+--          suppress diagnostics for isinstance or issubclass calls where the 
+--          result is statically determined to be always true or always false
+--          . Such calls are often indicative of a programming error. The 
+--          default value for this setting is "none".
+--
+--     reportUnnecessaryCast [boolean or string, optional]: Generate or 
+--          suppress diagnostics for cast calls that are statically 
+--          determined to be unnecessary. Such calls are sometimes indicative 
+--          of a programming error. The default value for this setting is "none".
+--
+--     reportUnnecessaryComparison [boolean or string, optional]: Generate or 
+--          suppress diagnostics for == or != comparisons or other 
+--          conditional expressions that are statically determined to always 
+--          evaluate to False or True. Such comparisons are sometimes 
+--          indicative of a programming error. The default value for this 
+--          setting is "none". Also reports case clauses in a match statement 
+--          that can be statically determined to never match (with exception 
+--          of the _ wildcard pattern, which is exempted).
+--
+--     reportUnnecessaryContains [boolean or string, optional]: Generate or 
+--          suppress diagnostics for in operations that are statically 
+--          determined to always evaluate to False or True. Such operations 
+--          are sometimes indicative of a programming error. The default 
+--          value for this setting is "none".
+--
+--     reportAssertAlwaysTrue [boolean or string, optional]: Generate or 
+--          suppress diagnostics for assert statement that will provably 
+--          always assert because its first argument is a parenthesized tuple 
+--          (for example, assert (v > 0, "Bad value") when the intent was 
+--          probably assert v > 0, "Bad value"). This is a common programming 
+--          error. The default value for this setting is "warning".
+--
+--     reportSelfClsParameterName [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a missing or misnamed “self” parameter 
+--          in instance methods and “cls” parameter in class methods. 
+--          Instance methods in metaclasses (classes that derive from “type”) 
+--          are allowed to use “cls” for instance methods. The default value 
+--          for this setting is "warning".
+--
+--     reportImplicitStringConcatenation [boolean or string, optional]: 
+--          Generate or suppress diagnostics for two or more string literals 
+--          that follow each other, indicating an implicit concatenation. 
+--          This is considered a bad practice and often masks bugs such as 
+--          missing commas. The default value for this setting is "none".
+--
+--     reportUndefinedVariable [boolean or string, optional]: Generate or 
+--          suppress diagnostics for undefined variables. The default value 
+--          for this setting is "error".
+--
+--     reportUnboundVariable [boolean or string, optional]: Generate or 
+--          suppress diagnostics for unbound variables. The default value for 
+--          this setting is "error".
+--
+--     reportUnhashable [boolean or string, optional]: Generate or suppress 
+--          diagnostics for the use of an unhashable object in a container 
+--          that requires hashability. The default value for this setting is "error".
+--
+--     reportInvalidStubStatement [boolean or string, optional]: Generate or 
+--          suppress diagnostics for statements that are syntactically 
+--          correct but have no purpose within a type stub file. The default 
+--          value for this setting is "none".
+--
+--     reportIncompleteStub [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a module-level __getattr__ call in a 
+--          type stub file, indicating that it is incomplete. The default 
+--          value for this setting is "none".
+--
+--     reportUnsupportedDunderAll [boolean or string, optional]: Generate or 
+--          suppress diagnostics for statements that define or manipulate 
+--          __all__ in a way that is not allowed by a static type checker, 
+--          thus rendering the contents of __all__ to be unknown or incorrect
+--          . Also reports names within the __all__ list that are not present 
+--          in the module namespace. The default value for this setting is "warning".
+--
+--     reportUnusedCallResult [boolean or string, optional]: Generate or 
+--          suppress diagnostics for call statements whose return value is 
+--          not used in any way and is not None. The default value for this setting is "none".
+--
+--     reportUnusedCoroutine [boolean or string, optional]: Generate or 
+--          suppress diagnostics for call statements whose return value is 
+--          not used in any way and is a Coroutine. This identifies a common 
+--          error where an await keyword is mistakenly omitted. The default 
+--          value for this setting is "error".
+--
+--     reportUnusedExcept [boolean or string, optional]: Generate or suppress 
+--          diagnostics for an except clause that will never be reached. The 
+--          default value for this setting is "error".
+--
+--     reportUnusedExpression [boolean or string, optional]: Generate or 
+--          suppress diagnostics for simple expressions whose results are not 
+--          used in any way. The default value for this setting is "none".
+--
+--     reportUnnecessaryTypeIgnoreComment [boolean or string, optional]: 
+--          Generate or suppress diagnostics for a # type: ignore or # pyright
+--          : ignore comment that would have no effect if removed. The 
+--          default value for this setting is "none".
+--
+--     reportMatchNotExhaustive [boolean or string, optional]: Generate or 
+--          suppress diagnostics for a match statement that does not provide 
+--          cases that exhaustively match against all potential types of the 
+--          target expression. The default value for this setting is "none".
+--
+--     reportImplicitOverride [boolean or string, optional]: Generate or 
+--          suppress diagnostics for overridden methods in a class that are 
+--          missing an explicit @override decorator. The default value for 
+--          this setting is "none".
+--
+--     reportShadowedImports [boolean or string, optional]: Generate or 
+--          suppress diagnostics for files that are overriding a module in 
+--          the stdlib. The default value for this setting is "none".
+--
+-- Execution Environment 
+--      Options
+--
+-- Pyright allows multiple “execution environments” to be defined for 
+--      different portions of your source tree. For example, a subtree may be 
+--      designed to run with different import search paths or a different 
+--      version of the python interpreter than the rest of the source base.
+--
+-- The following settings can be specified for each execution environment. 
+--      Each source file within a project is associated with at most one 
+--      execution environment -- the first one whose root directory contains that file.
+--
+--     root [string, required]: Root path for the code that will execute 
+--          within this execution environment.
+--
+--     extraPaths [array of strings, optional]: Additional search paths (in 
+--          addition to the root path) that will be used when searching for 
+--          modules imported by files within this execution environment. If 
+--          specified, this overrides the default extraPaths setting when 
+--          resolving imports for files within this execution environment. 
+--          Note that each file’s execution environment mapping is independent
+--          , so if file A is in one execution environment and imports a 
+--          second file B within a second execution environment, any imports 
+--          from B will use the extraPaths in the second execution environment.
+--
+--     pythonVersion [string, optional]: The version of Python used for this 
+--          execution environment. If not specified, the global pythonVersion 
+--          setting is used instead.
+--
+--     pythonPlatform [string, optional]: Specifies the target platform that 
+--          will be used for this execution environment. If not specified, 
+--          the global pythonPlatform setting is used instead.
+--
+-- In addition, any of the type check diagnostics settings listed above can 
+--      be specified. These settings act as overrides for the files in this 
+--      execution environment.

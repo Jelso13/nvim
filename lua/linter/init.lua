@@ -1,14 +1,18 @@
 local mypy_args = {
     -- "--strict",                        -- Enable strict type checking
     "--extra-checks",                   -- not quite as strict as strict
-    "--disallow-untyped-defs",        -- Disallow function definitions without type annotations
     "--disallow-untyped-calls",       -- Disallow calls to untyped functions
-    -- "--check-untyped-defs",           -- Check bodies of untyped functions
-    "--warn-return-any",               -- Warn on functions returning Any
+    "--allow-untyped-defs",          -- Disallow defining functions without type annotations or with incomplete type annotations (inverse: --allow-untyped-defs) 
+    -- "--disallow-untyped-defs",          -- Disallow defining functions without type annotations or with incomplete type annotations (inverse: --allow-untyped-defs) 
+    -- "--check-untyped-defs",             -- Type check the interior of functions without type annotations (inverse: --no-check-untyped-defs)
+    "--no-check-untyped-defs",             -- Type check the interior of functions without type annotations (inverse: --no-check-untyped-defs)
+    -- "--warn-return-any",              --         Warn about returning values of type Any from non- Any typed functions
     "--ignore-missing-imports",        -- Ignore missing type hints in third-party libraries
     "--disallow-incomplete-defs",      -- Require complete type signatures for functions
     -- "--follow-imports=silent",         -- Follow imports when checking types
     -- "--show-column-numbers",           -- Show column numbers in error messages
+    "--warn-unreachable",                -- Warn about statements or expressions inferred to be unreachable (inverse: --no-warn-unreachable)
+    "--allow-redefinition"              -- Allow unconditional variable redefinition with a new type (inverse: --disallow-redefinition)
 }
 
 return {
