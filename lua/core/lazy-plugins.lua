@@ -101,6 +101,8 @@ require("lazy").setup({
     -- actually quite useful as makes navigation easier especially
     require("plugins/autopairs"),
 
+    -- TODO: (Add) Display the current context (class, function etc) at the top of the screen https://github.com/nvim-treesitter/nvim-treesitter-context
+
 	require("plugins/harpoon"),
 
 	require("plugins/treesitter"),
