@@ -133,15 +133,6 @@ return {
                     gitsigns.toggle_deleted,
                     { buffer = bufnr, desc = "[T]oggle git show [D]eleted" }
                 )
-                -- keymap for toggling signs in signcolumn
-                -- NOTE: This should probably be more generic than just for git
-                vim.keymap.set("n", "<leader>gts", function()
-                    local current = vim.wo.signcolumn
-                    vim.wo.signcolumn = current == "yes" and "no" or "yes"
-                end, {
-                    buffer = bufnr,
-                    desc = "[G]it [T]oggle [S]igns",
-                })
                 --
                 -- --
                 -- map('n', '<leader>tb', gitsigns.toggle_current_line_blame)

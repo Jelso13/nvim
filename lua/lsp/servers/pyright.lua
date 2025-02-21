@@ -1,48 +1,67 @@
 -- all the options are at https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 -- lua/lsp/servers/pyright.lua
-return function(capabilities)
-    local nvim_lsp = require("lspconfig")
-    nvim_lsp["pyright"].setup({
-        capabilities = capabilities,
-        settings = {
-            python = {
-                analysis = {
-                    typeCheckingMode = "strict", -- Looser checking mode than "strict"
-                    autoSearchPaths = true,
-                    useLibraryCodeForTypes = true,
-                    diagnosticMode = "workspace", -- Check all files in the workspace
-                    verboseOutput = true,
 
-                    -- Report settings to reduce false positives
-                    reportMissingTypeStubs = true, -- You may want to keep this to detect missing type stubs
-                    reportUnknownMemberType = false, -- Disable for standard library functions like list.append
-                    reportUnknownArgumentType = false, -- Less noise for unknown arguments
-                    reportUnknownVariableType = false, -- Less noise for unknown variable types
-                    reportMissingTypeArgument = true, -- Useful to detect missing generics (keep it on)
-                    reportImportCycles = true, -- reports if there are circular imports in the code
-                    reportUnusedCallResult = true, -- reports if a function return is ignored
-                    reportUnusedImport = false, -- reports if a function return is ignored
-                    reportUnusedVariable = false, -- reports if a function return is ignored
+return {
 
-                    -- Override severity to show as hints
-                    diagnosticSeverityOverrides = {
-                        reportUnusedCallResult = "hint",
-                        reportImportCycles = "hint",
-                        reportMissingTypeStubs = "hint",
-                        reportUnknownMemberType = "none", -- Completely silence these
-                        reportUnknownArgumentType = "none", -- Completely silence these
-                        reportUnknownVariableType = "none", -- Completely silence these
-                        reportMissingTypeArgument = "hint",
-                        -- reportMissingParameterType = "hint",
-                        reportMissingImports = "none",
-                        reportUnusedImport = "none",
-                        reportUnusedVariable = "none",
-                    },
-                },
-            },
-        },
-    })
-end
+    cmd = { "pyright-langserver", "--stdio" },
+    filetypes = { "python" },
+    root_dir = function(filename)
+          return util.root_pattern(unpack(root_files))(filename) or util.path.dirname(filename)
+        end,
+    settings = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          diagnosticMode = "workspace",
+          useLibraryCodeForTypes = true
+        }
+      }
+    }
+}
+
+-- return function(capabilities)
+--   local nvim_lsp = require("lspconfig")
+--   nvim_lsp["pyright"].setup({
+--     capabilities = capabilities,
+--     settings = {
+--       python = {
+--         analysis = {
+--           typeCheckingMode = "standard",
+--           autoSearchPaths = true,
+--           useLibraryCodeForTypes = true,
+--           diagnosticMode = "workspace",
+--           verboseOutput = true,
+-- 
+--           -- Report settings (set to true or false as you need)
+--           reportMissingTypeStubs = true,
+--           reportUnknownMemberType = false,
+--           reportUnknownArgumentType = false,
+--           reportUnknownVariableType = false,
+--           reportMissingTypeArgument = true,
+--           reportImportCycles = true,
+--           reportUnusedCallResult = true,
+--           reportUnusedImport = false,
+--           reportUnusedVariable = false,
+--           reportMissingImports = true,
+-- 
+--           -- Override all diagnostic severities to "warning"
+--           diagnosticSeverityOverrides = {
+--             reportMissingTypeStubs    = "warning",
+--             reportUnknownMemberType   = "warning",
+--             reportUnknownArgumentType = "warning",
+--             reportUnknownVariableType = "warning",
+--             reportMissingTypeArgument = "warning",
+--             reportImportCycles        = "warning",
+--             reportUnusedCallResult    = "warning",
+--             reportUnusedImport        = "warning",
+--             reportUnusedVariable      = "warning",
+--             reportMissingImports      = "hint",
+--           },
+--         },
+--       },
+--     },
+--   })
+-- end
 
 -- The following settings control the environment in which Pyright will check 
 --      for diagnostics. These settings determine how Pyright finds source 

@@ -1,0 +1,42 @@
+-- local ns = vim.api.nvim_create_namespace("pyright_custom")
+-- 
+-- -- Override the built-in virtual_text handler
+-- local orig_virtual_text_handler = vim.diagnostic.handlers.virtual_text
+-- 
+-- vim.diagnostic.handlers.virtual_text = {
+--   show = function(_, bufnr, diagnostics, opts)
+--     -- Modify diagnostic messages
+--     for _, diagnostic in ipairs(diagnostics) do
+--       -- Example: Add a prefix to messages or modify severity
+--       diagnostic.message = "[Pyright] " .. diagnostic.message
+--       if diagnostic.severity == vim.diagnostic.severity.ERROR then
+--         diagnostic.severity = vim.diagnostic.severity.WARN -- Downgrade error to warning
+--       end
+--     end
+-- 
+--     -- Pass modified diagnostics to the original handler
+--     orig_virtual_text_handler.show(ns, bufnr, diagnostics, opts)
+--   end,
+--   hide = function(_, bufnr)
+--     orig_virtual_text_handler.hide(ns, bufnr)
+--   end,
+-- }
+-- 
+-- -- Customize diagnostic signs
+-- vim.diagnostic.config({
+--   signs = {
+--     text = {
+--       [vim.diagnostic.severity.ERROR] = "✗",
+--       [vim.diagnostic.severity.WARN] = "⚠",
+--       [vim.diagnostic.severity.INFO] = "ℹ",
+--       [vim.diagnostic.severity.HINT] = "➤",
+--     },
+--   },
+--   virtual_text = {
+--     prefix = "●", -- Change the virtual text prefix
+--     spacing = 2,
+--     format = function(diagnostic)
+--       return string.format("%s [%s]", diagnostic.message, diagnostic.source or "LSP")
+--     end,
+--   },
+-- })

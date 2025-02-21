@@ -37,7 +37,6 @@
 -- }
 
 
-
 return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
@@ -75,7 +74,8 @@ return {
         -- })
 
         nvim_lsp.lua_ls.setup {require("lsp.servers.lua_ls")}
-        nvim_lsp.pyright.setup {require("lsp.servers.pyright")}
+        nvim_lsp.ruff.setup {require("lsp.servers.ruff")}
+        -- nvim_lsp.pyright.setup {require("lsp.servers.pyright")}
         -- causes issues with rustaceanvim
         nvim_lsp.rust_analyzer.setup {require("lsp.servers.rust_analyzer")}
 
@@ -97,23 +97,11 @@ return {
             return source .. diagnostic.message
         end
 
-        -- Configure diagnostics
-        vim.diagnostic.config({
-            virtual_text = true,
-            -- virtual_text = {
-            --     format = diagnostic_source_formatter,  -- Use the custom formatter
-            -- },
-            signs = true,
-            underline = true,
-            update_in_insert = false,
-            severity_sort = true,
-            float = {
-                format = diagnostic_source_formatter,
-            }
-        })
+
 
         -- Optional: Configure signs for diagnostics (if you want custom symbols)
-        local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
+        -- local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
+        local signs = { Error = "󰅚", Warn = "󰀪", Hint = "󰌶", Info = "" }
         for type, icon in pairs(signs) do
             vim.fn.sign_define("DiagnosticSign" .. type, { text = icon, texthl = "DiagnosticSign" .. type })
         end
@@ -130,6 +118,29 @@ return {
                 numhl = "DiagnosticSign" .. diag,
             })
         end
+
+        -- Configure diagnostics
+        vim.diagnostic.config({
+            virtual_text = true,
+            -- virtual_text = {
+            --     format = diagnostic_source_formatter,  -- Use the custom formatter
+            -- },
+            -- signs = true,
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = signs.Error,
+                    [vim.diagnostic.severity.WARN] = signs.Warn,
+                    [vim.diagnostic.severity.INFO] = signs.Info,
+                    [vim.diagnostic.severity.HINT] = signs.Hint,
+                },
+            },
+            underline = true,
+            update_in_insert = false,
+            severity_sort = true,
+            float = {
+                format = diagnostic_source_formatter,
+            }
+        })
 
 
 

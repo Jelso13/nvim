@@ -141,26 +141,57 @@ vim.keymap.set("i", "<C-h>", "<C-w>")
 -- LSP commands
 vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { desc="[L]sp [R]estart" })
 
+
+-- keymap for toggling signs in signcolumn
+vim.keymap.set("n", "<leader>ts", function()
+    local current = vim.wo.signcolumn
+    vim.wo.signcolumn = current == "yes" and "no" or "yes"
+end, { desc = "[T]oggle [S]igns", })
+
+
 vim.keymap.set("n", "<leader>ls", function()
     local current_config = vim.diagnostic.config()
-    local new_severity
 
-    -- Check current severity and toggle
-    if current_config.virtual_text and current_config.severity == vim.diagnostic.severity.WARN then
-        new_severity = vim.diagnostic.severity.ERROR
-    else
-        new_severity = vim.diagnostic.severity.WARN
+    -- Ensure virtual_text is always a table
+    local current_virtual_text = current_config.virtual_text
+    if type(current_virtual_text) ~= "table" then
+        current_virtual_text = {} -- Default to an empty table
     end
 
-    -- Update diagnostic configuration
+    -- Determine the current severity
+    local current_severity = current_virtual_text.severity or { vim.diagnostic.severity.ERROR }
+    
+    -- Define the severity levels to cycle through
+    local severity_levels = {
+        { vim.diagnostic.severity.ERROR }, -- Only errors
+        { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR }, -- Warnings + Errors
+        { vim.diagnostic.severity.INFO, vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR }, -- Info + Warnings + Errors
+        nil -- All severities (nil removes filtering)
+    }
+
+    -- Find the current index in the cycle
+    local next_index = 1
+    for i, sev in ipairs(severity_levels) do
+        if vim.deep_equal(sev, current_severity) then
+            next_index = i % #severity_levels + 1 -- Move to the next severity level
+            break
+        end
+    end
+
+    local new_severity = severity_levels[next_index]
+
+    -- Apply the new severity level
     vim.diagnostic.config({
-        virtual_text = {
-            severity = new_severity,
-        },
+        virtual_text = { severity = new_severity },
+        signs = { severity = new_severity },
+        float = { severity = new_severity },
     })
 
-    print("Virtual text severity set to " .. (new_severity == vim.diagnostic.severity.ERROR and "ERROR" or "WARN"))
-end, { desc = "[L]sp [S]everity" })
+    -- Feedback message
+    local severity_labels = { "ERROR", "WARN+ERROR", "INFO+WARN+ERROR", "ALL" }
+    print("Diagnostic severity set to: " .. severity_labels[next_index])
+end, { desc = "[L]SP [S]everity Cycle" })
+
 
 -- Obsidian daily note
 
