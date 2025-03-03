@@ -138,6 +138,10 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.indent_line',
 	-- require 'kickstart.plugins.lint',
 	-- require("kickstart.plugins.autopairs"),
+    --
+    -- Vim-be-good
+    -- require("ThePrimeagen/vim-be-good"),
+    require("plugins/vim-be-good"),
 
 	-- -- -- copilot
 	require("plugins/copilot"),

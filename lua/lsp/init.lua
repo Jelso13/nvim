@@ -74,8 +74,8 @@ return {
         -- })
 
         nvim_lsp.lua_ls.setup {require("lsp.servers.lua_ls")}
-        nvim_lsp.ruff.setup {require("lsp.servers.ruff")}
-        -- nvim_lsp.pyright.setup {require("lsp.servers.pyright")}
+        -- nvim_lsp.ruff.setup {require("lsp.servers.ruff")}
+        nvim_lsp.pyright.setup {require("lsp.servers.pyright")}
         -- causes issues with rustaceanvim
         nvim_lsp.rust_analyzer.setup {require("lsp.servers.rust_analyzer")}
 

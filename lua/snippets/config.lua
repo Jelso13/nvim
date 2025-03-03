@@ -69,10 +69,12 @@ vim.api.nvim_create_user_command("LuaSnipListAll", d.display_snippets, { force =
 vim.keymap.set("n", "<leader>hs", ":LuaSnipListAll<CR>", { silent = true, desc="[H]elp [S]nippets" })
 
 -- Keybinding to launch the function
+-- Want to open the current file type in ~/.config/nvim/lua/snippets/langs/<language>.lua
+-- on close, re-source nvim config in the file so I can use the snippet straight away
 vim.keymap.set(
   'n',                           -- normal mode
   '<leader>ns',                  -- your keybinding (os: open snippets)
-    require("snippets.open_snippets").open_snippet_files,
+    require("snippets.open_snippets").open_snippet_file,
   { noremap = true, silent = true, desc="[N]eovim open [S]nippets" }  -- options: don't allow remapping and silent execution
 )
 

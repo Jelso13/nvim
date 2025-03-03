@@ -12,7 +12,12 @@ local mypy_args = {
     -- "--follow-imports=silent",         -- Follow imports when checking types
     -- "--show-column-numbers",           -- Show column numbers in error messages
     "--warn-unreachable",                -- Warn about statements or expressions inferred to be unreachable (inverse: --no-warn-unreachable)
-    "--allow-redefinition"              -- Allow unconditional variable redefinition with a new type (inverse: --disallow-redefinition)
+    "--allow-redefinition",              -- Allow unconditional variable redefinition with a new type (inverse: --disallow-redefinition)
+    "--warn-unused-ignores",             -- Warn about @suppress annotations that suppress errors or warnings that are not present
+    "--error-summary",                   -- Print a global error summary after checking all files
+    "--show-error-codes",                -- Include error codes in error messages
+    "--soft-error-limit=0",             -- Number of errors to emit before stopping (default: 0)
+    
 }
 
 return {

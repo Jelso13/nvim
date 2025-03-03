@@ -1,30 +1,40 @@
--- Make sure you have 'plenary' and 'telescope' installed
-local telescope = require('telescope.builtin')
-local action_state = require('telescope.actions.state')
-local actions = require('telescope.actions')
-local Path = require('plenary.path')
 
 local M = {}
 
--- Function to open Telescope with your snippet files
-M.open_snippet_files = function()
-  local snippet_dir = vim.fn.expand("~/.config/nvim/lua/snippets/langs")
+M.open_snippet_file = function()
+  -- Get the current filetype (e.g. "python", "lua", etc.)
+  local ft = vim.bo.filetype
+  if ft == "" then
+    vim.notify("No filetype detected!", vim.log.levels.WARN)
+    return
+  end
 
-  -- Use telescope's find_files to list files in that directory
-  telescope.find_files({
-    prompt_title = "Snippets",
-    cwd = snippet_dir,
-    attach_mappings = function(prompt_bufnr, map)
-      -- This function attaches mappings to handle selecting files
-      actions.select_default:replace(function()
-        local selected_entry = action_state.get_selected_entry()
-        actions.close(prompt_bufnr)
-        local file_path = selected_entry.path
-        vim.cmd("edit " .. file_path)  -- Open the selected file
-      end)
-      return true
-    end
+  -- Build the path to the snippet file based on filetype.
+  -- Adjust the path as needed (here we assume your snippets live in ~/.config/nvim/lua/snippets/langs/)
+  local snippet_path = vim.fn.stdpath("config") .. "/lua/snippets/langs/" .. ft .. ".lua"
+
+  -- Save the current (previous) buffer number
+  local prev_buf = vim.api.nvim_get_current_buf()
+
+  -- Open the snippet file in the same window
+  vim.cmd("edit " .. snippet_path)
+
+  -- Get the buffer number of the snippet file
+  local snippet_buf = vim.api.nvim_get_current_buf()
+
+  -- Attach an autocmd that triggers when the snippet buffer is wiped out (typically on :wq)
+  vim.api.nvim_create_autocmd("BufWipeout", {
+    buffer = snippet_buf,
+    callback = function()
+      if vim.api.nvim_buf_is_valid(prev_buf) then
+        -- Use vim.schedule to safely switch back to the previous buffer
+        vim.schedule(function()
+          vim.cmd("buffer " .. prev_buf)
+        end)
+      end
+    end,
   })
 end
 
 return M
+-- Make sure you have 'plenary' and 'telescope' installed
