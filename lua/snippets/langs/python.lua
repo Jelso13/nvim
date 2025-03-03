@@ -160,13 +160,28 @@ def {}({}) -> {}:
     def {}(self,{}) -> {}:
         {}
 ]], {
-            i(1, "name"),
-            i(2, "params"),
-            i(3, "return_type"),
-            i(4, "body"),
+            i(1, "<fn>"),
+            i(2, "<params>"),
+            i(3, "<return_type>"),
+            i(4, "<body>"),
+        }),
+        { condition=py_utils.in_class() }
+    ),
+    s(
+        { trig = "class", wordTrig = true, snippetType="autosnippet" },
+        fmt([[
+class {}:
+    """{}"""
+    {}
+]], {
+            i(1, "class_name"),
+            i(2, "description"),
+            i(3, "body"),
         }),
         { condition=py_utils.in_class() }
     )
 }
 
 ls.add_snippets("python", structs)
+
+
