@@ -53,6 +53,7 @@ return {
             -- [[ Configure Telescope ]]
             -- See `:help telescope` and `:help telescope.setup()`
             local actions = require('telescope.actions')
+
             require("telescope").setup({
                 -- You can put your default mappings / updates / etc. in here
                 --  All the info you're looking for is in `:help telescope.setup()`
@@ -89,15 +90,21 @@ return {
             vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "[P]roject search [D]iagnostics" })
             vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
             vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
-
-            -- Slightly advanced example of overriding default behavior and theme
-            vim.keymap.set("n", "<leader>sf", function()
-                -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-                builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-                    winblend = 10,
-                    previewer = false,
-                }))
-            end, { desc = "[S]earch current [File] fuzzy" })
+            
+            -- vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [f]iles" })
+            vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [f]iles" })
+            -- Define a function to search files, including hidden ones
+            local function search_hidden() builtin.find_files({ hidden = true }) end
+            vim.keymap.set("n", "<leader>sh", search_hidden, { desc = "[S]earch [H]idden files"})
+            -- I prefer <leader>sf for search files rather than search current file or buffer
+            -- -- Slightly advanced example of overriding default behavior and theme
+            -- vim.keymap.set("n", "<leader>sf", function()
+            --     -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+            --     builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+            --         winblend = 10,
+            --         previewer = false,
+            --     }))
+            -- end, { desc = "[S]earch current [File] fuzzy" })
 
             -- Shortcut for searching your Neovim configuration files
             vim.keymap.set("n", "<leader>nf", function()

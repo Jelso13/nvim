@@ -141,7 +141,9 @@ require("lazy").setup({
     --
     -- Vim-be-good
     -- require("ThePrimeagen/vim-be-good"),
-    require("plugins/vim-be-good"),
+    require("plugins/misc/vim-be-good"),
+    -- Leetcode
+    require("plugins/misc/leetcode"),
 
 	-- -- -- copilot
 	require("plugins/copilot"),

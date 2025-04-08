@@ -91,6 +91,11 @@ ls.add_snippets("python", {
 })
 
 
+ls.add_snippets("python", {
+    s({ trig = "in_cls", wordTrig=false, regTrig=true, snippetType="autosnippet" }, t("in class"), { condition=py_utils.in_class }),
+})
+
+
 
 -- ls.add_snippets("python", {
 --     s("go", t("goats are cool"))
@@ -142,7 +147,7 @@ local fmta = require("luasnip.extras.fmt").fmta
 
 local structs = {
     s(
-        { trig = "^def", wordTrig = false, regTrig=true, snippetType = "autosnippet" },
+        { trig = "^def ", wordTrig = true, regTrig=true, snippetType = "autosnippet" },
         fmt([[
 def {}({}) -> {}:
     {}
@@ -155,7 +160,7 @@ def {}({}) -> {}:
         { snippetType = "autosnippet" }
     ),
     s(
-        { trig = "def", wordTrig = false, snippetType="autosnippet" },
+        { trig = "def ", wordTrig = true, snippetType="autosnippet" },
         fmt([[
     def {}(self,{}) -> {}:
         {}
@@ -168,7 +173,7 @@ def {}({}) -> {}:
         { condition=py_utils.in_class() }
     ),
     s(
-        { trig = "class", wordTrig = true, snippetType="autosnippet" },
+        { trig = "^class", wordTrig = true, regTrig=true, snippetType="autosnippet" },
         fmt([[
 class {}:
     """{}"""
