@@ -143,6 +143,7 @@ ls.add_snippets("python", {
 local ls = require("luasnip")
 local s = ls.snippet
 local i = ls.insert_node
+local c = ls.choice_node
 local fmta = require("luasnip.extras.fmt").fmta
 
 local structs = {
@@ -162,13 +163,17 @@ def {}({}) -> {}:
     s(
         { trig = "def ", wordTrig = true, snippetType="autosnippet" },
         fmt([[
-    def {}(self,{}) -> {}:
+    def {}({}{}) -> {}:
         {}
 ]], {
             i(1, "<fn>"),
-            i(2, "<params>"),
-            i(3, "<return_type>"),
-            i(4, "<body>"),
+            c(2, { -- choice node for method or nested function
+                t(""),
+                t("self, "),
+            }),
+            i(3, "<params>"),
+            i(4, "<return_type>"),
+            i(5, "<body>"),
         }),
         { condition=py_utils.in_class() }
     ),

@@ -44,6 +44,8 @@ return {
             hipatterns.setup({
               highlighters = {
                 -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+                critical = { pattern = '%f[%w]()CRITICAL()%f[%W]', group = 'MiniHipatternsFixme' },
+                error = { pattern = '%f[%w]()ERROR()%f[%W]', group = 'MiniHipatternsFixme' },
                 delete = { pattern = '%f[%w]()DELETE()%f[%W]', group = 'MiniHipatternsFixme' },
                 remove = { pattern = '%f[%w]()REMOVE()%f[%W]', group = 'MiniHipatternsFixme' },
                 fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },

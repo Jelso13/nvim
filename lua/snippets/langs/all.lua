@@ -78,3 +78,20 @@ local fun_snips = {
 
 ls.add_snippets("all", section_heading)
 ls.add_snippets("all", fun_snips)
+
+
+--DELETE: temp test 
+local ls = require("luasnip")
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local c = ls.choice_node
+
+ls.add_snippets("all", {
+  s("greet", c(1, {
+    t("Hello"),
+    t("Hi"),
+    t("Hey"),
+  })),
+})
+
