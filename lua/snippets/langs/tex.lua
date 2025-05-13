@@ -96,45 +96,6 @@ local mat = function(args, snip)
     return sn(nil, nodes)
 end
 
-
--- template snippet only available on the first line
-ls.add_snippets("tex", {
-    s(
-        {
-            trig = "template",
-            name = "Latex document template",
-            dscr = "Latex document template",
-        },
-        fmta(
-            [[
-            \documentclass{article}
-            \usepackage[utf8]{inputenc}
-            \usepackage{amsmath}
-            \usepackage{amsfonts}
-            \usepackage{tikz}
-            
-            \usepackage{import}
-            \usepackage{pdfpages}
-            \usepackage{transparent}
-            \usepackage{xcolor}
-            
-            \newcommand{\incfig}[2][1]{%
-                \def\svgwidth{#1\columnwidth}
-                \import{./figures/}{#2.pdf_tex}
-            }
-            
-            \begin{document}
-            <>
-            \end{document}
-            ]],
-            {
-                i(0,"..."),
-            }
-        ), { condition = is_first_line }
-    )
-})
-
-
 -- Group snippets into specific categories for readability
 local latex_text = {
     s(
@@ -644,3 +605,5 @@ ls.add_snippets("tex", latex_envs)
 ls.add_snippets("tex", latex_greek_letters)
 
 ls.add_snippets("tex", latex_tikz)
+
+ls.add_snippets("tex", latex_docs)

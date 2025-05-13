@@ -193,6 +193,33 @@ vim.keymap.set("n", "<leader>ls", function()
 end, { desc = "[L]SP [S]everity Cycle" })
 
 
+-- Reload neovim config keymap --
+-- 1) Define a small helper to unload your own modules.
+--    Adjust the "^myconfig" pattern to whatever prefix you use
+--    for your config modules (e.g. "user.", "config.", etc).
+local function unload_my_modules()
+  for mod,_ in pairs(package.loaded) do
+    if mod:match("^myconfig") then
+      package.loaded[mod] = nil
+    end
+  end
+end
+
+-- 2) Define the reload function
+local function reload_config()
+  -- unload your modules so `require` re-reads them
+  unload_my_modules()
+  -- re-source your init.lua
+  vim.cmd("source " .. vim.env.MYVIMRC)
+  -- give feedback
+  vim.notify("Neovim configuration reloaded", vim.log.levels.INFO)
+end
+
+-- 3) Map <leader>nr to the reload function
+--    noremap, silent in normal mode
+vim.keymap.set("n", "<leader>nr", reload_config, { noremap = true, silent = true, desc="[N]eovim [R]eload config" })
+
+
 -- Obsidian daily note
 
 -- Map the function to <leader>o
