@@ -52,19 +52,19 @@ return {
 
             -- [[ Configure Telescope ]]
             -- See `:help telescope` and `:help telescope.setup()`
-            local actions = require('telescope.actions')
+            local actions = require("telescope.actions")
 
             require("telescope").setup({
                 -- You can put your default mappings / updates / etc. in here
                 --  All the info you're looking for is in `:help telescope.setup()`
                 --
                 defaults = {
-                  mappings = {
-                    i = {
-                        ["<C-j>"] = actions.move_selection_next,
-                        ["<C-k>"] = actions.move_selection_previous,
-                    }
-                  },
+                    mappings = {
+                        i = {
+                            ["<C-j>"] = actions.move_selection_next,
+                            ["<C-k>"] = actions.move_selection_previous,
+                        },
+                    },
                 },
                 -- pickers = {}
                 extensions = {
@@ -80,22 +80,73 @@ return {
 
             -- See `:help telescope.builtin`
             local builtin = require("telescope.builtin")
-            vim.keymap.set("n", "<leader>hn", builtin.help_tags, { desc = "[H]elp search [N]eovim tags" })
-            vim.keymap.set("n", "<leader>hk", builtin.keymaps, { desc = "[H]elp [K]eymaps" })
-            vim.keymap.set("n", "<leader>sp", builtin.find_files, { desc = "[S]earch [P]roject files" })
-            vim.keymap.set("n", "<leader>ss", builtin.symbols, { desc = "[S]earch [S]ymbols" })
+            vim.keymap.set(
+                "n",
+                "<leader>hn",
+                builtin.help_tags,
+                { desc = "[H]elp search [N]eovim tags" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>hk",
+                builtin.keymaps,
+                { desc = "[H]elp [K]eymaps" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>sp",
+                builtin.find_files,
+                { desc = "[S]earch [P]roject files" }
+            )
             -- this is different because it searches for the word under the cursor
-            vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch [W]ord under cursor" })
-            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch [G]rep in project" })
-            vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "[P]roject search [D]iagnostics" })
-            vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-            vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
-            
+            vim.keymap.set(
+                "n",
+                "<leader>sw",
+                builtin.grep_string,
+                { desc = "[S]earch [W]ord under cursor" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>sg",
+                builtin.live_grep,
+                { desc = "[S]earch [G]rep in project" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>pd",
+                builtin.diagnostics,
+                { desc = "[P]roject search [D]iagnostics" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>sr",
+                builtin.resume,
+                { desc = "[S]earch [R]esume" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>sb",
+                builtin.buffers,
+                { desc = "[S]earch [B]uffers" }
+            )
+
             -- vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [f]iles" })
-            vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [f]iles" })
+            vim.keymap.set(
+                "n",
+                "<leader>sf",
+                builtin.find_files,
+                { desc = "[S]earch [f]iles" }
+            )
             -- Define a function to search files, including hidden ones
-            local function search_hidden() builtin.find_files({ hidden = true }) end
-            vim.keymap.set("n", "<leader>sh", search_hidden, { desc = "[S]earch [H]idden files"})
+            local function search_hidden()
+                builtin.find_files({ hidden = true })
+            end
+            vim.keymap.set(
+                "n",
+                "<leader>sh",
+                search_hidden,
+                { desc = "[S]earch [H]idden files" }
+            )
             -- I prefer <leader>sf for search files rather than search current file or buffer
             -- -- Slightly advanced example of overriding default behavior and theme
             -- vim.keymap.set("n", "<leader>sf", function()
@@ -114,12 +165,48 @@ return {
             -- git keybindings
             -- Global keybinding for running your custom Telescope picker
             -- pcall(require("telescope").load_extension, "git_worktree")
-            local worktrees = require("telescope").load_extension("git_worktrees")
-            vim.keymap.set("n", "<leader>gw", worktrees.git_worktree, {desc="[G]it [W]orktree change"})
+            local worktrees =
+                require("telescope").load_extension("git_worktrees")
+            vim.keymap.set(
+                "n",
+                "<leader>gw",
+                worktrees.git_worktree,
+                { desc = "[G]it [W]orktree change" }
+            )
 
             -- help
-            vim.keymap.set("n", "<leader>hm", require("telescope.builtin").man_pages, { desc = "[H]elp [M]anpages"})
+            vim.keymap.set(
+                "n",
+                "<leader>hm",
+                require("telescope.builtin").man_pages,
+                { desc = "[H]elp [M]anpages" }
+            )
 
+            -- Symbols:
+            local function pick_emoji()
+                builtin.symbols({ sources = { "emoji" } })
+            end
+
+            local function pick_math()
+                builtin.symbols({ sources = { "math" } })
+            end
+            local function pick_gitmoji()
+                builtin.symbols({ sources = { "gitmoji" } })
+            end
+            local function pick_nerd()
+                builtin.symbols({ sources = { "nerd" } })
+            end
+            -- vim.keymap.set("n", "<leader>ss", builtin.symbols, { desc = "[S]earch [S]ymbols" })
+            vim.keymap.set(
+                "n",
+                "<leader>sss",
+                builtin.symbols,
+                { desc = "[S]earch [S]ymbols" }
+            )
+            vim.keymap.set("n", "<leader>sse", pick_emoji, {desc="[S]earch [S]ymbols [E]moji"})
+            vim.keymap.set("n", "<leader>ssm", pick_math, {desc="[S]earch [S]ymbols [M]ath"})
+            vim.keymap.set("n", "<leader>ssg", pick_gitmoji, {desc="[S]earch [S]ymbols [G]itmoji"})
+            vim.keymap.set("n", "<leader>ssn", pick_nerd, {desc="[S]earch [S]ymbols [N]erd"})
         end,
     },
 }

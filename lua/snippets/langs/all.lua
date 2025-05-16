@@ -95,3 +95,29 @@ ls.add_snippets("all", {
   })),
 })
 
+
+-- a "time" snippet that calls os.date() each time you expand it
+local time_snippet = s("time", {
+  f(
+    -- the function: return a list of lines to insert
+    function(_, _snip, _user_args)
+      return { os.date("%H:%M:%S") }
+    end,
+    -- no arguments needed, so an empty table
+    {}
+  ),
+})
+-- a "time" snippet that calls os.date() each time you expand it
+local date_snippet = s("date", {
+  f(
+    -- the function: return a list of lines to insert
+    function(_, _snip, _user_args)
+      return { os.date("%Y-%m-%d") }
+    end,
+    {}
+  ),
+})
+
+-- register it for all filetypes (or switch "all" → "tex" if you only want it in .tex)
+ls.add_snippets("all", { time_snippet, date_snippet })
+

@@ -70,6 +70,25 @@ local function is_first_line()
     return vim.fn.line('.') == 1
 end
 
+local latex_templates = {
+    s(
+        { trig = "template", dscr = "LaTeX template" },
+        fmta(
+            [[
+            \documentclass{article}
+            \usepackage[utf8]{inputenc}
+            \usepackage{amsmath}
+            \usepackage{amsfonts}
+            \usepackage{amssymb}
+            \begin{document}
+                <>
+            \end{document}
+        ]],
+            { i(0) }
+        )
+    ),
+}
+
 -- dynamic matrix
 local mat = function(args, snip)
     local rows = tonumber(snip.captures[2])
@@ -220,6 +239,11 @@ local latex_envs = {
 }
 
 local latex_math = {
+    -- snippet beg "begin{} / end{}" bA
+    -- \begin{$1}
+    -- 	$0
+    -- \end{$1}
+    -- endsnippet
     -- \frac
     s(
         {
@@ -594,6 +618,7 @@ local latex_tikz = {
 }
 
 -- Add all snippet groups under 'tex' filetype
+ls.add_snippets("tex", latex_templates)
 ls.add_snippets("tex", latex_text)
 ls.add_snippets("tex", latex_math)
 ls.add_snippets("tex", latex_math.exponents)
