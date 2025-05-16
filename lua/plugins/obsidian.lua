@@ -47,12 +47,12 @@ return {
             },
         },
         dir = "~/Vault",
-        daily_notes = {
-            folder = "Misc/daily_notes",
-            date_format = "%Y-%m-%d",
-            default_tags = { "daily-note" },
-            -- template = templates/daily.md
-        },
+        -- daily_notes = {
+        --     folder = "Misc/daily_notes",
+        --     date_format = "%Y-%m-%d",
+        --     default_tags = { "daily-note" },
+        --     -- template = templates/daily.md
+        -- },
         completion = {
             nvim_cmp = true,
         },

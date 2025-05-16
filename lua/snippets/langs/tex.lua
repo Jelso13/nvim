@@ -80,6 +80,12 @@ local latex_templates = {
             \usepackage{amsmath}
             \usepackage{amsfonts}
             \usepackage{amssymb}
+
+            \newcommand{\incfig}[1]{%
+                \def\svgwidth{\columnwidth}
+                \import{./figures/}{#1.pdf_tex}
+            }
+
             \begin{document}
                 <>
             \end{document}

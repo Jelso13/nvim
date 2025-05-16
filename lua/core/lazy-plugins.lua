@@ -145,6 +145,8 @@ require("lazy").setup({
     require("plugins/misc/vim-be-good"),
     -- Leetcode
     require("plugins/misc/leetcode"),
+    -- vim golf
+    { 'vuciv/golf' },
 
 	-- -- -- copilot
 	require("plugins/copilot"),
@@ -160,7 +162,7 @@ require("lazy").setup({
 	-- { import = "custom.languages" },
     
     -- Custom plugins
-    require("custom.my_plugins.inkscape_latex_figures"),
+    require("custom.my_plugins.inkscape_figures"),
 
     -- language specific plugins
     require("plugins.language_specific_plugins"),
