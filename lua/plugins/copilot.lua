@@ -6,11 +6,19 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     lazy = true,
+    dependencies = {
+        {
+          "zbirenbaum/copilot-cmp",
+          config = function ()
+            require("copilot_cmp").setup()
+          end
+        }
+    },
     -- event = "InsertEnter",
     config = function()
         require("copilot").setup({
             panel = {
-                enabled = true, -- Disable the panel by default
+                enabled = false, -- Disable the panel by default
                 auto_refresh = false,
                 keymap = {
                     jump_prev = "[[",
@@ -25,7 +33,7 @@ return {
                 },
             },
             suggestion = {
-                enabled = true, -- Disable suggestions by default
+                enabled = false, -- Disable suggestions by default
                 auto_trigger = true, -- Disable auto-triggering of suggestions
                 hide_during_completion = true,
                 debounce = 75,

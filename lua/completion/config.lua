@@ -3,6 +3,7 @@ local cmp = require("cmp")
 local luasnip = require("luasnip")
 -- luasnip.config.setup({})
 
+vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
 local kind_icons = {
     Text = "",
     Method = "󰆧",
@@ -29,6 +30,7 @@ local kind_icons = {
     Event = "",
     Operator = "󰆕",
     TypeParameter = "󰅲",
+    Copilot = "",
 }
 
 vim.opt.completeopt = { "menu,menuone,noinsert" }
@@ -100,6 +102,8 @@ cmp.setup({
     --]]
     sources = cmp.config.sources({
         -- ordering determines priority
+        --
+        { name = "copilot", group_index = 2 },
         { name = "nvim_lua" },
         { name = "nvim_lsp" },
         { name = "path" },

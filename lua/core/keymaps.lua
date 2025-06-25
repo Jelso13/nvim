@@ -128,7 +128,7 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- make the current file executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "make current file executable" })
+vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { silent = true, desc = "[F]ile make [X]ecutable" })
 
 -- does not exit selection when indenting block (maybe redo this one)
 vim.keymap.set("v", "<", "<gv")
@@ -218,6 +218,10 @@ end
 -- 3) Map <leader>nr to the reload function
 --    noremap, silent in normal mode
 vim.keymap.set("n", "<leader>nr", reload_config, { noremap = true, silent = true, desc="[N]eovim [R]eload config" })
+
+vim.keymap.set("n", "<leader>xf", "<cmd>source %<CR>", { noremap = true, silent = true, desc="[X]ecute current [F]ile" })
+vim.keymap.set("n", "<leader>xl", ":.lua<CR>", { noremap = true, silent = true, desc="[X]ecute [L]ine" })
+vim.keymap.set("v", "<leader>x", ":lua<CR>", { noremap = true, silent = true, desc="[X]ecute visually selected lines" })
 
 
 -- Obsidian daily note

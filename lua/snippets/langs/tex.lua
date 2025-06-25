@@ -81,9 +81,14 @@ local latex_templates = {
             \usepackage{amsfonts}
             \usepackage{amssymb}
 
-            \newcommand{\incfig}[1]{%
-                \def\svgwidth{\columnwidth}
-                \import{./figures/}{#1.pdf_tex}
+            \usepackage{import}
+            \usepackage{pdfpages}
+            \usepackage{transparent}
+            \usepackage{xcolor}
+            
+            \newcommand{\incfig}[2][1]{%
+                \def\svgwidth{#1\columnwidth}
+                \import{./figures/}{#2.pdf_tex}
             }
 
             \begin{document}

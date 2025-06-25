@@ -66,8 +66,13 @@ return {
                         },
                     },
                 },
-                -- pickers = {}
+                pickers = {
+                    find_files = {
+                        -- theme = "ivy",
+                    }
+                },
                 extensions = {
+                    fzf = {},
                     ["ui-select"] = {
                         require("telescope.themes").get_dropdown(),
                     },

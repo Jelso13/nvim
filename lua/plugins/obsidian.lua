@@ -39,9 +39,9 @@ return {
                 overrides = {
                     notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
                     -- new_notes_location = "current_dir",
-                    templates = {
-                        folder = vim.NIL,
-                    },
+                    -- templates = {
+                    --     --folder = vim.NIL,
+                    -- },
                     disable_frontmatter = true,
                 },
             },
@@ -51,7 +51,7 @@ return {
         --     folder = "Misc/daily_notes",
         --     date_format = "%Y-%m-%d",
         --     default_tags = { "daily-note" },
-        --     -- template = templates/daily.md
+        --     template = "templates/daily.md"
         -- },
         completion = {
             nvim_cmp = true,
@@ -136,14 +136,14 @@ return {
             local path = spec.dir / tostring(spec.id)
             return path:with_suffix(".md")
         end,
-        -- Optional, for templates (see below).
-        templates = {
-            folder = "Misc/templates",
-            date_format = "%Y-%m-%d",
-            time_format = "%H:%M",
-            -- A map for custom variables, the key should be the variable and the value a function
-            substitutions = {},
-        },
+        -- -- Optional, for templates (see below).
+        -- templates = {
+        --     folder = "Misc/templates",
+        --     date_format = "%Y-%m-%d",
+        --     time_format = "%H:%M",
+        --     -- A map for custom variables, the key should be the variable and the value a function
+        --     substitutions = {},
+        -- },
         ---@param url string
         follow_url_func = function(url)
             -- Open the URL in the default web browser.

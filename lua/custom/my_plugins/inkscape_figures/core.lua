@@ -32,7 +32,7 @@ local function create_figure(title, root)
     utils.ensure_dir_exists(figure_dir)
 
     local filename = string.lower(string.gsub(title, " ", "-")) .. ".svg"
-    local filepath = figure_dir .. "/" .. filename
+    local filepath = figure_dir .. filename
 
     if vim.fn.filereadable(filepath) == "1" then
         vim.notify("File already exists: " .. filepath, vim.log.levels.ERROR)
@@ -45,7 +45,19 @@ local function create_figure(title, root)
             .. " "
             .. vim.fn.shellescape(filepath)
     )
-    vim.fn.system("inkscape " .. vim.fn.shellescape(filepath) .. " &") -- Open Inkscape in background
+    -- display what command is being run
+    vim.notify("Copying template to: " .. filepath, vim.log.levels.INFO)
+
+    local response = vim.fn.system(
+        "inkscape "
+            .. vim.fn.shellescape(filepath)
+            .. " &"
+    ) -- Open Inkscape in the background
+
+    if vim.v.shell_error ~= 0 then
+        vim.notify("Failed to open Inkscape: " .. response, vim.log.levels.ERROR)
+        return
+    end
 
     local latex_code =
         utils.generate_latex(string.sub(filename, 1, #filename - 4), title) -- Remove ".svg"
@@ -90,6 +102,8 @@ end
 local function convert_to_pdf_latex(filename) -- Now it's just filename
   local config = utils.get_config()
   local figure_dir = config.figure_dir
+
+  vim.notify("trying to run in convert")
 
   -- Construct the full file paths
   local svg_filepath = vim.fn.expand(figure_dir .. filename .. ".svg")

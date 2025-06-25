@@ -79,6 +79,7 @@ require("lazy").setup({
 
 	-- gitsigns plugin: show git changes in the sign column
 	require("plugins/gitsigns"),
+    require("plugins/fugitive"),
 
 	-- -- -- which-key plugin: show keybindings in a popup
 	require("plugins/which-key"),
@@ -152,6 +153,7 @@ require("lazy").setup({
 	require("plugins/copilot"),
     -- currently needs paid version of copilot
     -- require("plugins/avante"),
+    require("plugins/gemini"),
 
 	-- -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	-- --    This is the easiest way to modularize your config.
