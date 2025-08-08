@@ -71,6 +71,34 @@ return {
         styles = 1,
     }
 
+    -- FOR REFOCUSING NEOVIM WITH ZATHURA
+    -- Part 1: Capture Neovim's window ID when a TeX file is first opened.
+    -- The `if` statement ensures this only runs once per session.
+    if vim.g.vim_window_id == nil then
+      vim.g.vim_window_id = vim.fn.system("xdotool getactivewindow")
+    end
+    
+    -- Part 2: Define the function that will refocus Neovim.
+    local function refocus_neovim()
+      -- Give the window manager a moment (200ms) to switch focus to Zathura.
+      -- You can tweak this value if needed.
+      vim.cmd('sleep 200m')
+    
+      -- Use the stored window ID to tell xdotool to focus Neovim.
+      vim.fn.system("xdotool windowfocus " .. vim.g.vim_window_id)
+    
+      -- Redraw the screen to fix any visual glitches.
+      vim.cmd('redraw!')
+    end
+    
+    -- Part 3: Create an autocommand to trigger the function.
+    -- This runs the `refocus_neovim` function every time VimTeX's forward
+    -- search event (`VimtexEventView`) is completed.
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VimtexEventView",
+      callback = refocus_neovim,
+    })
+
     -- Set list of delimiter toggle modifications
     vim.g.vimtex_delim_toggle_mod_list = {
         {'\\left', '\\right'},
@@ -88,15 +116,6 @@ return {
             '-interaction=nonstopmode',
         },
     }
-
-
-    vim.g.vimtex_compiler_latexmk = {
-        options = {
-            '-pdf',
-            '-shell-escape',
-        },
-    }
-    
     vim.g.vimtex_quickfix_open_on_warning = 0 -- only opens quickfix menu on errors
     -- Uncomment and customize filters as needed
     -- vim.g.vimtex_quickfix_ignore_filters = {

@@ -6,14 +6,14 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     lazy = true,
-    dependencies = {
-        {
-          "zbirenbaum/copilot-cmp",
-          config = function ()
-            require("copilot_cmp").setup()
-          end
-        }
-    },
+    -- dependencies = {
+    --     {
+    --       "zbirenbaum/copilot-cmp",
+    --       config = function ()
+    --         require("copilot_cmp").setup()
+    --       end
+    --     }
+    -- },
     -- event = "InsertEnter",
     config = function()
         require("copilot").setup({
