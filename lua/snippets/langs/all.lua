@@ -19,7 +19,6 @@ local isn = ls.indent_snippet_node
 
 local helpers = require("snippets.helper_functions")
 
-
 local section_heading = {
 
     s({trig = "^(.*)hashbox", 
@@ -44,7 +43,7 @@ local section_heading = {
           d(1, helpers.get_visual),
         }
       )
-    ),
+    )
 }
 
 local fun_snips = {
@@ -75,26 +74,24 @@ local fun_snips = {
 
 
 
-
 ls.add_snippets("all", section_heading)
 ls.add_snippets("all", fun_snips)
 
-
---DELETE: temp test 
-local ls = require("luasnip")
-local s = ls.snippet
-local t = ls.text_node
-local i = ls.insert_node
-local c = ls.choice_node
-
-ls.add_snippets("all", {
-  s("greet", c(1, {
-    t("Hello"),
-    t("Hi"),
-    t("Hey"),
-  })),
-})
-
+-- 
+-- --DELETE: temp test 
+-- local ls = require("luasnip")
+-- local s = ls.snippet
+-- local t = ls.text_node
+-- local i = ls.insert_node
+-- local c = ls.choice_node
+-- 
+-- ls.add_snippets("all", {
+--   s("greet", c(1, {
+--     t("Hello"),
+--     t("Hi"),
+--     t("Hey"),
+--   })),
+-- })
 
 -- a "time" snippet that calls os.date() each time you expand it
 local time_snippet = s("time", {
@@ -118,6 +115,21 @@ local date_snippet = s("date", {
   ),
 })
 
+local tst = s({trig = "info:(%w+)", regTrig = true, snippetType="autosnippet"},
+  f(function(_, snip)
+    local filename = snip.env.TM_FILENAME
+    local full_trigger = snip.trigger
+    local captured_word = snip.captures[1]
+
+    return {
+      "--- Snippet Info ---",
+      "File: " .. filename,
+      "Triggered by: '" .. full_trigger .. "'",
+      "Captured word: '" .. captured_word .. "'",
+    }
+  end, {})
+)
+
 -- register it for all filetypes (or switch "all" → "tex" if you only want it in .tex)
-ls.add_snippets("all", { time_snippet, date_snippet })
+ls.add_snippets("all", { time_snippet, date_snippet, tst})
 

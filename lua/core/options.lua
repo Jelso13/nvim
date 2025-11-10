@@ -159,7 +159,8 @@ vim.opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in m
 
 -- MISC OPTIONS
 vim.opt.history = 1000 -- increase the undo limit
-vim.opt.nrformats = "bin,hex" -- sets the formats that can be used by Ctrl-A and Ctrl-X
+vim.opt.nrformats = "bin,hex,alpha" -- sets the formats that can be used by Ctrl-A and Ctrl-X
+-- set nrformats+=alpha
 vim.opt.hidden = true -- can have hidden buffers without saving
 vim.opt.showcmd = true -- display partial commands
 vim.opt.termguicolors = true -- allow wider terminal colors

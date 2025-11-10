@@ -140,6 +140,7 @@ return {
                 "n",
                 "<leader>sf",
                 builtin.find_files,
+                -- builtin.find_files({ no_ignore = true }),
                 { desc = "[S]earch [f]iles" }
             )
             -- Define a function to search files, including hidden ones
