@@ -20,29 +20,22 @@ return {
         end,
         callbacks = {
             enter_note = function(note)
-                vim.keymap.set("n", "<leader>od", "<cmd>Obsidian daily<cr>", {
-                    buffer = note.bufnr,
-                    desc = "[O]bsidian [D]aily",
-                })
-                vim.keymap.set("n", "<leader>od", "<cmd>Obsidian daily<cr>", {
+                vim.keymap.set("n", "<leader>od", "<cmd>Obsidian today<cr>", {
                     buffer = note.bufnr,
                     desc = "[O]bsidian [D]aily",
                 })
                 -- :%s/{\​(.\{-}\)}/
                 -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+                -- Toggle check-boxes
                 vim.keymap.set("n", "gf", function()
-                    return require("obsidian").util.gf_passthrough()
+                   if require("obsidian").util.cursor_link() then
+                      return "<cmd>Obsidian follow_link<cr>"
+                   else
+                      return "gf"
+                   end
                 end, {
-                    noremap = false,
-                    expr = true,
-                    buffer = true,
-                })
-                -- Toggle check-boxes.
-                vim.keymap.set("n", "<leader>oc", function()
-                    return require("obsidian").util.toggle_checkbox()
-                end, {
-                    buffer = true,
-                    desc = "[O]bsidian [C]heckbox",
+                   expr = true,
+                   desc = "[g]o to [f]ile under cursor (Obsidian)",
                 })
                 -- Smart action depending on context, either follow link or toggle checkbox.
                 vim.keymap.set("n", "<cr>", function()
@@ -52,12 +45,19 @@ return {
                     expr = true,
                     desc = "[O]bsidian action",
                 })
-                vim.keymap.set("n", "<leader>ot", function()
+                vim.keymap.set("n", "<leader>st", function()
                     return "<cmd> Obsidian tags <CR>"
                 end, {
                     buffer = true,
                     expr = true,
-                    desc = "[O]bsidian [T]ags",
+                    desc = "[S]earch Obsidian [T]ags",
+                })
+                vim.keymap.set("n", "<localleader>st", function()
+                    return "<cmd> Obsidian tags <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "Obsidian [S]earch [T]ags",
                 })
                 vim.keymap.set("n", "<localleader>o", function()
                     return "<cmd> Obsidian open <CR>"
@@ -75,7 +75,7 @@ return {
                 })
                 vim.keymap.set(
                     "n",
-                    "<localleader>d",
+                    "<localleader>t",
                     function()
                         return "<cmd> Obsidian today <CR>"
                     end,
@@ -83,7 +83,7 @@ return {
                 )
                 vim.keymap.set(
                     "n",
-                    "<leader>od",
+                    "<leader>ot",
                     function()
                         return "<cmd> Obsidian today <CR>"
                     end,
@@ -92,6 +92,18 @@ return {
                 vim.keymap.set(
                     "n",
                     "<leader>ob",
+                    function()
+                        return "<cmd> Obsidian backlinks <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[O]bsidian [B]acklinks",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<localleader>b",
                     function()
                         return "<cmd> Obsidian backlinks <CR>"
                     end,
@@ -120,6 +132,57 @@ return {
                     expr = true,
                     desc = "[O]bsidian [N]ew",
                 })
+                vim.keymap.set("n", "<localleader>n", function()
+                    return "<cmd> Obsidian new <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian [N]ew",
+                })
+                vim.keymap.set(
+                    "v",
+                    "<leader>ol",
+                    function()
+                        return "<cmd> Obsidian link_new <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[O]bsidian [L]ink note" }
+                )
+                vim.keymap.set(
+                    "v",
+                    "<localleader>l",
+                    function()
+                        return "<cmd> Obsidian link_new <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[L]ink from selected" }
+                )
+                vim.keymap.set(
+                    "v",
+                    "<localleader>e",
+                    function()
+                        return "<cmd> Obsidian extract_note <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[E]xtract content to note" }
+                )
+                vim.keymap.set(
+                    "v",
+                    "<leader>oe",
+                    function()
+                        return "<cmd> Obsidian extract_note <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[O]bsidian [E]xtract content to note" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<leader>sl",
+                    function()
+                        return "<cmd> Obsidian links <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[S]earch Obsidian [L]inks",
+                    }
+                )
                 vim.keymap.set(
                     "n",
                     "<localleader>sl",
@@ -170,9 +233,9 @@ return {
                 )
                 vim.keymap.set(
                     "n",
-                    "<localleader>sh",
+                    "<localleader>h",
                     function()
-                        return "<cmd> Obsidian TOC <CR>"
+                        return "<cmd> Obsidian toc <CR>"
                     end,
                     { buffer = true, expr = true, desc = "[S]earch [H]eaders" }
                 )
