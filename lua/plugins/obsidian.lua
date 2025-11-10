@@ -1,29 +1,254 @@
 -- make it so that it is only loaded when the file is within ~/Vault
 
 return {
-  "obsidian-nvim/obsidian.nvim",
-  version = "*", -- recommended, use latest release instead of latest commit
-  ft = "markdown",
-  -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-  -- event = {
-  --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-  --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-  --   -- refer to `:h file-pattern` for more examples
-  --   "BufReadPre path/to/my-vault/*.md",
-  --   "BufNewFile path/to/my-vault/*.md",
-  -- },
-  ---@module 'obsidian'
-  ---@type obsidian.config
-  opts = {
-    workspaces = {
-      {
-        name = "vault",
-        path = "~/Vault",
-      },
+    "obsidian-nvim/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    event = {
+        "BufReadPre " .. vim.fn.expand("~") .. "/Vault/*.md",
+        "BufNewFile " .. vim.fn.expand("~") .. "/Vault/*.md",
     },
+    opts = {
+        legacy_commands = false,
+        preferred_link_style = "markdown",
+        workspaces = { { name = "Vault", path = "~/Vault" } },
+        -- opens with xdg
+        follow_url_func = function(url)
+            vim.fn.jobstart({ "xdg-open", url }) -- linux
+        end,
+        follow_img_func = function(url)
+            vim.fn.jobstart({ "xdg-open", url }) -- linux
+        end,
+        callbacks = {
+            enter_note = function(note)
+                vim.keymap.set("n", "<leader>od", "<cmd>Obsidian daily<cr>", {
+                    buffer = note.bufnr,
+                    desc = "[O]bsidian [D]aily",
+                })
+                vim.keymap.set("n", "<leader>od", "<cmd>Obsidian daily<cr>", {
+                    buffer = note.bufnr,
+                    desc = "[O]bsidian [D]aily",
+                })
+                -- :%s/{\​(.\{-}\)}/
+                -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+                vim.keymap.set("n", "gf", function()
+                    return require("obsidian").util.gf_passthrough()
+                end, {
+                    noremap = false,
+                    expr = true,
+                    buffer = true,
+                })
+                -- Toggle check-boxes.
+                vim.keymap.set("n", "<leader>oc", function()
+                    return require("obsidian").util.toggle_checkbox()
+                end, {
+                    buffer = true,
+                    desc = "[O]bsidian [C]heckbox",
+                })
+                -- Smart action depending on context, either follow link or toggle checkbox.
+                vim.keymap.set("n", "<cr>", function()
+                    return require("obsidian").util.smart_action()
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian action",
+                })
+                vim.keymap.set("n", "<leader>ot", function()
+                    return "<cmd> Obsidian tags <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian [T]ags",
+                })
+                vim.keymap.set("n", "<localleader>o", function()
+                    return "<cmd> Obsidian open <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian [O]pen",
+                })
+                vim.keymap.set("n", "<leader>oo", function()
+                    return "<cmd> Obsidian open <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian [O]pen",
+                })
+                vim.keymap.set(
+                    "n",
+                    "<localleader>d",
+                    function()
+                        return "<cmd> Obsidian today <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[O]bsidian [D]aily" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<leader>od",
+                    function()
+                        return "<cmd> Obsidian today <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[O]bsidian [D]aily" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<leader>ob",
+                    function()
+                        return "<cmd> Obsidian backlinks <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[O]bsidian [B]acklinks",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<leader>or",
+                    function()
+                        return "<cmd> Obsidian rename <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[O]bsidian [R]ename across vault",
+                    }
+                )
+                vim.keymap.set("n", "<leader>on", function()
+                    return "<cmd> Obsidian new <CR>"
+                end, {
+                    buffer = true,
+                    expr = true,
+                    desc = "[O]bsidian [N]ew",
+                })
+                vim.keymap.set(
+                    "n",
+                    "<localleader>sl",
+                    function()
+                        return "<cmd> Obsidian links <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[S]earch Obsidian [L]inks",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<localleader>sb",
+                    function()
+                        return "<cmd> Obsidian backlinks <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[S]earch Obsidian [B]acklinks",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<localleader>sd",
+                    function()
+                        return "<cmd> Obsidian dailies <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[S]earch Obsidian [D]aily Notes",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<localleader>st",
+                    function()
+                        return "<cmd> Obsidian tags <CR>"
+                    end,
+                    {
+                        buffer = true,
+                        expr = true,
+                        desc = "[S]earch Obsidian [T]ags",
+                    }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<localleader>sh",
+                    function()
+                        return "<cmd> Obsidian TOC <CR>"
+                    end,
+                    { buffer = true, expr = true, desc = "[S]earch [H]eaders" }
+                )
+            end,
+        },
+        ui = {
+            enable = true,
+            ignore_conceal_warn = false,
+            update_debounce = 200,
+            max_file_length = 5000,
+            checkboxes = {
+                [" "] = { char = "󰄱", hl_group = "obsidiantodo" },
+                ["~"] = { char = "󰰱", hl_group = "obsidiantilde" },
+                ["!"] = { char = "", hl_group = "obsidianimportant" },
+                [">"] = { char = "", hl_group = "obsidianrightarrow" },
+                ["x"] = { char = "", hl_group = "obsidiandone" },
+            },
+            bullets = { char = "•", hl_group = "ObsidianBullet" },
+            external_link_icon = {
+                char = "",
+                hl_group = "ObsidianExtLinkIcon",
+            },
+            reference_text = { hl_group = "ObsidianRefText" },
+            highlight_text = { hl_group = "ObsidianHighlightText" },
+            tags = { hl_group = "ObsidianTag" },
+            block_ids = { hl_group = "ObsidianBlockID" },
+            hl_groups = {
+                ObsidianTodo = { bold = true, fg = "#f78c6c" },
+                ObsidianDone = { bold = true, fg = "#89ddff" },
+                ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
+                ObsidianTilde = { bold = true, fg = "#ff5370" },
+                ObsidianImportant = { bold = true, fg = "#d73128" },
+                ObsidianBullet = { bold = true, fg = "#89ddff" },
+                ObsidianRefText = { underline = true, fg = "#c792ea" },
+                ObsidianExtLinkIcon = { fg = "#c792ea" },
+                ObsidianTag = { italic = true, fg = "#89ddff" },
+                ObsidianBlockID = { italic = true, fg = "#89ddff" },
+                ObsidianHighlightText = { bg = "#75662e" },
+            },
+        },
 
-    -- see below for full list of options 👇
-  },
+        note_id_func = function(title)
+            -- sets how new notes are named
+            local suffix = ""
+            if title ~= nil then
+                -- If title is given, transform it into valid file name.
+                suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+            else
+                -- If title is nil, just add 4 random uppercase letters to the suffix.
+                for _ = 1, 4 do
+                    suffix = suffix .. string.char(math.random(65, 90))
+                end
+            end
+            -- return tostring(os.time()) .. "-" .. suffix
+            return tostring(suffix)
+        end,
+        footer = {
+            enabled = true, -- turn it off
+            separator = string.rep("-", 80), -- turn it off
+            -- separator = "", -- insert a blank line
+            format = "{{backlinks}} backlinks  {{properties}} properties  {{words}} words  {{chars}} chars", -- works like the template system
+            -- format = "({{backlinks}} backlinks)", -- limit to backlinks
+            hl_group = "Comment", -- Use another hl group
+        },
+        daily_notes = {
+            folder = "Misc/daily_notes",
+            date_format = "%Y-%m-%d",
+            default_tags = { "daily-note" },
+            -- template = "templates/daily.md"
+        },
+        checkbox = {
+            enabled = true,
+            create_new = true,
+            order = { " ", "x", "~", "!", ">" },
+        },
+    },
 }
 
 -- return {
@@ -51,7 +276,7 @@ return {
 --     dependencies = {
 --         -- Required.
 --         "nvim-lua/plenary.nvim",
--- 
+--
 --         -- see below for full list of optional dependencies 👇
 --     },
 --     opts = {
@@ -93,7 +318,7 @@ return {
 --         --     local client = require("obsidian").get_client()
 --         --     local anchor = ""
 --         --     local header = ""
--- 
+--
 --         --     if opts.anchor then
 --         --         anchor = opts.anchor.anchor
 --         --         header = util.format_anchor_label(opts.anchor)
@@ -101,12 +326,12 @@ return {
 --         --         anchor = "#" .. opts.block.id
 --         --         header = "#" .. opts.block.id
 --         --     end
--- 
+--
 --         --     -- This is now an absolute path to the file.
 --         --     local path = client.dir / opts.path
 --         --     -- This is an absolute path to the current buffer's parent directory.
 --         --     local buf_dir = client.buf_dir
--- 
+--
 --         --     local rel_path
 --         --     if buf_dir:is_parent_of(path) then
 --         --         rel_path = tostring(path:relative_to(buf_dir))
@@ -120,7 +345,7 @@ return {
 --         --             end
 --         --         end
 --         --     end
--- 
+--
 --         --     local encoded_path =
 --         --         util.urlencode(rel_path, { keep_path_sep = true })
 --         --     return string.format(
@@ -183,7 +408,7 @@ return {
 --             -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
 --             -- vim.ui.open(url) -- need Neovim 0.10.0+
 --         end,
--- 
+--
 --         picker = {
 --             -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
 --             name = "telescope.nvim",
@@ -231,7 +456,7 @@ return {
 --                 -- Replace the above with this if you don't have a patched font:
 --                 -- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
 --                 -- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
--- 
+--
 --                 -- You can also add more custom ones...
 --             },
 --             -- Use bullet marks for non-checkbox lists.
