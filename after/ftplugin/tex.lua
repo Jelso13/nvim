@@ -142,3 +142,46 @@ vim.keymap.set("i", ']]', '<Plug>(vimtex-delim-close)', { desc = "close delimete
 vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true })
 
+
+
+local zathura_switch = require("custom.my_plugins.switch_zathura_file.switch_file")
+
+-- local tex_file = "example.pdf"  -- This should be the path to your PDF or document to open
+-- open_document_with_zathura(tex_file)
+
+
+local tex_file = "example.pdf"  -- This should be the path to your PDF or document to open
+
+-- Helper: prompt user or use visual selection
+local function get_selection_or_input(opts, prompt)
+  -- -- If called with a visual range, grab the lines/cols like before
+  -- if opts.range and vim.fn.mode() == 'v' then
+  --   -- get visual start/end
+  --   local s_pos = vim.fn.getpos("'<")
+  --   local e_pos = vim.fn.getpos("'>")
+  --   local lines = vim.fn.getline(s_pos[2], e_pos[2])
+  --   -- trim first/last to columns
+  --   if #lines == 1 then
+  --     lines[1] = string.sub(lines[1], s_pos[3], e_pos[3])
+  --   else
+  --     lines[1]     = string.sub(lines[1],      s_pos[3])
+  --     lines[#lines] = string.sub(lines[#lines], 1, e_pos[3])
+  --   end
+  --   return table.concat(lines, '\n')
+  -- end
+  -- Otherwise prompt
+  return vim.fn.input(prompt)
+end
+
+vim.api.nvim_create_user_command("ZathuraSwitch", function(opts)
+    local target = get_selection_or_input(opts, "Enter file to switch to in zathura: ")
+    if target and target ~= "" then
+        zathura_switch.open_document_with_zathura(target)
+    else
+        vim.notify("No document provided", vim.log.levels.ERROR)
+    end
+end, {
+    nargs = "?",
+    range = true,
+    desc = "Change the file that zathura focuses on",
+})

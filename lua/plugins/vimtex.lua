@@ -77,20 +77,20 @@ return {
     if vim.g.vim_window_id == nil then
       vim.g.vim_window_id = vim.fn.system("xdotool getactivewindow")
     end
-    
+
     -- Part 2: Define the function that will refocus Neovim.
     local function refocus_neovim()
       -- Give the window manager a moment (200ms) to switch focus to Zathura.
       -- You can tweak this value if needed.
       vim.cmd('sleep 200m')
-    
+
       -- Use the stored window ID to tell xdotool to focus Neovim.
       vim.fn.system("xdotool windowfocus " .. vim.g.vim_window_id)
-    
+
       -- Redraw the screen to fix any visual glitches.
       vim.cmd('redraw!')
     end
-    
+
     -- Part 3: Create an autocommand to trigger the function.
     -- This runs the `refocus_neovim` function every time VimTeX's forward
     -- search event (`VimtexEventView`) is completed.
@@ -104,7 +104,7 @@ return {
         {'\\left', '\\right'},
         {'\\big', '\\big'},
     }
-    
+
     -- Set compiler options for latexmk
     vim.g.vimtex_compiler_latexmk = {
         options = {
@@ -126,9 +126,9 @@ return {
     --     'Package siunitx Warning: Detected the "physics" package:',
     --     'Package hyperref Warning: Token not allowed in a PDF string',
     -- }
-    
+
     -- change colors of concealed replacements
-    
+
     vim.cmd [[
       highlight Conceal ctermfg=white guifg=white
     ]]
