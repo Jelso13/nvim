@@ -133,7 +133,23 @@ vim.keymap.set({"n","x"}, "tsd", "<plug>(vimtex-delim-toggle-modifier)", { desc 
 vim.keymap.set("n", "ts$", "<plug>(vimtex-env-toggle-math)", { desc = "toggle env math"})
 vim.keymap.set("i", ']]', '<Plug>(vimtex-delim-close)', { desc = "close delimeter"})
 
+vim.keymap.set("n", "<leader>tm", "", { desc = "[T]oggle [M]ath concealled text" })
 
+vim.keymap.set("n", "<leader>tm", function()
+  local cur = vim.wo.conceallevel
+  local new_val
+  if cur == 0 then
+    new_val = 2
+  elseif cur == 2 then
+    new_val = 0
+  else
+    -- default behavior if some other level is set
+    new_val = 0
+  end
+
+  vim.wo.conceallevel = new_val
+  print("Conceal level →", new_val)
+end, { desc = "[T]oggle [M]ath concealed text" })
 -- ################### CUSTOM COMMANDS #####################################
 
 
