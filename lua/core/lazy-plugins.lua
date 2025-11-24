@@ -100,7 +100,9 @@ require("lazy").setup({
     -- require("plugins/blankline"),
 
     -- actually quite useful as makes navigation easier especially
-    require("plugins/autopairs"),
+    -- However, I think it is better to handle with snippets so that if you type '()' it will auto put the cursor in the middle
+    -- avoids a lot of the crap edge cases that end up with hanging parens by not using it
+    -- require("plugins/autopairs"),
 
 	require("plugins/harpoon"),
 

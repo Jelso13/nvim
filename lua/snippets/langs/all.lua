@@ -130,6 +130,23 @@ local tst = s({trig = "info:(%w+)", regTrig = true, snippetType="autosnippet"},
   end, {})
 )
 
+local misc = {
+    -- parenthesis
+    s({ trig="()", dscr="left right parens", wordTrig=false, snippetType="autosnippet"},
+        fmta( [[(<>)<>]], { d(1, helpers.get_visual), i(0), }),
+        {}
+    ),
+    s({ trig="[]", dscr="left right bracket", wordTrig=false, snippetType="autosnippet"},
+        fmta( [[[<>]<>]], { d(1, helpers.get_visual), i(0), }),
+        {}
+    ),
+    s({ trig="{}", dscr="left right brace", wordTrig=false, snippetType="autosnippet"},
+        fmta( [[{<>}<>]], { d(1, helpers.get_visual), i(0), }),
+        {}
+    )
+}
+
 -- register it for all filetypes (or switch "all" → "tex" if you only want it in .tex)
 ls.add_snippets("all", { time_snippet, date_snippet, tst})
+ls.add_snippets("all", misc)
 

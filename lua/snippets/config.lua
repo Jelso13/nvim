@@ -19,6 +19,21 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 
+vim.cmd[[
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+" -1 for jumping backwards.
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+" For changing choices in choiceNodes (not strictly necessary for a basic setup).
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+]]
+
 --[[
 Use tab to execute snippets.
 use tab/ctrl+j to move to the next jump point in a snippet
@@ -26,26 +41,27 @@ use shift+tab/ctrl+k to move to the previous jump point in a snippet
 use ctrl+tab to use an actual tab
 --]]
 -- ctrl-k expands current item or jumps to next item within snippet
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-    if ls.expand_or_jumpable() then
-        ls.expand_or_jump()
-    end
-end, { silent = true })
+-- vim.keymap.set({ "i", "s" }, "<c-k>", function()
+--     if ls.expand_or_jumpable() then
+--         ls.expand_or_jump()
+--     end
+-- end, { silent = true })
 -- vim.keymap.set({ "i", "s" }, "<Tab>", function()
 --     if ls.expand_or_jumpable() then
 --         ls.expand_or_jump()
 --     else
---         return '<Tab>'
+--         -- return '<Tab>'
+--         return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
 --     end
 -- end, { silent = true })
-
--- ctrl-j jumps to previous item within snippet
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-    if ls.jumpable(-1) then
-        ls.jump(-1)
-    end
-end, { silent = true })
-
+-- 
+-- -- ctrl-j jumps to previous item within snippet
+-- -- vim.keymap.set({ "i", "s" }, "<c-j>", function()
+-- --     if ls.jumpable(-1) then
+-- --         ls.jump(-1)
+-- --     end
+-- -- end, { silent = true })
+-- 
 -- vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
 --     if ls.jumpable(-1) then
 --         ls.jump(-1)
@@ -58,6 +74,12 @@ vim.keymap.set({ "i" }, "<c-l>", function()
         ls.change_choice(1)
     end
 end)
+
+-- prevent backspace breaking out of select mode
+vim.keymap.set({ "s" }, "<BS>", "<C-G>s", {noremap=true, silent=true})
+-- Use vim.keymap.set for Lua-friendly mapping
+vim.keymap.set('s', '<', '<LT>', { noremap = true, silent = true })
+vim.keymap.set('s', '>', '>', { noremap = true, silent = true })
 
 
 local d = require("snippets.snippet_whichkey")

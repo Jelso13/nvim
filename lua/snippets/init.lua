@@ -35,11 +35,11 @@ return {
         -- Use Tab to trigger visual selection
         store_selection_keys = "<Tab>",
 
-        delete_check_events = "TextChanged",
+        -- delete_check_events = "TextChanged",
 
         -- Event on which to check for exiting a snippet's region
         region_check_events = 'InsertEnter',
-        -- delete_check_events = 'InsertLeave',
+        delete_check_events = 'TextChanged,InsertEnter',
     },
     -- init not config so that it doesnt override opts
     init = function()
