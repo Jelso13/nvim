@@ -607,8 +607,20 @@ local latex_math = {
         fmta("\\hat{<>}", {d(1,helpers.get_visual)}),
         { condition = tex_utils.in_mathzone }
     ),
+    s({trig="([%a])hat", dscr="hat postfix", regTrig=true, wordTrig=false, snippetType="autosnippet", priority=1001},
+        fmta("\\hat{<>}", {f(function(_, snip) return snip.captures[1] end)}),
+        { condition = tex_utils.in_mathzone }
+    ),
     s({trig="bar", dscr="overline bar", wordTrig=false, snippetType="autosnippet"},
         fmta("\\overline{<>}", {d(1,helpers.get_visual)}),
+        { condition = tex_utils.in_mathzone }
+    ),
+    s({trig="([%a])bar", dscr="bar postfix", regTrig=true, wordTrig=false, snippetType="autosnippet", priority=1001},
+        fmta("\\overline{<>}", {f(function(_, snip) return snip.captures[1] end)}),
+        { condition = tex_utils.in_mathzone }
+    ),
+    s({trig="vec", dscr="vector", wordTrig=false, snippetType="autosnippet"},
+        fmta("\\vec{<>}", {d(1,helpers.get_visual)}),
         { condition = tex_utils.in_mathzone }
     ),
     s( {trig="bmat", dscr="bracket matrix", wordTrig=false, snippetType="autosnippet"},
@@ -759,7 +771,6 @@ local latex_math = {
             trig = "(%a)(%d)",
             snippetType = "autosnippet",
             regTrig = true,
-            name = "auto subscript",
             dscr = "hi",
         },
         fmt([[<>_<>]], {
@@ -777,7 +788,6 @@ local latex_math = {
             trig = "(%a)_(%d%d)",
             regTrig = true,
             snippetType = "autosnippet",
-            name = "auto subscript 2",
             dscr = "auto subscript for 2+ digits",
         },
         fmt([[<>_{<>}]], {
