@@ -819,109 +819,109 @@ local latex_math = {
     -- ),
 
     -- Examples of Greek letter snippets, autotriggered for efficiency
-    s({ trig = ";a", dscr = "alpha", snippetType = "autosnippet" }, {
+    s({ trig = ";a", dscr = "alpha", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\alpha"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";b", dscr = "beta", snippetType = "autosnippet" }, {
+    s({ trig = ";b", dscr = "beta", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\beta"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";g", dscr = "gamma", snippetType = "autosnippet" }, {
+    s({ trig = ";g", dscr = "gamma", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\gamma"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";G", dscr = "Gamma", snippetType = "autosnippet" }, {
+    s({ trig = ";G", dscr = "Gamma", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Gamma"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";d", dscr = "delta", snippetType = "autosnippet" }, {
+    s({ trig = ";d", dscr = "delta", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\delta"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";D", dscr = "Delta", snippetType = "autosnippet" }, {
+    s({ trig = ";D", dscr = "Delta", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Delta"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";ep", dscr = "epsilon", snippetType = "autosnippet" }, {
+    s({ trig = ";ep", dscr = "epsilon", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\epsilon"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";z", dscr = "zeta", snippetType = "autosnippet" }, {
+    s({ trig = ";z", dscr = "zeta", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\zeta"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";et", dscr = "eta", snippetType = "autosnippet" }, {
+    s({ trig = ";et", dscr = "eta", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\eta"),
     }, { condition = tex_utils.in_mathzone }),
     s(
-        { trig = ";h", dscr = "theta", snippetType = "autosnippet" },
+        { trig = ";h", dscr = "theta", wordTrig=false, snippetType = "autosnippet" },
         { -- h is the same as vim digraph
             t("\\theta"),
         },
         { condition = tex_utils.in_mathzone }
     ),
     s(
-        { trig = ";H", dscr = "Theta", snippetType = "autosnippet" },
+        { trig = ";H", dscr = "Theta", wordTrig=false, snippetType = "autosnippet" },
         { -- h is the same as vim digraph
             t("\\Theta"),
         },
         { condition = tex_utils.in_mathzone }
     ),
-    s({ trig = ";i", dscr = "iota", snippetType = "autosnippet" }, {
+    s({ trig = ";i", dscr = "iota", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\iota"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";k", dscr = "kappa", snippetType = "autosnippet" }, {
+    s({ trig = ";k", dscr = "kappa", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\kappa"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";l", dscr = "lambda", snippetType = "autosnippet" }, {
+    s({ trig = ";l", dscr = "lambda", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\lambda"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";L", dscr = "Lambda", snippetType = "autosnippet" }, {
+    s({ trig = ";L", dscr = "Lambda", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Lambda"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";m", dscr = "mu", snippetType = "autosnippet" }, {
+    s({ trig = ";m", dscr = "mu", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\mu"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";n", dscr = "nu", snippetType = "autosnippet" }, {
+    s({ trig = ";n", dscr = "nu", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\nu"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";x", dscr = "xi", snippetType = "autosnippet" }, {
+    s({ trig = ";x", dscr = "xi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\xi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";X", dscr = "Xi", snippetType = "autosnippet" }, {
+    s({ trig = ";X", dscr = "Xi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Xi"),
     }, { condition = tex_utils.in_mathzone }),
     -- do not need a snippet for pi as same characters -> ;pi and \pi
-    s({ trig = ";r", dscr = "rho", snippetType = "autosnippet" }, {
+    s({ trig = ";r", dscr = "rho", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\rho"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";s", dscr = "sigma", snippetType = "autosnippet" }, {
+    s({ trig = ";s", dscr = "sigma", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\sigma"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";S", dscr = "Sigma", snippetType = "autosnippet" }, {
+    s({ trig = ";S", dscr = "Sigma", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Sigma"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";t", dscr = "tau", snippetType = "autosnippet" }, {
+    s({ trig = ";t", dscr = "tau", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\tau"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";u", dscr = "upsilon", snippetType = "autosnippet" }, {
+    s({ trig = ";u", dscr = "upsilon", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\upsilon"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";U", dscr = "Upsilon", snippetType = "autosnippet" }, {
+    s({ trig = ";U", dscr = "Upsilon", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Upsilon"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";f", dscr = "phi", snippetType = "autosnippet" }, {
+    s({ trig = ";f", dscr = "phi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\phi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";F", dscr = "Phi", snippetType = "autosnippet" }, {
+    s({ trig = ";F", dscr = "Phi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Phi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";c", dscr = "chi", snippetType = "autosnippet" }, {
+    s({ trig = ";c", dscr = "chi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\chi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";p", dscr = "psi", snippetType = "autosnippet" }, {
+    s({ trig = ";p", dscr = "psi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\psi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";P", dscr = "Psi", snippetType = "autosnippet" }, {
+    s({ trig = ";P", dscr = "Psi", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Psi"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";o", dscr = "omega", snippetType = "autosnippet" }, {
+    s({ trig = ";o", dscr = "omega", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\omega"),
     }, { condition = tex_utils.in_mathzone }),
-    s({ trig = ";O", dscr = "Omega", snippetType = "autosnippet" }, {
+    s({ trig = ";O", dscr = "Omega", wordTrig=false, snippetType = "autosnippet" }, {
         t("\\Omega"),
     }, { condition = tex_utils.in_mathzone }),
     -- implicit multiplication
