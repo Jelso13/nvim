@@ -604,7 +604,7 @@ local latex_math = {
         { condition = tex_utils.in_mathzone }
     ),
     s({trig="hat", dscr="hat", wordTrig=false, snippetType="autosnippet"},
-        fmta("\\hat{<>}", {d(1,helpers.get_visual)}),
+        fmta("\\widehat{<>}", {d(1,helpers.get_visual)}),
         { condition = tex_utils.in_mathzone }
     ),
     s({trig="([%a])hat", dscr="hat postfix", regTrig=true, wordTrig=false, snippetType="autosnippet", priority=1001},
@@ -653,6 +653,22 @@ local latex_math = {
     ),
     s({trig="//", dscr="fraction", wordTrig=false, snippetType="autosnippet"},
         fmta("\\frac{<>}{<>}", {i(1,"x"), i(2,"y")}),
+        { condition = tex_utils.in_mathzone }
+    ),
+    s({trig="ubrace", dscr="label under section", wordTrig=false, snippetType="autosnippet"},
+        fmta("\\underbrace{<>}_{\\text{<>}}", {d(1,helpers.get_visual), i(2)}),
+        { condition = function() return tex_utils.in_mathzone and conds.has_selected_text() end }
+    ),
+    s({trig="ubrace", dscr="label under section", wordTrig=false, snippetType="autosnippet"},
+        fmta("\\underbrace{<>}_{\\text{<>}}", {i(1), i(2)}),
+        { condition = tex_utils.in_mathzone }
+    ),
+    s({trig="obrace", dscr="label over section", wordTrig=false, snippetType="autosnippet"},
+        fmta("\\overbrace{<>}^{\\text{<>}}", {d(1,helpers.get_visual), i(2)}),
+        { condition = function() return tex_utils.in_mathzone and conds.has_selected_text() end }
+    ),
+    s({trig="obrace", dscr="label over section", wordTrig=false, snippetType="autosnippet"},
+        fmta("\\overbrace{<>}^{\\text{<>}}", {i(1), i(2)}),
         { condition = tex_utils.in_mathzone }
     ),
     s({trig="^^", dscr="superscript", wordTrig=false, snippetType="autosnippet"},

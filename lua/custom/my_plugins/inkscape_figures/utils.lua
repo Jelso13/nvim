@@ -1,6 +1,7 @@
 -- utils.lua
 local M = {}
 
+
 local function get_config()
     local config = {
         figure_dir = vim.fn.getcwd() .. "/figures/",
