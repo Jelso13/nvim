@@ -1,3 +1,6 @@
+-- from lazy-transition branch
+local compare_tool = "blink"
+
 -- if the compare tool is "cmp" then return the below
 -- return {
 --     { -- Autocompletion
@@ -37,6 +40,8 @@ return {
     -- If you use nix, you can build from source using latest nightly rust with:
     -- build = 'nix run .#build-plugin',
 
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
     opts = {
         -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
         -- 'super-tab' for mappings similar to vscode (tab to accept)
@@ -51,7 +56,7 @@ return {
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         keymap = { preset = "default" },
-        
+
         appearance = {
             -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
             -- Adjusts spacing to ensure icons are aligned
@@ -61,10 +66,44 @@ return {
         -- (Default) Only show the documentation popup when manually triggered
         completion = { documentation = { auto_show = false } },
 
+        -- -- Default list of enabled providers defined so that you can extend it
+        -- -- elsewhere in your config, without redefining it, due to `opts_extend`
+        -- sources = {
+        --     default = { "lsp", "path", "snippets", "buffer" },
+        -- },
+
         -- Default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, due to `opts_extend`
+        --
         sources = {
-            default = { "lsp", "path", "snippets", "buffer" },
+            default = { "obsidian", "obsidian_new", "obsidian_tags", "lsp", "path", "snippets", "buffer" },
+
+            providers = {
+                obsidian = {
+                    name = "obsidian",
+                    module = "obsidian.completion.sources.blink.refs",
+                    score_offset = 100, -- Boost priority
+                    enabled = function()
+                        return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
+                    end,
+                },
+                obsidian_new = {
+                    name = "obsidian_new",
+                    module = "obsidian.completion.sources.blink.new",
+                    score_offset = 99, -- Boost priority
+                    enabled = function()
+                        return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
+                    end,
+                },
+                obsidian_tags = {
+                    name = "obsidian_tags",
+                    module = "obsidian.completion.sources.blink.tags",
+                    score_offset = 100, -- Boost priority
+                    enabled = function()
+                        return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
+                    end,
+                },
+            },
         },
 
         -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
