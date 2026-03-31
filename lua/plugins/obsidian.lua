@@ -111,162 +111,82 @@
 --         vim.keymap.set("n", "<leader>os", "<cmd>Obsidian search<cr>", { desc = "[O]bsidian [S]earch" })
 --     end,
 -- }
-
 return {
     "obsidian-nvim/obsidian.nvim",
-    version = "*", -- recommended for stable updates
+    version = "*", 
     lazy = true,
-    -- Trigger the plugin when entering a markdown file or specifically in your vault
-    -- ft = "markdown",
     event = {
         "BufReadPre " .. vim.fn.expand("~") .. "/Vault/**/*.md",
         "BufNewFile " .. vim.fn.expand("~") .. "/Vault/**/*.md",
     },
-
-    -- Add the keys table here to define your shortcuts
-    keys = {
-        -- 1. Workspace & Navigation (The "Where am I going?" cluster)
-        -- override standard file search with obsidian search
-        {
-            "<leader>sf",
-            "<cmd>Obsidian quick_switch<CR>",
-            desc = "Search Obsidian vault",
-        },
-        -- quick_switch
-        -- open the obsidian app
-        {
-            "<leader>oo",
-            "<cmd>Obsidian open<CR>",
-            desc = "Open in Obsidian App",
-        },
-        {
-            "<localleader>o",
-            "<cmd>Obsidian open<CR>",
-            desc = "Open in Obsidian App",
-        },
-
-        -- 2. Creation & Templates (The "Making things" cluster)
-        { "<leader>on", "<cmd>Obsidian new<CR>", desc = "Create new note" },
-        {
-            "<leader>ot",
-            "<cmd>Obsidian template<CR>",
-            desc = "Insert template",
-        },
-        {
-            "<leader>oT",
-            "<cmd>Obsidian new_from_template<CR>",
-            desc = "New note from template",
-        },
-
-        -- 3. Daily Notes (The "Time" cluster)
-        {
-            "<leader>od",
-            "<cmd>Obsidian today<CR>",
-            desc = "Today's daily note",
-        },
-        {
-            "<localleader>d",
-            "<cmd>Obsidian today<CR>",
-            desc = "Today's daily note",
-        },
-        {
-            "<leader>oy",
-            "<cmd>Obsidian yesterday<CR>",
-            desc = "Yesterday's daily note",
-        },
-        {
-            "<leader>om",
-            "<cmd>Obsidian tomorrow<CR>",
-            desc = "Tomorrow's daily note",
-        }, -- 'm' for morrow
-        {
-            "<leader>oD",
-            "<cmd>Obsidian dailies<CR>",
-            desc = "List daily notes",
-        },
-        {
-            "<localleader>D",
-            "<cmd>Obsidian dailies<CR>",
-            desc = "List daily notes",
-        },
-
-        -- 4. Note Structure & Linking (The "Connections" cluster)
-        {
-            "<leader>ob",
-            "<cmd>Obsidian backlinks<CR>",
-            desc = "Show note backlinks",
-        },
-        {
-            "<leader>oL",
-            "<cmd>Obsidian links<CR>",
-            desc = "Show links in note",
-        },
-        { "<leader>og", "<cmd>Obsidian tags<CR>", desc = "Search tags" }, -- 'g' for taG
-        { "<leader>oc", "<cmd>Obsidian toc<CR>", desc = "Table of contents" },
-
-        -- 5. Note Editing (The "Action" cluster)
-        {
-            "<leader>or",
-            "<cmd>Obsidian rename<CR>",
-            desc = "Rename note (updates links)",
-        },
-        {
-            "<leader>ox",
-            "<cmd>Obsidian toggle_checkbox<CR>",
-            desc = "Toggle checkbox",
-        },
-        {
-            "<leader>op",
-            "<cmd>Obsidian paste_img<CR>",
-            desc = "Paste image from clipboard",
-        },
-
-        -- 6. Visual Mode Bindings (Text extraction and inline linking)
-        {
-            "<leader>ol",
-            "<cmd>Obsidian link<CR>",
-            mode = "v",
-            desc = "Link visual selection to note",
-        },
-        {
-            "<leader>on",
-            "<cmd>Obsidian link_new<CR>",
-            mode = "v",
-            desc = "Link visual to new note",
-        },
-        {
-            "<leader>oe",
-            "<cmd>Obsidian extract_note<CR>",
-            mode = "v",
-            desc = "Extract text to new note",
-        },
-    },
-
-    -- The dependencies you mentioned are automatically detected,
-    -- so we don't need to explicitly declare blink.cmp here for it to work.
     dependencies = {
-        "nvim-lua/plenary.nvim", -- Required utility library
-        "saghen/blink.cmp", -- completions
+        "nvim-lua/plenary.nvim",
+        "saghen/blink.cmp", 
     },
+    
+    -- We removed the `keys` table and moved the mapping logic into the config function
+    config = function(_, opts)
+        -- 1. Initialize Obsidian with your opts
+        require("obsidian").setup(opts)
+
+        -- 2. Create an Autocmd to set buffer-local keymaps ONLY in the Vault
+        vim.api.nvim_create_autocmd({"BufEnter"}, {
+            pattern = vim.fn.expand("~") .. "/Vault/**/*.md",
+            callback = function(ev)
+                local bufnr = ev.buf
+
+                -- Helper function to keep mappings clean
+                local function map(mode, key, cmd, desc)
+                    vim.keymap.set(mode, key, cmd, { noremap = true, silent = true, buffer = bufnr, desc = desc })
+                end
+
+                -- 1. Workspace & Navigation 
+                map("n", "<leader>sf", "<cmd>Obsidian quick_switch<CR>", "Search Obsidian vault")
+                map("n", "<leader>oo", "<cmd>Obsidian open<CR>", "Open in Obsidian App")
+                map("n", "<localleader>o", "<cmd>Obsidian open<CR>", "Open in Obsidian App")
+
+                -- 2. Creation & Templates 
+                map("n", "<leader>on", "<cmd>Obsidian new<CR>", "Create new note")
+                map("n", "<leader>ot", "<cmd>Obsidian template<CR>", "Insert template")
+                map("n", "<leader>oT", "<cmd>Obsidian new_from_template<CR>", "New note from template")
+
+                -- 3. Daily Notes 
+                map("n", "<leader>od", "<cmd>Obsidian today<CR>", "Today's daily note")
+                map("n", "<localleader>d", "<cmd>Obsidian today<CR>", "Today's daily note")
+                map("n", "<leader>oy", "<cmd>Obsidian yesterday<CR>", "Yesterday's daily note")
+                map("n", "<leader>om", "<cmd>Obsidian tomorrow<CR>", "Tomorrow's daily note")
+                map("n", "<leader>oD", "<cmd>Obsidian dailies<CR>", "List daily notes")
+                map("n", "<localleader>D", "<cmd>Obsidian dailies<CR>", "List daily notes")
+
+                -- 4. Note Structure & Linking 
+                map("n", "<leader>ob", "<cmd>Obsidian backlinks<CR>", "Show note backlinks")
+                map("n", "<leader>oL", "<cmd>Obsidian links<CR>", "Show links in note")
+                map("n", "<leader>og", "<cmd>Obsidian tags<CR>", "Search tags")
+                map("n", "<leader>oc", "<cmd>Obsidian toc<CR>", "Table of contents")
+
+                -- 5. Note Editing
+                map("n", "<leader>or", "<cmd>Obsidian rename<CR>", "Rename note")
+                map("n", "<leader>ox", "<cmd>Obsidian toggle_checkbox<CR>", "Toggle checkbox")
+                map("n", "<leader>op", "<cmd>Obsidian paste_img<CR>", "Paste image")
+
+                -- 6. Visual Mode Bindings 
+                map("v", "<leader>ol", "<cmd>Obsidian link<CR>", "Link visual selection")
+                map("v", "<leader>on", "<cmd>Obsidian link_new<CR>", "Link visual to new note")
+                map("v", "<leader>oe", "<cmd>Obsidian extract_note<CR>", "Extract text to new note")
+            end
+        })
+    end,
+
     opts = {
         workspaces = {
             { name = "Vault", path = "~/Vault" },
         },
-        completion = { blink = false }, -- needed because we manually register with blink
-        -- follow_link_func = function(link, opts)
-        --        opts.confirm = false
-        --        require"obsidian.builtin".follow_link(link, opts)
-        -- end,
+        completion = { blink = false }, 
         attachments = {
             folder = "Attachments",
             img_folder = "Attachments",
-            -- -- img_text_func = require("obsidian.builtin").img_text_func,
-            -- img_name_func = function()
-            --     return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
-            -- end,
             confirm_img_paste = false,
         },
-
         legacy_commands = false,
         preferred_link_style = "markdown",
         link = {
@@ -274,19 +194,15 @@ return {
             format = "absolute",
         },
         ui = { enable = true },
-        -- 1. Route all newly created notes to the Knowledge directory
         notes_subdir = "Knowledge",
         new_notes_location = "notes_subdir",
         templates = {
             folder = "Scratchpad/Templates",
         },
         checkbox = {
-            -- Ensures smart_action only toggles existing checkboxes,
-            -- never creates them from empty lines.
             create_new = false,
         },
         note_id_func = function(title)
-            -- Ensures all generated files use lowercase-hyphenated slugs
             if title ~= nil then
                 return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
             else
@@ -302,14 +218,11 @@ return {
         callbacks = {
             enter_note = function(note)
                 local bufnr = vim.api.nvim_get_current_buf()
-
-                -- Smart Check: If there are 4 lines or fewer, it's just the
-                -- auto-generated frontmatter. We treat this as "empty."
                 if vim.api.nvim_buf_line_count(bufnr) > 6 then
                     return
                 end
 
-                local path = tostring(note.path):lower() -- Force lowercase for matching
+                local path = tostring(note.path):lower() 
 
                 if path:match("knowledge/") then
                     vim.cmd("Obsidian template knowledge.md")

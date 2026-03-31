@@ -168,6 +168,8 @@ require("lazy").setup({
     -- Custom plugins
     require("custom.my_plugins.inkscape_figures"),
 
+
+
     -- language specific plugins
     require("plugins.language_specific_plugins"),
 }, {

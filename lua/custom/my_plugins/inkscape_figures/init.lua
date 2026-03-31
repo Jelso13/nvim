@@ -3,52 +3,123 @@ Router
 Responsible for processing the instructions and passing to the engine for executing commands
 --]]
 
--- init.lua
-local core = require("custom.my_plugins.inkscape_figures.core")
-
--- Commands
-vim.api.nvim_create_user_command("InkCreate", function(opts)
-    -- Your existing command logic
-end, { nargs = "?", range = true, desc = "Create a new Inkscape figure" })
-
-vim.api.nvim_create_user_command("InkEdit", function(opts)
-    -- Your existing command logic
-end, { nargs = "?", range = true, desc = "Edit an existing Inkscape figure" })
-
-vim.api.nvim_create_user_command("InkConvert", function(opts)
-    -- Your existing command logic
-end, { nargs = "?", range = true, desc = "Convert SVG to PDF+LaTeX" })
-
-
--------------------------------------------------------------------------------
--- Keymaps (Insert, Normal, Visual)
--------------------------------------------------------------------------------
-
--- Insert Mode: ctrl+f
-vim.keymap.set('i', '<C-f>', function()
-    core.handle_insert_mode()
-end, { noremap = true, silent = true, desc = "Handle Inkscape figure in Insert mode" })
-
--- Normal Mode: <localleader>f
-vim.keymap.set('n', '<localleader>f', function()
-    core.handle_normal_mode()
-end, { noremap = true, silent = true, desc = "Handle Inkscape figure in Normal mode" })
-
--- Visual Mode: <localleader>f or ctrl+f
-vim.keymap.set('v', '<localleader>f', function()
-    core.handle_visual_mode()
-end, { noremap = true, silent = true, desc = "Create Inkscape figure from selection" })
-
-vim.keymap.set('v', '<C-f>', function()
-    core.handle_visual_mode()
-end, { noremap = true, silent = true, desc = "Create Inkscape figure from selection" })
+-- custom/my_plugins/inkscape_figures/init.lua
 
 return {
     "inkscape_figures",
-    lazy = false,
+    ft = { "tex", "markdown" }, -- Lazy strictly limits loading to these filetypes
     dir = vim.fn.stdpath("config") .. "/lua/custom/my_plugins/inkscape_figures",
-    config = function() end,
+    
+    -- The config function ONLY runs when the plugin is loaded (i.e., in tex/md files)
+    config = function()
+        local core = require("custom.my_plugins.inkscape_figures.core")
+        local group = vim.api.nvim_create_augroup("InkscapeFigures", { clear = true })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = { "tex", "markdown" },
+            callback = function(ev)
+                local bufnr = ev.buf
+
+                -- 1. Buffer-local Commands
+                vim.api.nvim_buf_create_user_command(bufnr, "InkCreate", function(opts)
+                    -- Your existing command logic
+                end, { nargs = "?", range = true, desc = "Create a new Inkscape figure" })
+
+                vim.api.nvim_buf_create_user_command(bufnr, "InkEdit", function(opts)
+                    -- Your existing command logic
+                end, { nargs = "?", range = true, desc = "Edit an existing Inkscape figure" })
+
+                vim.api.nvim_buf_create_user_command(bufnr, "InkConvert", function(opts)
+                    -- Your existing command logic
+                end, { nargs = "?", range = true, desc = "Convert SVG to PDF+LaTeX" })
+
+                -------------------------------------------------------------------------------
+                -- 2. Buffer-Local Keymaps & Path Routing
+                -------------------------------------------------------------------------------
+                local filepath = vim.api.nvim_buf_get_name(bufnr)
+                local vault_path = vim.fn.expand("~/Vault")
+                
+                -- Ensure mappings only apply to THIS specific buffer
+                local map_opts = { noremap = true, silent = true, buffer = bufnr }
+                local ink_opts = nil
+
+                -- If inside Obsidian Vault, inject the custom directory paths
+                if string.sub(filepath, 1, string.len(vault_path)) == vault_path then
+                    ink_opts = {
+                        dir = vault_path .. "/Attachments/",
+                        link_path = "Attachments/"
+                    }
+                end
+
+                -- Apply the keymaps
+                vim.keymap.set('i', '<C-f>', function()
+                    core.handle_insert_mode(ink_opts)
+                end, vim.tbl_extend("force", map_opts, { desc = "Handle Inkscape figure in Insert mode" }))
+
+                vim.keymap.set('n', '<localleader>f', function()
+                    core.handle_normal_mode(ink_opts)
+                end, vim.tbl_extend("force", map_opts, { desc = "Handle Inkscape figure in Normal mode" }))
+
+                vim.keymap.set('v', '<localleader>f', function()
+                    core.handle_visual_mode(ink_opts)
+                end, vim.tbl_extend("force", map_opts, { desc = "Create Inkscape figure from selection" }))
+
+                vim.keymap.set('v', '<C-f>', function()
+                    core.handle_visual_mode(ink_opts)
+                end, vim.tbl_extend("force", map_opts, { desc = "Create Inkscape figure from selection" }))
+            end
+        })
+    end
 }
+
+
+-- -- init.lua
+-- local core = require("custom.my_plugins.inkscape_figures.core")
+-- 
+-- -- Commands
+-- vim.api.nvim_create_user_command("InkCreate", function(opts)
+--     -- Your existing command logic
+-- end, { nargs = "?", range = true, desc = "Create a new Inkscape figure" })
+-- 
+-- vim.api.nvim_create_user_command("InkEdit", function(opts)
+--     -- Your existing command logic
+-- end, { nargs = "?", range = true, desc = "Edit an existing Inkscape figure" })
+-- 
+-- vim.api.nvim_create_user_command("InkConvert", function(opts)
+--     -- Your existing command logic
+-- end, { nargs = "?", range = true, desc = "Convert SVG to PDF+LaTeX" })
+-- 
+-- 
+-- -------------------------------------------------------------------------------
+-- -- Keymaps (Insert, Normal, Visual)
+-- -------------------------------------------------------------------------------
+-- 
+-- -- Insert Mode: ctrl+f
+-- vim.keymap.set('i', '<C-f>', function()
+--     core.handle_insert_mode()
+-- end, { noremap = true, silent = true, desc = "Handle Inkscape figure in Insert mode" })
+-- 
+-- -- Normal Mode: <localleader>f
+-- vim.keymap.set('n', '<localleader>f', function()
+--     core.handle_normal_mode()
+-- end, { noremap = true, silent = true, desc = "Handle Inkscape figure in Normal mode" })
+-- 
+-- -- Visual Mode: <localleader>f or ctrl+f
+-- vim.keymap.set('v', '<localleader>f', function()
+--     core.handle_visual_mode()
+-- end, { noremap = true, silent = true, desc = "Create Inkscape figure from selection" })
+-- 
+-- vim.keymap.set('v', '<C-f>', function()
+--     core.handle_visual_mode()
+-- end, { noremap = true, silent = true, desc = "Create Inkscape figure from selection" })
+-- 
+-- return {
+--     "inkscape_figures",
+--     lazy = false,
+--     dir = vim.fn.stdpath("config") .. "/lua/custom/my_plugins/inkscape_figures",
+--     config = function() end,
+-- }
 
 
 
