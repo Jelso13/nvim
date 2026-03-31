@@ -26,13 +26,15 @@ local compare_tool = "blink"
 --         end,
 --     },
 -- }
+--
+--
 
 
 return {
     "saghen/blink.cmp",
+    event = 'VimEnter',
     -- optional: provides snippets for the snippet source
-    dependencies = { "rafamadriz/friendly-snippets" },
-
+    dependencies = { "L3MON4D3/LuaSnip", "rafamadriz/friendly-snippets" },
     -- use a release tag to download pre-built binaries
     version = "1.*",
     -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
@@ -83,7 +85,7 @@ return {
                     name = "obsidian",
                     module = "obsidian.completion.sources.blink.refs",
                     score_offset = 100, -- Boost priority
-                    enabled = function()
+                    enabled = function() -- only enable if in vault
                         return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
                     end,
                 },
@@ -91,7 +93,7 @@ return {
                     name = "obsidian_new",
                     module = "obsidian.completion.sources.blink.new",
                     score_offset = 99, -- Boost priority
-                    enabled = function()
+                    enabled = function() -- only enable if in vault
                         return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
                     end,
                 },
@@ -99,12 +101,14 @@ return {
                     name = "obsidian_tags",
                     module = "obsidian.completion.sources.blink.tags",
                     score_offset = 100, -- Boost priority
-                    enabled = function()
+                    enabled = function() -- only enable if in vault
                         return vim.api.nvim_buf_get_name(0):find("/Vault") ~= nil
                     end,
                 },
             },
         },
+
+        snippets = { preset = 'luasnip' },
 
         -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
         -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
@@ -112,6 +116,7 @@ return {
         --
         -- See the fuzzy documentation for more information
         fuzzy = { implementation = "prefer_rust_with_warning" },
+        -- signature = { enabled = true },
     },
     opts_extend = { "sources.default" },
 }
