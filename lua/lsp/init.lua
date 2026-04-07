@@ -1,144 +1,92 @@
--- -- LSP Plugins
--- return {
--- 	{
--- 		-- Main LSP Configuration
--- 		"neovim/nvim-lspconfig",
--- 		dependencies = {
--- 			-- Automatically install LSPs and related tools to stdpath for Neovim
--- 			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
--- 			"williamboman/mason-lspconfig.nvim",
--- 			"WhoIsSethDaniel/mason-tool-installer.nvim",
--- 
--- 			-- Allows extra capabilities provided by nvim-cmp
--- 			"hrsh7th/cmp-nvim-lsp",
--- 		},
--- 		config = function()
---             require("lsp.config")
--- 		end,
--- 	},
---     -- none-ls specification
---     {
---         "nvimtools/none-ls.nvim",
---         dependencies = { "mason.nvim", "nvim-lua/plenary.nvim" },
---         config = function()
---             local null_ls = require("null-ls")
--- 
---             null_ls.setup({
---                 sources = {
---                     -- Example sources
---                     -- null_ls.builtins.diagnostics.ruff,
---                     null_ls.builtins.diagnostics.mypy.with({
---                         extra_args = { "--strict" },  -- Optional: Enable strict mode for mypy
---                     }),
---                 },
---             })
---         end,
---     }
--- }
-
-
 return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-        -- "hrsh7th/cmp-nvim-lsp",
         {
           "folke/lazydev.nvim",
-          ft = "lua", -- only load on lua files
+          ft = "lua",
           opts = {
             library = {
-              -- See the configuration section for more details
-              -- Load luvit types when the `vim.uv` word is found
               { path = "${3rd}/luv/library", words = { "vim%.uv" } },
             },
           },
         },
     },
     config = function()
-        local nvim_lsp = require("lspconfig")
-        -- local mason_lspconfig = require("mason-lspconfig")
-
-        -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        -- Fetch capabilities from Blink
         local capabilities = require("blink.cmp").get_lsp_capabilities()
-        require("lspconfig").lua_ls.setup { capabilities = capabilities }
 
-        -- -- Helper function to require configurations
-        -- local function load_server_config(server)
-        --     local success, config = pcall(require, "lsp.servers." .. server)
-        --     if success then
-        --         config(capabilities)
-        --     else
-        --         -- Fallback to default if no specific config file exists
-        --         nvim_lsp[server].setup({
-        --             capabilities = capabilities,
-        --         })
-        --     end
-        -- end
+        -- ==========================================
+        -- 1. Custom Server Configurations
+        -- ==========================================
+        
+        -- Lua
+        local lua_opts = require("lsp.servers.lua_ls")
+        lua_opts.capabilities = capabilities
+        vim.lsp.config('lua_ls', lua_opts)
+        vim.lsp.enable('lua_ls')
 
-        -- -- Set up handlers for all servers with separate config files for specific ones
-        -- mason_lspconfig.setup_handlers({
-        --     function(server)
-        --         load_server_config(server)
-        --     end,
-        --     -- Optional: Manually call individual handlers if you need fine control
-        --     ["pyright"] = function() load_server_config("pyright") end,
-        --     ["lua_ls"] = function() load_server_config("lua_ls") end,
-        --     ["rust-analyzer"] = function() load_server_config("rust_analyzer") end,
-        -- })
+        -- Pyright
+        local pyright_opts = require("lsp.servers.pyright")
+        pyright_opts.capabilities = capabilities
+        vim.lsp.config('pyright', pyright_opts)
+        vim.lsp.enable('pyright')
 
-        nvim_lsp.lua_ls.setup {require("lsp.servers.lua_ls")}
-        -- nvim_lsp.ruff.setup {require("lsp.servers.ruff")}
-        nvim_lsp.pyright.setup {require("lsp.servers.pyright")}
-        -- causes issues with rustaceanvim
-        nvim_lsp.rust_analyzer.setup {require("lsp.servers.rust_analyzer")}
+        -- Ruff (Enabled for Python formatting/linting)
+        vim.lsp.config('ruff', { capabilities = capabilities })
+        vim.lsp.enable('ruff')
 
-        nvim_lsp.bashls.setup({})
-        -- nvim_lsp.dcm.setup({})
-        nvim_lsp.texlab.setup(require("lsp.servers.texlab"))
-        -- nvim_lsp.ltex.setup({})
-        nvim_lsp.clangd.setup({})
-        nvim_lsp.cssls.setup({})
-        nvim_lsp.eslint.setup({})
-        nvim_lsp.html.setup({})
-        nvim_lsp.jsonls.setup({})
-        nvim_lsp.ts_ls.setup({})
-        nvim_lsp.tailwindcss.setup({})
+        -- Texlab
+        local texlab_opts = require("lsp.servers.texlab")
+        texlab_opts.capabilities = capabilities
+        vim.lsp.config('texlab', texlab_opts)
+        vim.lsp.enable('texlab')
 
-        -- Custom function to format diagnostics with source
+        -- ==========================================
+        -- 2. Basic Server Configurations
+        -- ==========================================
+        local basic_servers = {
+            "bashls",
+            "clangd",
+            "cssls",
+            "eslint",
+            "html",
+            "jsonls",
+            "ts_ls",
+            "tailwindcss"
+        }
+
+        for _, server in ipairs(basic_servers) do
+            vim.lsp.config(server, { capabilities = capabilities })
+            vim.lsp.enable(server)
+        end
+
+        -- ==========================================
+        -- 3. Diagnostics Configuration
+        -- ==========================================
         local function diagnostic_source_formatter(diagnostic)
             local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
             return source .. diagnostic.message
         end
 
-
-
-        -- Optional: Configure signs for diagnostics (if you want custom symbols)
-        -- local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
         local signs = { Error = "󰅚", Warn = "󰀪", Hint = "󰌶", Info = "" }
         for type, icon in pairs(signs) do
             vim.fn.sign_define("DiagnosticSign" .. type, { text = icon, texthl = "DiagnosticSign" .. type })
-        end
-        -- Show line diagnostics automatically in hover window
-        vim.o.updatetime = 250
-        vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-
-        -- highlight line number instead of icons in sign column
-        for _, diag in ipairs({ "Error", "Warn", "Info", "Hint" }) do
-            vim.fn.sign_define("DiagnosticSign" .. diag, {
+            
+            -- highlight line number instead of icons in sign column
+            vim.fn.sign_define("DiagnosticSign" .. type, {
                 text = "",
-                texthl = "DiagnosticSign" .. diag,
+                texthl = "DiagnosticSign" .. type,
                 linehl = "",
-                numhl = "DiagnosticSign" .. diag,
+                numhl = "DiagnosticSign" .. type,
             })
         end
 
-        -- Configure diagnostics
+        vim.o.updatetime = 250
+        vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
         vim.diagnostic.config({
             virtual_text = true,
-            -- virtual_text = {
-            --     format = diagnostic_source_formatter,  -- Use the custom formatter
-            -- },
-            -- signs = true,
             signs = {
                 text = {
                     [vim.diagnostic.severity.ERROR] = signs.Error,
@@ -155,22 +103,7 @@ return {
             }
         })
 
-
-
+        -- Load keymaps
         require("lsp.keymaps")
     end,
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

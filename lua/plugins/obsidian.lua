@@ -111,6 +111,9 @@
 --         vim.keymap.set("n", "<leader>os", "<cmd>Obsidian search<cr>", { desc = "[O]bsidian [S]earch" })
 --     end,
 -- }
+
+
+
 return {
     "obsidian-nvim/obsidian.nvim",
     version = "*", 
@@ -124,18 +127,14 @@ return {
         "saghen/blink.cmp", 
     },
     
-    -- We removed the `keys` table and moved the mapping logic into the config function
     config = function(_, opts)
-        -- 1. Initialize Obsidian with your opts
         require("obsidian").setup(opts)
 
-        -- 2. Create an Autocmd to set buffer-local keymaps ONLY in the Vault
         vim.api.nvim_create_autocmd({"BufEnter"}, {
             pattern = vim.fn.expand("~") .. "/Vault/**/*.md",
             callback = function(ev)
                 local bufnr = ev.buf
 
-                -- Helper function to keep mappings clean
                 local function map(mode, key, cmd, desc)
                     vim.keymap.set(mode, key, cmd, { noremap = true, silent = true, buffer = bufnr, desc = desc })
                 end
@@ -181,6 +180,10 @@ return {
         workspaces = {
             { name = "Vault", path = "~/Vault" },
         },
+        
+        -- Prevent the plugin from injecting default frontmatter before templates load
+        disable_frontmatter = true, 
+        
         completion = { blink = false }, 
         attachments = {
             folder = "Attachments",
@@ -218,19 +221,23 @@ return {
         callbacks = {
             enter_note = function(note)
                 local bufnr = vim.api.nvim_get_current_buf()
-                if vim.api.nvim_buf_line_count(bufnr) > 6 then
+                -- Since frontmatter is disabled, brand new notes will have exactly 1 empty line
+                if vim.api.nvim_buf_line_count(bufnr) > 1 then
                     return
                 end
+                vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {})
 
                 local path = tostring(note.path):lower() 
 
-                if path:match("knowledge/") then
-                    vim.cmd("Obsidian template knowledge.md")
-                elseif path:match("scratchpad/") then
-                    vim.cmd("Obsidian template scratchpad.md")
-                elseif path:match("sources/") then
-                    vim.cmd("Obsidian template source.md")
-                end
+                vim.schedule(function()
+                    if path:match("knowledge/") then
+                        vim.cmd("Obsidian template knowledge.md")
+                    elseif path:match("scratchpad/") then
+                        vim.cmd("Obsidian template scratchpad.md")
+                    elseif path:match("sources/") then
+                        vim.cmd("Obsidian template source.md")
+                    end
+                end)
             end,
         },
     },

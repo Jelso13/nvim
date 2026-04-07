@@ -2,22 +2,37 @@
 -- lua/lsp/servers/pyright.lua
 
 return {
-
-    cmd = { "pyright-langserver", "--stdio" },
-    filetypes = { "python" },
-    root_dir = function(filename)
-          return util.root_pattern(unpack(root_files))(filename) or util.path.dirname(filename)
-        end,
     settings = {
-      python = {
-        analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "workspace",
-          useLibraryCodeForTypes = true
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = true,
+                -- typeCheckingMode = "basic"
+                typeCheckingMode = "strict"
+            }
         }
-      }
     }
 }
+
+
+-- return {
+-- 
+--     cmd = { "pyright-langserver", "--stdio" },
+--     filetypes = { "python" },
+--     root_dir = function(filename)
+--           return util.root_pattern(unpack(root_files))(filename) or util.path.dirname(filename)
+--         end,
+--     settings = {
+--       python = {
+--         analysis = {
+--           autoSearchPaths = true,
+--           diagnosticMode = "workspace",
+--           useLibraryCodeForTypes = true
+--         }
+--       }
+--     }
+-- }
 
 -- return function(capabilities)
 --   local nvim_lsp = require("lspconfig")

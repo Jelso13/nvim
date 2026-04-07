@@ -18,6 +18,39 @@ vim.keymap.set("n", "<leader>hl", function()
     })
 end, { desc = "[H]elp [L]anguage (python)" })
 
+-- ---------------------------------- Pyright -------------------------------------
+-- Dynamically toggle Pyright's type checking strictness
+vim.keymap.set("n", "<leader>tt", function()
+    -- Get the active Pyright client for the current buffer
+    local clients = vim.lsp.get_clients({ name = "pyright", bufnr = 0 })
+    
+    if #clients == 0 then
+        vim.notify("Pyright is not active in this buffer.", vim.log.levels.WARN)
+        return
+    end
+
+    local client = clients[1]
+    local settings = client.config.settings
+
+    -- Safely ensure the nested table structure exists
+    settings.python = settings.python or {}
+    settings.python.analysis = settings.python.analysis or {}
+
+    -- Check current mode and toggle between 'basic' and 'strict'
+    -- (You can change 'basic' to 'off' if you prefer zero hints when toggled off)
+    local current_mode = settings.python.analysis.typeCheckingMode or "basic"
+    local new_mode = current_mode == "strict" and "basic" or "strict"
+
+    -- Update the internal Neovim config
+    settings.python.analysis.typeCheckingMode = new_mode
+
+    -- Hot-reload the setting: Notify Pyright of the change
+    client.notify("workspace/didChangeConfiguration", { settings = settings })
+
+    -- Show a nice notification in the editor
+    vim.notify("Pyright Type Checking: " .. new_mode:upper(), vim.log.levels.INFO)
+end, { desc = "[T]oggle [T]ype checking (Pyright)", buffer = true })
+
 -- ---------------------------------- Folds ---------------------------------------
 -- vim.opt_local.foldmethod = "indent"
 -- vim.opt_local.foldnestmax=2

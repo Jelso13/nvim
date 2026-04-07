@@ -253,6 +253,16 @@ return function(math_condition)
         ),
         s(
             {
+                trig = "HH",
+                dscr = "hyperbolic space",
+                wordTrig = false,
+                snippetType = "autosnippet",
+            },
+            { t("\\mathbb{H}") },
+            { condition = math_condition }
+        ),
+        s(
+            {
                 trig = "mcal",
                 dscr = "mathcal",
                 wordTrig = false,
