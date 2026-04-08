@@ -18,11 +18,15 @@ return {
             zindex = 20, -- The Z-index of the context window
             on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
         },
-        config = function()
-            -- set up keybindings for treesitter context commands
+        config = function(_, opts)
+            -- 1. YOU MUST MANUALLY CALL SETUP IF YOU OVERRIDE THE CONFIG FUNCTION!
+            require("treesitter-context").setup(opts)
+
+            -- 2. Then set up your keybindings
             vim.keymap.set("n", "<leader>tc", function()
                 require("treesitter-context").toggle()
             end, { desc = "Toggle Treesitter Context" })
+            
             vim.keymap.set("n", "[c", function()
               require("treesitter-context").go_to_context(vim.v.count1)
             end, { silent = true, desc="Jump up to context" })

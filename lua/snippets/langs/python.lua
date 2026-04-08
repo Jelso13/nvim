@@ -18,8 +18,13 @@ local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 local ls = require("luasnip");
 
+-- Attempt to load ts_utils safely
+local status_ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
 
-local ts_utils = require("nvim-treesitter.ts_utils")
+-- If it fails (e.g., Treesitter isn't downloaded yet), stop reading this file
+if not status_ok then
+    return 
+end
 
 local py_utils = {}
 

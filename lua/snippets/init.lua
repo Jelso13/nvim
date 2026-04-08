@@ -17,10 +17,9 @@ return {
         end
         return "make install_jsregexp"
     end)(),
-    dependencies = {
-        "nvim-cmp",
-        "saadparwaiz1/cmp_luasnip",
-    },
+    -- dependencies = {
+    --     "saadparwaiz1/cmp_luasnip",
+    -- },
     opts = {
         -- allows going back into snippets if a mistake is made
         history = true,
