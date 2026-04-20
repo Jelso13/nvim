@@ -816,7 +816,11 @@ return function(math_condition)
                     return sn(nil, i(1, pairs[left] or left))
                 end, { 1 }),
                 i(4),
-            })
+            }),
+            {
+                condition = math_condition,
+                show_condition = math_condition,
+            }
         ),
         -- sub super scripts
         s(

@@ -6,77 +6,21 @@ return {
         python = {
             analysis = {
                 autoSearchPaths = true,
-                diagnosticMode = "workspace",
                 useLibraryCodeForTypes = true,
-                -- typeCheckingMode = "basic"
-                typeCheckingMode = "strict"
+                diagnosticMode = "workspace",
+                typeCheckingMode = "off",
+                
+                -- Tell Pyright to ignore things that Ruff already handles
+                diagnosticSeverityOverrides = {
+                    reportUnusedImport = "none",
+                    reportUnusedVariable = "none",
+                    reportUnusedClass = "none",
+                    reportUnusedFunction = "none",
+                }
             }
         }
     }
 }
-
-
--- return {
--- 
---     cmd = { "pyright-langserver", "--stdio" },
---     filetypes = { "python" },
---     root_dir = function(filename)
---           return util.root_pattern(unpack(root_files))(filename) or util.path.dirname(filename)
---         end,
---     settings = {
---       python = {
---         analysis = {
---           autoSearchPaths = true,
---           diagnosticMode = "workspace",
---           useLibraryCodeForTypes = true
---         }
---       }
---     }
--- }
-
--- return function(capabilities)
---   local nvim_lsp = require("lspconfig")
---   nvim_lsp["pyright"].setup({
---     capabilities = capabilities,
---     settings = {
---       python = {
---         analysis = {
---           typeCheckingMode = "standard",
---           autoSearchPaths = true,
---           useLibraryCodeForTypes = true,
---           diagnosticMode = "workspace",
---           verboseOutput = true,
--- 
---           -- Report settings (set to true or false as you need)
---           reportMissingTypeStubs = true,
---           reportUnknownMemberType = false,
---           reportUnknownArgumentType = false,
---           reportUnknownVariableType = false,
---           reportMissingTypeArgument = true,
---           reportImportCycles = true,
---           reportUnusedCallResult = true,
---           reportUnusedImport = false,
---           reportUnusedVariable = false,
---           reportMissingImports = true,
--- 
---           -- Override all diagnostic severities to "warning"
---           diagnosticSeverityOverrides = {
---             reportMissingTypeStubs    = "warning",
---             reportUnknownMemberType   = "warning",
---             reportUnknownArgumentType = "warning",
---             reportUnknownVariableType = "warning",
---             reportMissingTypeArgument = "warning",
---             reportImportCycles        = "warning",
---             reportUnusedCallResult    = "warning",
---             reportUnusedImport        = "warning",
---             reportUnusedVariable      = "warning",
---             reportMissingImports      = "hint",
---           },
---         },
---       },
---     },
---   })
--- end
 
 -- The following settings control the environment in which Pyright will check 
 --      for diagnostics. These settings determine how Pyright finds source 

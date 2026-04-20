@@ -76,6 +76,7 @@ require("lazy").setup({
     
 	-- modular approach: using `require 'path/name'` will
 	-- include a plugin definition from file lua/path/name.lua
+    require("plugins/lint"),
 
 	-- gitsigns plugin: show git changes in the sign column
 	require("plugins/gitsigns"),

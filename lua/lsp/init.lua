@@ -13,37 +13,35 @@ return {
         },
     },
     config = function()
-        -- Fetch capabilities from Blink
-        local capabilities = require("blink.cmp").get_lsp_capabilities()
+        -- ==========================================
+        -- 1. Global Configurations (The 0.11+ Way)
+        -- ==========================================
+        -- Automatically inject Blink capabilities into EVERY server
+        vim.lsp.config('*', {
+            capabilities = require("blink.cmp").get_lsp_capabilities()
+        })
 
         -- ==========================================
-        -- 1. Custom Server Configurations
+        -- 2. Custom Server Configurations
         -- ==========================================
         
         -- Lua
-        local lua_opts = require("lsp.servers.lua_ls")
-        lua_opts.capabilities = capabilities
-        vim.lsp.config('lua_ls', lua_opts)
+        vim.lsp.config('lua_ls', require("lsp.servers.lua_ls"))
         vim.lsp.enable('lua_ls')
 
         -- Pyright
-        local pyright_opts = require("lsp.servers.pyright")
-        pyright_opts.capabilities = capabilities
-        vim.lsp.config('pyright', pyright_opts)
+        vim.lsp.config('pyright', require("lsp.servers.pyright"))
         vim.lsp.enable('pyright')
 
         -- Ruff (Enabled for Python formatting/linting)
-        vim.lsp.config('ruff', { capabilities = capabilities })
         vim.lsp.enable('ruff')
 
         -- Texlab
-        local texlab_opts = require("lsp.servers.texlab")
-        texlab_opts.capabilities = capabilities
-        vim.lsp.config('texlab', texlab_opts)
+        vim.lsp.config('texlab', require("lsp.servers.texlab"))
         vim.lsp.enable('texlab')
 
         -- ==========================================
-        -- 2. Basic Server Configurations
+        -- 3. Basic Server Configurations
         -- ==========================================
         local basic_servers = {
             "bashls",
@@ -57,12 +55,12 @@ return {
         }
 
         for _, server in ipairs(basic_servers) do
-            vim.lsp.config(server, { capabilities = capabilities })
+            -- Look how clean this is now!
             vim.lsp.enable(server)
         end
 
         -- ==========================================
-        -- 3. Diagnostics Configuration
+        -- 4. Diagnostics Configuration
         -- ==========================================
         local function diagnostic_source_formatter(diagnostic)
             local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
@@ -73,7 +71,6 @@ return {
         for type, icon in pairs(signs) do
             vim.fn.sign_define("DiagnosticSign" .. type, { text = icon, texthl = "DiagnosticSign" .. type })
             
-            -- highlight line number instead of icons in sign column
             vim.fn.sign_define("DiagnosticSign" .. type, {
                 text = "",
                 texthl = "DiagnosticSign" .. type,
