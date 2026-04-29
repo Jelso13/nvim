@@ -16,7 +16,17 @@ return {
         sources = {
             -- ONLY use standard defaults here. 
             -- Obsidian will silently inject itself into this list on startup.
-            default = { "lsp", "path", "snippets", "buffer" },
+            default = { "jupynium", "lsp", "path", "snippets", "buffer" },
+            -- Define the provider and its isolation rules
+            providers = {
+                jupynium = {
+                    name = "Jupynium",
+                    module = "jupynium.blink_cmp",
+                    score_offset = 100, -- Forces kernel completions to the top of the list
+                },
+            },
+
+
         },
 
         snippets = { preset = 'luasnip' },
