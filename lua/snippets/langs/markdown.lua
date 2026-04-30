@@ -1,3 +1,5 @@
+vim.notify("SUCCESS: Markdown snippet file was read from disk!", vim.log.levels.INFO)
+
 -- clear language snippets
 require("luasnip.session.snippet_collection").clear_snippets("markdown")
 
@@ -19,17 +21,25 @@ local math_generator = require("snippets.math")
 local function treesitter_mathzone()
     local has_ts, ts = pcall(require, "vim.treesitter")
     if has_ts and ts.get_node then
+        
+        -- 1. THE ULTIMATE CHECK: Are we inside a LaTeX injection?
+        local ok, parser = pcall(ts.get_parser, 0)
+        if ok and parser then
+            local cursor = vim.api.nvim_win_get_cursor(0)
+            local row, col = cursor[1] - 1, cursor[2]
+            local active_tree = parser:language_for_range({row, col, row, col})
+            -- If the active language is latex, we are strictly inside a math zone!
+            if active_tree and active_tree:lang() == "latex" then
+                return true
+            end
+        end
+
+        -- 2. THE FALLBACK: Check node types if we are still in markdown_inline
         local node = ts.get_node({ ignore_injections = false })
         while node do
-            -- Catch-all list of node types for math zones in Markdown and LaTeX
             if vim.tbl_contains({
-                "inline_formula",
-                "displayed_equation",
-                "math_environment",
-                "math_display",
-                "math_block",
-                "latex_block",
-                "equation",
+                "inline_formula", "displayed_equation", "math_environment",
+                "math_display", "math_block", "latex_block", "latex_span", "equation", "math"
             }, node:type()) then
                 return true
             end

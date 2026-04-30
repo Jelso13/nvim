@@ -1,138 +1,93 @@
-
-
--- load all regardless of filetype
 local ls = require("luasnip")
-local snip_loader = require("luasnip.loaders.from_lua")
-snip_loader.load({paths = "~/.config/nvim/lua/snippets/langs"})
--- Lazy load snippets for specific filetypes
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "lua", "python", "javascript", "rust", "all" },  -- Add your desired filetypes here
-    callback = function(event)
-        local luasnip = require("luasnip")
-        local snip_loader = require("luasnip.loaders.from_lua")
 
-        -- Load snippets for the specific file type
-        snip_loader.load({ paths = vim.fn.stdpath("config") .. "/lua/snippets/langs/" .. event.match })
-        -- local loaders = require("luasnip.loaders.from_lua")
-        snip_loader.load({paths = "~/.config/nvim/lua/snippets/langs/"})
+ls.setup({
+    history = true,
+    update_events = 'TextChanged,TextChangedI',
+    enable_autosnippets = true,
+    store_selection_keys = "<Tab>",
+    region_check_events = 'InsertEnter',
+    delete_check_events = 'TextChanged,InsertEnter',
+    
+    -- THE GATEKEEPER: Checks cursor position to activate the right bucket
+    ft_func = function()
+        local cursor_lang = vim.bo.filetype
+        local has_ts, _ = pcall(require, "vim.treesitter")
+        if has_ts and vim.treesitter.get_parser then
+            local cursor = vim.api.nvim_win_get_cursor(0)
+            local row = cursor[1] - 1
+            local col = cursor[2]
+            
+            local ok, parser = pcall(vim.treesitter.get_parser, 0)
+            if ok and parser then
+                local active_tree = parser:language_for_range({ row, col, row, col })
+                if active_tree then
+                    local injected_lang = active_tree:lang()
+                    if injected_lang and injected_lang ~= cursor_lang then
+                        if injected_lang == "markdown_inline" then
+                            injected_lang = "markdown"
+                        end
+                        -- THE FIX: If Tree-sitter injects LaTeX, we are in a math block!
+                        -- Return markdown FIRST so our custom math snippets take priority.
+                        if injected_lang == "latex" then
+                            return { "markdown", "latex", cursor_lang }
+                        end
+                        
+                        return { injected_lang, cursor_lang }
+                    end
+                end
+            end
+        end
+        return { cursor_lang }
     end,
 })
 
+-- THE FIX: Eager Load. 
+-- This bypasses FileType events and reads markdown.lua into memory immediately.
+require("luasnip.loaders.from_lua").load({
+    paths = { vim.fn.stdpath("config") .. "/lua/snippets/langs" }
+})
 
 vim.cmd[[
-" press <Tab> to expand or jump in a snippet. These can also be mapped separately
-" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+" press <Tab> to expand or jump in a snippet.
 imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-" -1 for jumping backwards.
 inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-
 snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-
-" For changing choices in choiceNodes (not strictly necessary for a basic setup).
 imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 ]]
 
---[[
-Use tab to execute snippets.
-use tab/ctrl+j to move to the next jump point in a snippet
-use shift+tab/ctrl+k to move to the previous jump point in a snippet
-use ctrl+tab to use an actual tab
---]]
--- ctrl-k expands current item or jumps to next item within snippet
--- vim.keymap.set({ "i", "s" }, "<c-k>", function()
---     if ls.expand_or_jumpable() then
---         ls.expand_or_jump()
---     end
--- end, { silent = true })
--- vim.keymap.set({ "i", "s" }, "<Tab>", function()
---     if ls.expand_or_jumpable() then
---         ls.expand_or_jump()
---     else
---         -- return '<Tab>'
---         return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
---     end
--- end, { silent = true })
--- 
--- -- ctrl-j jumps to previous item within snippet
--- -- vim.keymap.set({ "i", "s" }, "<c-j>", function()
--- --     if ls.jumpable(-1) then
--- --         ls.jump(-1)
--- --     end
--- -- end, { silent = true })
--- 
--- vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
---     if ls.jumpable(-1) then
---         ls.jump(-1)
---     end
--- end, { silent = true })
-
--- ctrl-l selects from a 'list' of options in choice nodes
 vim.keymap.set({ "i" }, "<c-l>", function()
     if ls.choice_active() then
         ls.change_choice(1)
     end
 end)
 
--- prevent backspace breaking out of select mode
 vim.keymap.set({ "s" }, "<BS>", "<C-G>s", {noremap=true, silent=true})
--- Use vim.keymap.set for Lua-friendly mapping
 vim.keymap.set('s', '<', '<LT>', { noremap = true, silent = true })
 vim.keymap.set('s', '>', '>', { noremap = true, silent = true })
 
-
 local d = require("snippets.snippet_whichkey")
-
--- new user command that displays all snippets
 vim.api.nvim_create_user_command("LuaSnipListAll", d.display_snippets, { force = true })
-
--- create a keybinding to <leader>hs that calls the user command
 vim.keymap.set("n", "<leader>hs", ":LuaSnipListAll<CR>", { silent = true, desc="[H]elp [S]nippets" })
+vim.keymap.set('n', '<leader>ns', require("snippets.open_snippets").open_snippet_file, { noremap = true, silent = true, desc="[N]eovim open [S]nippets" })
 
--- Keybinding to launch the function
--- Want to open the current file type in ~/.config/nvim/lua/snippets/langs/<language>.lua
--- on close, re-source nvim config in the file so I can use the snippet straight away
-vim.keymap.set(
-  'n',                           -- normal mode
-  '<leader>ns',                  -- your keybinding (os: open snippets)
-    require("snippets.open_snippets").open_snippet_file,
-  { noremap = true, silent = true, desc="[N]eovim open [S]nippets" }  -- options: don't allow remapping and silent execution
-)
+vim.api.nvim_create_user_command("DebugTS", function()
+    local cursor_lang = vim.bo.filetype
+    local ok, parser = pcall(vim.treesitter.get_parser, 0)
+    
+    if not ok or not parser then
+        print("Tree-sitter is NOT active in this buffer.")
+        return
+    end
 
--- Expand snippets in insert mode with Tab
--- vim.keymap.set('i', '<Tab>', function()
---   return require('luasnip').expand_or_jumpable() and '<Plug>luasnip-expand-or-jump' or '<Tab>'
--- end, { expr = true, silent = true })
--- 
--- -- Jump forward in insert and visual mode with Tab
--- vim.keymap.set('i', '<Tab>', function()
---   return require('luasnip').jumpable(1) and '<Plug>luasnip-jump-next' or '<Tab>'
--- end, { expr = true, silent = true })
--- 
--- vim.keymap.set('s', '<Tab>', function()
---   return require('luasnip').jumpable(1) and '<Plug>luasnip-jump-next' or '<Tab>'
--- end, { expr = true, silent = true })
--- 
--- -- Jump backward in insert and visual mode with Shift-Tab
--- vim.keymap.set('i', '<S-Tab>', function()
---   return require('luasnip').jumpable(-1) and '<Plug>luasnip-jump-prev' or '<S-Tab>'
--- end, { expr = true, silent = true })
--- 
--- vim.keymap.set('s', '<S-Tab>', function()
---   return require('luasnip').jumpable(-1) and '<Plug>luasnip-jump-prev' or '<S-Tab>'
--- end, { expr = true, silent = true })
--- 
--- -- Cycle forward through choice nodes with Control-f
--- vim.keymap.set('i', '<C-f>', function()
---   return require('luasnip').choice_active() and '<Plug>luasnip-next-choice' or '<C-f>'
--- end, { expr = true, silent = true })
--- 
--- vim.keymap.set('s', '<C-f>', function()
---   return require('luasnip').choice_active() and '<Plug>luasnip-next-choice' or '<C-f>'
--- end, { expr = true, silent = true })
--- 
--- -- Load custom snippets with Leader + L
--- vim.keymap.set('n', '<Leader>L', function()
---   require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets/langs/" })
--- end, { silent = true, noremap = true })
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row = cursor[1] - 1
+    local col = cursor[2]
+    
+    local active_tree = parser:language_for_range({ row, col, row, col })
+    local injected_lang = active_tree and active_tree:lang() or "none"
+    
+    print("1. Global Filetype: " .. cursor_lang)
+    print("2. Tree-sitter Context at Cursor: " .. injected_lang)
+end, {})

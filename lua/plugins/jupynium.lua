@@ -47,6 +47,7 @@ return {
             pattern = { "*.ju.*" },
             callback = function(event)
                 local buf = event.buf
+
                 -- Create a localized shortcut for setting keys to keep code clean
                 local set = function(mode, lhs, rhs, desc)
                     vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc })
