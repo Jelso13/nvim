@@ -1,4 +1,3 @@
-vim.notify("SUCCESS: Markdown snippet file was read from disk!", vim.log.levels.INFO)
 
 -- clear language snippets
 require("luasnip.session.snippet_collection").clear_snippets("markdown")

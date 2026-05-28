@@ -224,6 +224,39 @@ vim.keymap.set("n", "<leader>xl", ":.lua<CR>", { noremap = true, silent = true, 
 vim.keymap.set("v", "<leader>x", ":lua<CR>", { noremap = true, silent = true, desc="[X]ecute visually selected lines" })
 
 
+-- -- ---------------------------------- Folds ---------------------------------------
+-- -- Verb-Object: [Z] [N]ew folds
+-- -- This function resets the buffer to use Treesitter-based "smart" folding.
+-- local function create_ts_folds()
+--     -- Check if treesitter has a parser for the current language
+--     local has_ts, _ = pcall(vim.treesitter.get_parser, 0)
+-- 
+--     if has_ts then
+--         -- 1. Use the Treesitter expression engine
+--         vim.opt_local.foldmethod = "expr"
+--         vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+--         
+--         -- 2. Close all folds (foldlevel 0) and refresh the view (zx)
+--         vim.opt_local.foldlevel = 0
+--         vim.cmd("normal! zx")
+--         
+--         vim.notify("Treesitter folds generated", vim.log.levels.INFO)
+--     else
+--         -- Fallback for non-TS files
+--         vim.opt_local.foldmethod = "indent"
+--         vim.cmd("normal! zx")
+--         vim.notify("No TS parser: Using indent folds", vim.log.levels.WARN)
+--     end
+-- end
+-- 
+-- vim.keymap.set("n", "zn", create_ts_folds, { desc = "[Z] [N]ew Treesitter folds" })
+-- 
+-- -- Helper to switch back to your default Manual method if needed
+-- vim.keymap.set("n", "<leader>zm", function()
+--     vim.opt_local.foldmethod = "manual"
+--     vim.notify("Fold method: Manual", vim.log.levels.INFO)
+-- end, { desc = "Switch back to [M]anual folding" })
+
 -- Obsidian daily note
 
 -- Map the function to <leader>o

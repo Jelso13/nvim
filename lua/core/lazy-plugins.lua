@@ -46,6 +46,7 @@
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
+--
 require("lazy").setup({
     -- Include Mason for bringing in external sources
     require("core/mason"),
@@ -104,6 +105,8 @@ require("lazy").setup({
     -- However, I think it is better to handle with snippets so that if you type '()' it will auto put the cursor in the middle
     -- avoids a lot of the crap edge cases that end up with hanging parens by not using it
     -- require("plugins/autopairs"),
+    
+    require("plugins/surround"),
 
 	require("plugins/harpoon"),
 
