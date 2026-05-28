@@ -79,6 +79,8 @@ require("lazy").setup({
 	-- include a plugin definition from file lua/path/name.lua
     require("plugins/lint"),
 
+    require("plugins/lualine"),
+
 	-- gitsigns plugin: show git changes in the sign column
 	require("plugins/gitsigns"),
     require("plugins/fugitive"),
