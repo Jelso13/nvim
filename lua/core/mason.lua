@@ -24,6 +24,7 @@ return {
                     "jsonls",
                     "ts_ls",
                     "tailwindcss",
+                    "texlab",
                 },
                 -- Automatically install LSPs if you add them to lspconfig later
                 automatic_installation = true,

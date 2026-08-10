@@ -36,9 +36,15 @@ return {
         -- Ruff (Enabled for Python formatting/linting)
         vim.lsp.enable('ruff')
 
+        -- ty
+        vim.lsp.config('ty', require("lsp.servers.ty"))
+        vim.lsp.enable('ty')
+
         -- Texlab
         vim.lsp.config('texlab', require("lsp.servers.texlab"))
         vim.lsp.enable('texlab')
+
+
 
         -- ==========================================
         -- 3. Basic Server Configurations
