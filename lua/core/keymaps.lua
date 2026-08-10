@@ -134,8 +134,13 @@ vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { silent = true, desc 
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
--- test for ctrl backspace working in insert mode
-vim.keymap.set("i", "<C-h>", "<C-w>")
+-- Ctrl+Backspace: delete previous word in insert mode.
+-- Terminals differ in what they send for Ctrl+Backspace: some emit the same
+-- code as Ctrl+H (BS), others emit a distinct <C-BS>. Map both to <C-w>
+-- (built-in delete-word-before-cursor) so it works either way.
+vim.keymap.set("i", "<C-h>", "<C-w>", { desc = "Delete word before cursor" })
+vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
+vim.keymap.set("c", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
 
 
 -- LSP commands
