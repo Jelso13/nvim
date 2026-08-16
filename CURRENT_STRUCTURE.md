@@ -53,7 +53,7 @@
     │   ├── init.lua
     │   └── servers/
     │       ├── lua.lua
-    │       ├── pyright.lua
+    │       ├── ty.lua
     │       └── ...
     ├── dap/
     │   └── config.lua

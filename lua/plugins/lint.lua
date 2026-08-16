@@ -7,7 +7,9 @@ return {
             local lint = require("lint")
             lint.linters_by_ft = {
                 -- markdown = { "markdownlint" },
-                python = { "mypy" },
+                -- No python entry: the ruff LSP (see lua/lsp/init.lua) already
+                -- publishes the same diagnostics, plus code actions and fix-all,
+                -- from a persistent server rather than a subprocess per keystroke.
             }
 
             -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -41,26 +43,6 @@ return {
             -- lint.linters_by_ft['ruby'] = nil
             -- lint.linters_by_ft['terraform'] = nil
             -- lint.linters_by_ft['text'] = nil
-
-            -- Customize Mypy arguments
-            local mypy = lint.linters.mypy
-            
-            -- 1. Tell Mypy to use the Python executable from your active virtual environment
-            table.insert(mypy.args, "--python-executable")
-            table.insert(mypy.args, vim.fn.exepath("python"))
-            
-            -- 2. Tell Mypy to ignore third-party libraries that don't have type stubs (like absl)
-            table.insert(mypy.args, "--ignore-missing-imports")
-
-            local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-            vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-                group = lint_augroup,
-                callback = function()
-                    lint.try_lint()
-                end,
-            })
-
-
 
             -- Create autocommand which carries out the actual linting
             -- on the specified events.

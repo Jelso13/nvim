@@ -29,10 +29,6 @@ return {
         vim.lsp.config('lua_ls', require("lsp.servers.lua_ls"))
         vim.lsp.enable('lua_ls')
 
-        -- Pyright
-        vim.lsp.config('pyright', require("lsp.servers.pyright"))
-        vim.lsp.enable('pyright')
-
         -- Ruff (Enabled for Python formatting/linting)
         vim.lsp.enable('ruff')
 
